@@ -1,5 +1,5 @@
 
-# crew.aws.batch: a crew launcher plugins for AWS Batch <img src='man/figures/logo-readme.png' align="right" height="139"/>
+# crew.aws.batch: a crew launcher plugin for AWS Batch <img src='man/figures/logo-readme.png' align="right" height="139"/>
 
 [![CRAN](https://www.r-pkg.org/badges/version/crew.aws.batch)](https://CRAN.R-project.org/package=crew.aws.batch)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#Active)
@@ -201,14 +201,14 @@ By contributing to this project, you agree to abide by its terms.
 citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
-  Landau WM (????). _crew.aws.batch: A Crew Launcher Plugins for AWS
+  Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
   Batch_. https://wlandau.github.io/crew.aws.batch/,
   https://github.com/wlandau/crew.aws.batch.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
-    title = {crew.aws.batch: A Crew Launcher Plugins for AWS Batch},
+    title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
     note = {https://wlandau.github.io/crew.aws.batch/,
 https://github.com/wlandau/crew.aws.batch},
