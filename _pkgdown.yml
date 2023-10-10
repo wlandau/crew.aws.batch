@@ -1,0 +1,14 @@
+destination: docs/
+reference:
+- title: Help
+  contents:
+  - '`crew.aws.batch-package`'
+- title: Controllers
+  contents:
+  - '`crew_controller_aws_batch`'
+- title: Launchers
+  contents:
+  - '`crew_launcher_aws_batch`'
+- title: Launcher classes
+  contents:
+  - '`crew_class_launcher_aws_batch`'
