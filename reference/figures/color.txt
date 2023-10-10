@@ -1,0 +1,9 @@
+#ff9900
+
+#ff9b00
+#898989
+
+aRtsy::canvas_turmite(colors = c("#ff9900", "#898989"), background = "#ff9900", iterations = 1e9)
+
+
+aRtsy::canvas_watercolors(colors = c("#000080", "#144211", "#7f00ff", "#898989"), background = "#ff9900")

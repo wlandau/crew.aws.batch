@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "locale": "C",
+  "platform": "4.3.1",
+  "metadata": {
+    "appmode": "static",
+    "primary_rmd": null,
+    "primary_html": "index.html",
+    "content_category": "site",
+    "has_parameters": false
+  },
+  "packages": null,
+  "files": {
+    ".nojekyll": {
+      "checksum": "68b329da9893e34099c7d8ad5cb9c940"
+    },
+    "404.html": {
+      "checksum": "c7d191ef24e01e6d9458bc343afc7658"
+    },
+    "apple-touch-icon-120x120.png": {
+      "checksum": "a2ea95a6d15bcfca3a2bddeb46479cb4"
+    },
+    "apple-touch-icon-152x152.png": {
+      "checksum": "1eb10b83f94397305ce4d206ffceda9e"
+    },
+    "apple-touch-icon-180x180.png": {
+      "checksum": "e54052c6b3062bcb78efbfbd8fce688b"
+    },
+    "apple-touch-icon-60x60.png": {
+      "checksum": "090e848d26ae2cbae40cafb5dfe84ae1"
+    },
+    "apple-touch-icon-76x76.png": {
+      "checksum": "4e46d0949fd374683afafe2bcaf3d98c"
+    },
+    "apple-touch-icon.png": {
+      "checksum": "754b6d017a888a7d329326b95540220d"
+    },
+    "authors.html": {
+      "checksum": "d60e9993739ea5505c69fbc74170a123"
+    },
+    "bootstrap-toc.css": {
+      "checksum": "5eec6702c35b15a8c2c123301987735d"
+    },
+    "bootstrap-toc.js": {
+      "checksum": "aaa610b29d895e1128447e76b9bc0076"
+    },
+    "CODE_OF_CONDUCT.html": {
+      "checksum": "69d94c2c111222d73744af9d3aad46fc"
+    },
+    "CONTRIBUTING.html": {
+      "checksum": "db589bbba0c754f344aaa1f376eb59d4"
+    },
+    "docsearch.css": {
+      "checksum": "828dbea96017a994efccb7c30c041577"
+    },
+    "docsearch.js": {
+      "checksum": "2f3c1f7995c9f4f966323f008e3984ad"
+    },
+    "favicon-16x16.png": {
+      "checksum": "e6a823d0eddcfd1b21cd31ca96068946"
+    },
+    "favicon-32x32.png": {
+      "checksum": "364ef08ed4207967b2c4d45330f57840"
+    },
+    "favicon.ico": {
+      "checksum": "62fc4d367cba56639ab624c6e1a79dc7"
+    },
+    "index.html": {
+      "checksum": "cea55997d26f2806cfcebf9b9354c6df"
+    },
+    "LICENSE-text.html": {
+      "checksum": "3ec07d57e44ea94a71485eddabfbd9d8"
+    },
+    "LICENSE.html": {
+      "checksum": "9da2b755b8afd17b107e232a44eb51cc"
+    },
+    "link.svg": {
+      "checksum": "4759f31f8a585e9af173fc579d730265"
+    },
+    "logo.png": {
+      "checksum": "e7ce0e67480eb5574c66bd6b19165b63"
+    },
+    "news/index.html": {
+      "checksum": "072d73e4206e570596128ecc4b248189"
+    },
+    "pkgdown.css": {
+      "checksum": "9cd7da30627ce8d0e18fd1cf1f48c83f"
+    },
+    "pkgdown.js": {
+      "checksum": "916db342671c073ca830f33df8c36adc"
+    },
+    "pkgdown.yml": {
+      "checksum": "5cf7f3d50aaf8cc1bb30bd2a078632f5"
+    },
+    "PULL_REQUEST_TEMPLATE.html": {
+      "checksum": "941fbd0a1e8d2af37660abc2e82caa47"
+    },
+    "reference/crew_aws_batch_launch.html": {
+      "checksum": "850bf510b15d6e57c6984feb89f95e59"
+    },
+    "reference/crew_aws_batch_terminate.html": {
+      "checksum": "e8d7ef37371bbcdcdbc7bfd91cb4f95b"
+    },
+    "reference/crew_class_launcher_aws_batch.html": {
+      "checksum": "e54811173af13799bd5eae087b57a3c2"
+    },
+    "reference/crew_controller_aws_batch.html": {
+      "checksum": "b253a646b5adee03e143e0bc3e7af86f"
+    },
+    "reference/crew_launcher_aws_batch.html": {
+      "checksum": "8d5c32739be5949d9b7365738ab244f8"
+    },
+    "reference/crew.aws.batch-package.html": {
+      "checksum": "d943346f3b2e7c97f4b6b94a26fec01c"
+    },
+    "reference/figures/art.png": {
+      "checksum": "915785fb90ce5e331f8bc2649802626b"
+    },
+    "reference/figures/color.txt": {
+      "checksum": "a8df47e16a722b430450fa9e03d7ab84"
+    },
+    "reference/figures/inbound.png": {
+      "checksum": "6aa4a5454317d0f161834ea8bda52075"
+    },
+    "reference/figures/logo-hexbin.png": {
+      "checksum": "72f038ee91ccedbf3c61bd613a1758e9"
+    },
+    "reference/figures/logo-readme.png": {
+      "checksum": "dd2f4a86e6beb42246208a3235ed616c"
+    },
+    "reference/figures/logo.png": {
+      "checksum": "e7ce0e67480eb5574c66bd6b19165b63"
+    },
+    "reference/figures/logo.txt": {
+      "checksum": "fe9dcfe30e023b56d29c90467fe51e15"
+    },
+    "reference/figures/outbound.png": {
+      "checksum": "b2db407f8879653f8f71c615bd684010"
+    },
+    "reference/index.html": {
+      "checksum": "ccaed55a971a136b3c4ce7342dffa35c"
+    },
+    "reference/Rplot001.png": {
+      "checksum": "9b7a75eb2a0170ac2c15ab46a66f862b"
+    },
+    "sitemap.xml": {
+      "checksum": "3ae30177a1d44702cd4df3f111b39eaf"
+    }
+  },
+  "users": null
+}
