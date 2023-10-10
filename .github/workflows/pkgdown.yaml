@@ -51,10 +51,7 @@ jobs:
           cache-version: 2
 
       - name: Build site
-        run: |
-          install.packages(".", type = "source", repos = NULL)
-          pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
-          withr::with_dir("docs", rsconnect::writeManifest(appPrimaryDoc = "index.html", contentCategory = "site"))
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages
