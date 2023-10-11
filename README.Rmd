@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![CRAN](https://www.r-pkg.org/badges/version/crew.aws.batch)](https://CRAN.R-project.org/package=crew.aws.batch)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#Active)
 [![check](https://github.com/wlandau/crew.aws.batch/workflows/check/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Acheck)
-[![codecov](https://codecov.io/gh/wlandau/crew.aws.batch/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/wlandau/crew.aws.batch)
+[![codecov](https://codecov.io/gh/wlandau/crew.aws.batch/branch/main/graph/badge.svg)](https://app.codecov.io/gh/wlandau/crew.aws.batch)
 [![lint](https://github.com/wlandau/crew.aws.batch/workflows/lint/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Alint)
 
 In computationally demanding analysis projects, statisticians and data scientists asynchronously deploy long-running tasks to distributed systems, ranging from traditional clusters to cloud services. The `crew.aws.batch` package extends the [`mirai`](https://github.com/shikokuchuo/mirai)-powered 'crew' package with a worker launcher plugin for [AWS Batch](https://aws.amazon.com/batch/). Inspiration also comes from packages [`mirai`](https://github.com/shikokuchuo/mirai), [`future`](https://future.futureverse.org/), [`rrq`](https://mrc-ide.github.io/rrq/), [`clustermq`](https://mschubert.github.io/clustermq/), and [`batchtools`](https://mllg.github.io/batchtools/).
