@@ -17,8 +17,8 @@ Other launchers:
 \section{Super class}{
 \code{\link[crew:crew_class_launcher]{crew::crew_class_launcher}} -> \code{crew_class_launcher_aws_batch}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{aws_batch_config}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
@@ -77,6 +77,7 @@ Other launchers:
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="launch"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-launch'><code>crew::crew_class_launcher$launch()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="rotate"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-rotate'><code>crew::crew_class_launcher$rotate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="scale"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-scale'><code>crew::crew_class_launcher$scale()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="set_name"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-set_name'><code>crew::crew_class_launcher$set_name()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="settings"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-settings'><code>crew::crew_class_launcher$settings()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="start"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-start'><code>crew::crew_class_launcher$start()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="summary"><a href='../../crew/html/crew_class_launcher.html#method-crew_class_launcher-summary'><code>crew::crew_class_launcher$summary()</code></a></span></li>

@@ -171,41 +171,93 @@ crew_class_launcher_aws_batch <- R6::R6Class(
   classname = "crew_class_launcher_aws_batch",
   inherit = crew::crew_class_launcher,
   cloneable = FALSE,
-  public = list(
+  private = list(
+    .aws_batch_config = NULL,
+    .aws_batch_credentials = NULL,
+    .aws_batch_endpoint = NULL,
+    .aws_batch_region = NULL,
+    .aws_batch_job_definition = NULL,
+    .aws_batch_job_queue = NULL,
+    .aws_batch_share_identifier = NULL,
+    .aws_batch_scheduling_priority_override = NULL,
+    .aws_batch_parameters = NULL,
+    .aws_batch_container_overrides = NULL,
+    .aws_batch_node_overrides = NULL,
+    .aws_batch_retry_strategy = NULL,
+    .aws_batch_propagate_tags = NULL,
+    .aws_batch_timeout = NULL,
+    .aws_batch_tags = NULL,
+    .aws_batch_eks_properties_override = NULL
+  ),
+  active = list(
     #' @field aws_batch_config See [crew_launcher_aws_batch()].
-    aws_batch_config = NULL,
+    aws_batch_config = function() {
+      .subset2(private, ".aws_batch_config")
+    },
     #' @field aws_batch_credentials See [crew_launcher_aws_batch()].
-    aws_batch_credentials = NULL,
+    aws_batch_credentials = function() {
+      .subset2(private, ".aws_batch_credentials")
+    },
     #' @field aws_batch_endpoint See [crew_launcher_aws_batch()].
-    aws_batch_endpoint = NULL,
+    aws_batch_endpoint = function() {
+      .subset2(private, ".aws_batch_endpoint")
+    },
     #' @field aws_batch_region See [crew_launcher_aws_batch()].
-    aws_batch_region = NULL,
+    aws_batch_region = function() {
+      .subset2(private, ".aws_batch_region")
+    },
     #' @field aws_batch_job_definition See [crew_launcher_aws_batch()].
-    aws_batch_job_definition = NULL,
+    aws_batch_job_definition = function() {
+      .subset2(private, ".aws_batch_job_definition")
+    },
     #' @field aws_batch_job_queue See [crew_launcher_aws_batch()].
-    aws_batch_job_queue = NULL,
+    aws_batch_job_queue = function() {
+      .subset2(private, ".aws_batch_job_queue")
+    },
     #' @field aws_batch_share_identifier See [crew_launcher_aws_batch()].
-    aws_batch_share_identifier = NULL,
+    aws_batch_share_identifier = function() {
+      .subset2(private, ".aws_batch_share_identifier")
+    },
     #' @field aws_batch_scheduling_priority_override
     #'   See [crew_launcher_aws_batch()].
-    aws_batch_scheduling_priority_override = NULL,
+    aws_batch_scheduling_priority_override = function() {
+      .subset2(private, ".aws_batch_scheduling_priority_override")
+    },
     #' @field aws_batch_parameters See [crew_launcher_aws_batch()].
-    aws_batch_parameters = NULL,
+    aws_batch_parameters = function() {
+      .subset2(private, ".aws_batch_parameters")
+    },
     #' @field aws_batch_container_overrides See [crew_launcher_aws_batch()].
-    aws_batch_container_overrides = NULL,
+    aws_batch_container_overrides = function() {
+      .subset2(private, ".aws_batch_container_overrides")
+    },
     #' @field aws_batch_node_overrides See [crew_launcher_aws_batch()].
-    aws_batch_node_overrides = NULL,
+    aws_batch_node_overrides = function() {
+      .subset2(private, ".aws_batch_node_overrides")
+    },
     #' @field aws_batch_retry_strategy See [crew_launcher_aws_batch()].
-    aws_batch_retry_strategy = NULL,
+    aws_batch_retry_strategy = function() {
+      .subset2(private, ".aws_batch_retry_strategy")
+    },
     #' @field aws_batch_propagate_tags See [crew_launcher_aws_batch()].
-    aws_batch_propagate_tags = NULL,
+    aws_batch_propagate_tags = function() {
+      .subset2(private, ".aws_batch_propagate_tags")
+    },
     #' @field aws_batch_timeout See [crew_launcher_aws_batch()].
-    aws_batch_timeout = NULL,
+    aws_batch_timeout = function() {
+      .subset2(private, ".aws_batch_timeout")
+    },
     #' @field aws_batch_tags See [crew_launcher_aws_batch()].
-    aws_batch_tags = NULL,
+    aws_batch_tags = function() {
+      .subset2(private, ".aws_batch_tags")
+    },
     #' @field aws_batch_eks_properties_override
     #'   See [crew_launcher_aws_batch()].
-    aws_batch_eks_properties_override = NULL,
+    aws_batch_eks_properties_override = function() {
+      .subset2(private, ".aws_batch_eks_properties_override")
+    }
+  ),
+  public = list(
     #' @description Abstract launcher constructor.
     #' @return An abstract launcher object.
     #' @param name See [crew_launcher_aws_batch()].
@@ -288,23 +340,23 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         tls = tls,
         processes = processes
       )
-      self$aws_batch_config <- aws_batch_config
-      self$aws_batch_credentials <- aws_batch_credentials
-      self$aws_batch_endpoint <- aws_batch_endpoint
-      self$aws_batch_region <- aws_batch_region
-      self$aws_batch_job_definition <- aws_batch_job_definition
-      self$aws_batch_job_queue <- aws_batch_job_queue
-      self$aws_batch_share_identifier <- aws_batch_share_identifier
-      self$aws_batch_scheduling_priority_override <-
+      private$.aws_batch_config <- aws_batch_config
+      private$.aws_batch_credentials <- aws_batch_credentials
+      private$.aws_batch_endpoint <- aws_batch_endpoint
+      private$.aws_batch_region <- aws_batch_region
+      private$.aws_batch_job_definition <- aws_batch_job_definition
+      private$.aws_batch_job_queue <- aws_batch_job_queue
+      private$.aws_batch_share_identifier <- aws_batch_share_identifier
+      private$.aws_batch_scheduling_priority_override <-
         aws_batch_scheduling_priority_override
-      self$aws_batch_parameters <- aws_batch_parameters
-      self$aws_batch_container_overrides <- aws_batch_container_overrides
-      self$aws_batch_node_overrides <- aws_batch_node_overrides
-      self$aws_batch_retry_strategy <- aws_batch_retry_strategy
-      self$aws_batch_propagate_tags <- aws_batch_propagate_tags
-      self$aws_batch_timeout <- aws_batch_timeout
-      self$aws_batch_tags <- aws_batch_tags
-      self$aws_batch_eks_properties_override <-
+      private$.aws_batch_parameters <- aws_batch_parameters
+      private$.aws_batch_parameters <- aws_batch_container_overrides
+      private$.aws_batch_node_overrides <- aws_batch_node_overrides
+      private$.aws_batch_retry_strategy <- aws_batch_retry_strategy
+      private$.aws_batch_propagate_tags <- aws_batch_propagate_tags
+      private$.aws_batch_timeout <- aws_batch_timeout
+      private$.aws_batch_tags <- aws_batch_tags
+      private$.aws_batch_eks_properties_override <-
         aws_batch_eks_properties_override
     },
     #' @description Validate the launcher.
@@ -352,7 +404,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         )
       }
       crew::crew_assert(
-        self$aws_batch_scheduling_priority_override %|||% 1L,
+        private$.aws_batch_scheduling_priority_override %|||% 1L,
         is.numeric(.),
         !anyNA(.),
         nzchar(.),
@@ -385,10 +437,10 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @return Argument list for `paws.compute::batch()`.
     args_client = function() {
       list(
-        config = self$aws_batch_config,
-        credentials = self$aws_batch_credentials,
-        endpoint = self$aws_batch_endpoint,
-        region = self$aws_batch_region
+        config = private$.aws_batch_config,
+        credentials = private$.aws_batch_credentials,
+        endpoint = private$.aws_batch_endpoint,
+        region = private$.aws_batch_region
       )
     },
     #' @description Argument list for `paws.compute::batch()$submit_job()`.
@@ -397,23 +449,23 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #'   which will run in the worker and accept tasks.
     #' @param name Character of length 1, an informative worker name.
     args_submit = function(call, name) {
-      container_overrides <- as.list(self$aws_batch_container_overrides)
+      container_overrides <- as.list(private$.aws_batch_parameters)
       container_overrides$command <- list("R", "-e", call)
       list(
         jobName = name,
-        jobQueue = self$aws_batch_job_queue,
-        shareIdentifier = self$aws_batch_share_identifier,
+        jobQueue = private$.aws_batch_job_queue,
+        shareIdentifier = private$.aws_batch_share_identifier,
         schedulingPriorityOverride =
-          self$aws_batch_scheduling_priority_override,
-        jobDefinition = self$aws_batch_job_definition,
-        parameters = self$aws_batch_parameters,
+          private$.aws_batch_scheduling_priority_override,
+        jobDefinition = private$.aws_batch_job_definition,
+        parameters = private$.aws_batch_parameters,
         containerOverrides = container_overrides,
-        nodeOverrides = self$aws_batch_node_overrides,
-        retryStrategy = self$aws_batch_retry_strategy,
-        propagateTags = self$aws_batch_propagate_tags,
-        timeout = self$aws_batch_timeout,
-        tags = self$aws_batch_tags,
-        eksPropertiesOverride = self$aws_batch_eks_properties_override
+        nodeOverrides = private$.aws_batch_node_overrides,
+        retryStrategy = private$.aws_batch_retry_strategy,
+        propagateTags = private$.aws_batch_propagate_tags,
+        timeout = private$.aws_batch_timeout,
+        tags = private$.aws_batch_tags,
+        eksPropertiesOverride = private$.aws_batch_eks_properties_override
       )
     },
     #' @description Launch a local process worker which will
