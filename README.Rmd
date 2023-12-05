@@ -39,7 +39,7 @@ Please see <https://wlandau.github.io/crew.aws.batch/> for documentation, includ
 `crew.aws.batch` launches [AWS Batch](https://aws.amazon.com/batch/) jobs to run [`crew`](https://wlandau.github.io/crew/) workers. This comes with a set of special requirements:
 
 1. Understand [AWS Batch](https://aws.amazon.com/batch/) and its [official documentation](https://aws.amazon.com/batch/).
-2. The [job definition](https://docs.aws.amazon.com/batch/latest/userguide/job_definitions.html) must have [Docker](https://www.docker.com/)-compatible container image with R and `crew.aws.batch` installed. You may wish to inherit from an existing [rocker](https://github.com/rocker-org/rocker-versioned2) image.
+2. Your [job definitions](https://docs.aws.amazon.com/batch/latest/userguide/job_definitions.html) must each have [Docker](https://www.docker.com/)-compatible container image with R and `crew.aws.batch` installed. You may wish to inherit from an existing [rocker](https://github.com/rocker-org/rocker-versioned2) image.
 3. In the [compute environment](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html), the [security group](https://docs.aws.amazon.com/vpc/latest/userguide/security-groups.html) must permit all inbound and outbound TCP traffic within itself.^[If you already know the TCP port you will supply to `port` argument of `crew_controller_aws_batch()`, you can restrict the port range to only use that port number.] The controller and the workers must run in this security group so they can communicate within the firewalled local network.^[Please read about the [risks](https://wlandau.github.io/crew/articles/risks.html) and keep TLS encryption turned on (default: `tls = crew_tls(mode = "automatic")`). Please understand and comply with all the security policies of your organization.] If your security group ID is `sg-00000` and belongs to [VPC](https://aws.amazon.com/vpc/) `vpc-00000`, then your inbound and outbound rules may look something like this:
 
 ![](./man/figures/inbound.png)
@@ -93,9 +93,46 @@ str(groups$SecurityGroups[[1L]])
 #>  $ VpcId              : chr "vpc-00000"
 ```
 
-# Usage
+# Job definition management
 
-First, create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need.
+You will most likely need to create custom job definitions for your use case. Typically this involves choosing a container image in [AWS Elastic Container Registry (ECR)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html) and specifying the resource requirements of jobs. AWS has documentation for  The `paws.compute` package makes it straightforward to manage job definitions. Please see the AWS Batch functions at <https://www.paws-r-sdk.com/docs/reference_index/> to register, describe, and deregister job definitions. To see how ECR image URLs work, visit <https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html>.
+
+To ["register" (create or overwrite) a job definition](https://www.paws-r-sdk.com/docs/batch_register_job_definition/), use the R code below and replace the values with the ones you want.
+
+```{r}
+client <- paws.compute::batch()
+client$register_job_definition(
+  jobDefinitionName = "JOB_DEFINITION_NAME",
+  type = "container",
+  containerProperties = list(
+    image = "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG",
+    vcpus = 2,
+    memory = 4000
+  )
+)
+```
+
+To collect information about existing job definitions, you can either ask for all job definitions,
+
+```{r}
+client$describe_job_definitions()
+```
+
+or just the a specific version of a specific job definition.
+
+```{r}
+client$describe_job_definitions("JOB_DEFINITION_NAME:1")
+```
+
+To delete a job definition, specify the name and version of the job definition (or the full [Amazon Resource Name](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html), or ARN).
+
+```{r}
+client$deregister_job_definitions("JOB_DEFINITION_NAME:1")
+```
+
+# Package usage
+
+To start using `crew.aws.batch`, first create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need.
 
 ```{r}
 library(crew.aws.batch)

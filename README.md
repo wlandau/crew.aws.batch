@@ -42,11 +42,11 @@ comes with a set of special requirements:
 
 1.  Understand [AWS Batch](https://aws.amazon.com/batch/) and its
     [official documentation](https://aws.amazon.com/batch/).
-2.  The [job
-    definition](https://docs.aws.amazon.com/batch/latest/userguide/job_definitions.html)
-    must have [Docker](https://www.docker.com/)-compatible container
-    image with R and `crew.aws.batch` installed. You may wish to inherit
-    from an existing
+2.  Your [job
+    definitions](https://docs.aws.amazon.com/batch/latest/userguide/job_definitions.html)
+    must each have [Docker](https://www.docker.com/)-compatible
+    container image with R and `crew.aws.batch` installed. You may wish
+    to inherit from an existing
     [rocker](https://github.com/rocker-org/rocker-versioned2) image.
 3.  In the [compute
     environment](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html),
@@ -110,11 +110,64 @@ str(groups$SecurityGroups[[1L]])
 #>  $ VpcId              : chr "vpc-00000"
 ```
 
-# Usage
+# Job definition management
 
-First, create a controller object. Also supply the names of your job
-queue and job definition, as well as any optional flags and settings you
-may need.
+You will most likely need to create custom job definitions for your use
+case. Typically this involves choosing a container image in [AWS Elastic
+Container Registry
+(ECR)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html)
+and specifying the resource requirements of jobs. AWS has documentation
+for The `paws.compute` package makes it straightforward to manage job
+definitions. Please see the AWS Batch functions at
+<https://www.paws-r-sdk.com/docs/reference_index/> to register,
+describe, and deregister job definitions. To see how ECR image URLs
+work, visit
+<https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html>.
+
+To [“register” (create or overwrite) a job
+definition](https://www.paws-r-sdk.com/docs/batch_register_job_definition/),
+use the R code below and replace the values with the ones you want.
+
+``` r
+client <- paws.compute::batch()
+client$register_job_definition(
+  jobDefinitionName = "JOB_DEFINITION_NAME",
+  type = "container",
+  containerProperties = list(
+    image = "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG",
+    vcpus = 2,
+    memory = 4000
+  )
+)
+```
+
+To collect information about existing job definitions, you can either
+ask for all job definitions,
+
+``` r
+client$describe_job_definitions()
+```
+
+or just the a specific version of a specific job definition.
+
+``` r
+client$describe_job_definitions("JOB_DEFINITION_NAME:1")
+```
+
+To delete a job definition, specify the name and version of the job
+definition (or the full [Amazon Resource
+Name](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html),
+or ARN).
+
+``` r
+client$deregister_job_definitions("JOB_DEFINITION_NAME:1")
+```
+
+# Package usage
+
+To start using `crew.aws.batch`, first create a controller object. Also
+supply the names of your job queue and job definition, as well as any
+optional flags and settings you may need.
 
 ``` r
 library(crew.aws.batch)
@@ -202,8 +255,8 @@ By contributing to this project, you agree to abide by its terms.
 citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
-  Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.0.9000,
+  Landau WM (2023). _crew.aws.batch: A Crew Launcher Plugin for AWS
+  Batch_. R package version 0.0.0.9001,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -212,7 +265,8 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.0.9000, 
+    year = {2023},
+    note = {R package version 0.0.0.9001, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }
