@@ -63,8 +63,8 @@ launch workers on AWS Batch workers.</p>
 <span>  tls <span class="op">=</span> <span class="fu">crew</span><span class="fu">::</span><span class="fu"><a href="https://wlandau.github.io/crew/reference/crew_tls.html" class="external-link">crew_tls</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"automatic"</span><span class="op">)</span>,</span>
 <span>  tls_enable <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tls_config <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seconds_interval <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>  seconds_timeout <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  seconds_interval <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  seconds_timeout <span class="op">=</span> <span class="fl">60</span>,</span>
 <span>  seconds_launch <span class="op">=</span> <span class="fl">1800</span>,</span>
 <span>  seconds_idle <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  seconds_wall <span class="op">=</span> <span class="cn">Inf</span>,</span>
@@ -133,14 +133,14 @@ Use argument <code>tls</code> instead.</p></dd>
 <dt>seconds_interval</dt>
 <dd><p>Number of seconds between
 polling intervals waiting for certain internal
-synchronous operations to complete. If <code>space_poll</code> is <code>TRUE</code>, then
-this is also the minimum number of seconds between calls to
-<code><a href="https://shikokuchuo.net/mirai/reference/daemons.html" class="external-link">mirai::daemons()</a></code> for the purposes of checking worker status.</p></dd>
+synchronous operations to complete,
+such as checking <code><a href="https://shikokuchuo.net/mirai/reference/status.html" class="external-link">mirai::status()</a></code></p></dd>
 
 
 <dt>seconds_timeout</dt>
 <dd><p>Number of seconds until timing
-out while waiting for certain synchronous operations to complete.</p></dd>
+out while waiting for certain synchronous operations to complete,
+such as checking <code><a href="https://shikokuchuo.net/mirai/reference/status.html" class="external-link">mirai::status()</a></code>.</p></dd>
 
 
 <dt>seconds_launch</dt>
