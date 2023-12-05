@@ -28,8 +28,8 @@ crew_controller_aws_batch <- function(
   tls = crew::crew_tls(mode = "automatic"),
   tls_enable = NULL,
   tls_config = NULL,
-  seconds_interval = 0.25,
-  seconds_timeout = 10,
+  seconds_interval = 0.5,
+  seconds_timeout = 60,
   seconds_launch = 1800,
   seconds_idle = Inf,
   seconds_wall = Inf,
@@ -71,6 +71,8 @@ crew_controller_aws_batch <- function(
   )
   launcher <- crew_launcher_aws_batch(
     name = name,
+    seconds_interval = seconds_interval,
+    seconds_timeout = seconds_timeout,
     seconds_launch = seconds_launch,
     seconds_idle = seconds_idle,
     seconds_wall = seconds_wall,

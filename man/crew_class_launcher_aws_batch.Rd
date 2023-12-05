@@ -99,6 +99,7 @@ Abstract launcher constructor.
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$new(
   name = NULL,
   seconds_interval = NULL,
+  seconds_timeout = NULL,
   seconds_launch = NULL,
   seconds_idle = NULL,
   seconds_wall = NULL,
@@ -136,6 +137,8 @@ Abstract launcher constructor.
 \item{\code{name}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{seconds_interval}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+
+\item{\code{seconds_timeout}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{seconds_launch}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 

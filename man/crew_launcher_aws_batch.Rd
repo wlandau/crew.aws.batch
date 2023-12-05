@@ -6,7 +6,8 @@
 \usage{
 crew_launcher_aws_batch(
   name = NULL,
-  seconds_interval = 0.25,
+  seconds_interval = 0.5,
+  seconds_timeout = 60,
   seconds_launch = 1800,
   seconds_idle = Inf,
   seconds_wall = Inf,
@@ -40,8 +41,14 @@ crew_launcher_aws_batch(
 \arguments{
 \item{name}{Name of the launcher.}
 
-\item{seconds_interval}{Deprecated in version 0.5.0.9003 (2023-10-02)
-no longer used.}
+\item{seconds_interval}{Number of seconds between
+polling intervals waiting for certain internal
+synchronous operations to complete,
+such as checking \code{mirai::status()}}
+
+\item{seconds_timeout}{Number of seconds until timing
+out while waiting for certain synchronous operations to complete,
+such as checking \code{mirai::status()}.}
 
 \item{seconds_launch}{Seconds of startup time to allow.
 A worker is unconditionally assumed to be alive
