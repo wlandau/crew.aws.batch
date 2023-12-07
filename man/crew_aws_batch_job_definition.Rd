@@ -4,10 +4,24 @@
 \alias{crew_aws_batch_job_definition}
 \title{Create an AWS Batch job definition object.}
 \usage{
-crew_aws_batch_job_definition(name = NULL)
+crew_aws_batch_job_definition(
+  name = paste0("crew-aws-batch-job-definition-", crew::crew_random_name()),
+  log_group = "/aws/batch/job",
+  log_group_region = "us-east-1"
+)
 }
 \arguments{
 \item{name}{Character of length 1, job definition name.}
+
+\item{log_group}{Character of length 1,
+AWS Batch CloudWatch log group to get job logs.
+The default log group is often "/aws/batch/job", but not always.
+It is not easy to get the log group of an active job or job
+definition, so if you have a non-default log group and you do not
+know its name, please consult your system administrator.}
+
+\item{log_group_region}{Character of length 1, region of the log group.
+Must be a valid region name such as \code{"us-east-1"} or \code{"us-east-2"}.}
 }
 \description{
 Create an \code{R6} AWS Batch job definition object.

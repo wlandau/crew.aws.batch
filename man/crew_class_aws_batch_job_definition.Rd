@@ -20,6 +20,10 @@ Other plugin_aws_batch:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{name}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
+
+\item{\code{log_group}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
+
+\item{\code{log_group_region}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -28,6 +32,7 @@ Other plugin_aws_batch:
 \itemize{
 \item \href{#method-crew_class_aws_batch_job_definition-new}{\code{crew_class_aws_batch_job_definition$new()}}
 \item \href{#method-crew_class_aws_batch_job_definition-validate}{\code{crew_class_aws_batch_job_definition$validate()}}
+\item \href{#method-crew_class_aws_batch_job_definition-register}{\code{crew_class_aws_batch_job_definition$register()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -36,13 +41,21 @@ Other plugin_aws_batch:
 \subsection{Method \code{new()}}{
 AWS Batch job definition constructor.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_job_definition$new(name = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_job_definition$new(
+  name = NULL,
+  log_group = NULL,
+  log_group_region = NULL
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{name}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
+
+\item{\code{log_group}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
+
+\item{\code{log_group_region}}{See \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -62,5 +75,88 @@ Validate the object.
 \subsection{Returns}{
 \code{NULL} (invisibly). Throws an error if a field is invalid.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_job_definition-register"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_job_definition-register}{}}}
+\subsection{Method \code{register()}}{
+Register the job definition as a simple container-based
+definition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_job_definition$register(
+  image,
+  platform_capabilities = "EC2",
+  units_memory = "gigabytes",
+  memory = NULL,
+  cpus = NULL,
+  gpus = NULL,
+  seconds_timeout = NULL,
+  scheduling_priority = NULL,
+  tags = NULL,
+  propagate_tags = NULL,
+  job_role_arn = NULL,
+  execution_role_arn = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{image}}{Character of length 1, Docker image used for each job.
+You can supply a path to an image in Docker Hub or the full URI
+of an image in an Amazohn ECR repository.}
+
+\item{\code{platform_capabilities}}{Optional character of length 1, either
+\code{"EC2"} to run on EC2 or \code{"FARGATE"} to run on Fargate.}
+
+\item{\code{units_memory}}{Character of length 1,
+either \code{"gigabytes"} or \code{"mebibytes"} to set the units of the
+\code{memory} argument. \code{"gigabytes"} is simpler for EC2 jobs, but
+Fargate has strict requirements about specifying exact amounts of
+mebibytes (MiB). for details, read
+\url{https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html} # nolint}
+
+\item{\code{memory}}{Positive numeric of length 1, amount of memory to request
+for each job.}
+
+\item{\code{cpus}}{Positive numeric of length 1, number of virtual
+CPUs to request for each job.}
+
+\item{\code{gpus}}{Positive numeric of length 1, number of GPUs to
+request for each job.}
+
+\item{\code{seconds_timeout}}{Optional positive numeric of length 1,
+number of seconds until a job times out.}
+
+\item{\code{scheduling_priority}}{Optional nonnegative integer of length 1
+between \code{0} and \code{9999}, priority of jobs. Higher-valued jobs
+are scheduled first. Only applies if the job queue has a fair share
+policy. Set to \code{NULL} to omit.
+which has a fair share policy.}
+
+\item{\code{tags}}{Optional character vector of tags.}
+
+\item{\code{propagate_tags}}{Optional logical of length 1, whether to propagate
+tags from the job or definition to the ECS task.}
+
+\item{\code{job_role_arn}}{}
+
+\item{\code{execution_role_arn}}{}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method registers a simple
+job definition under the name and log group
+supplied to \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.
+Job definitions created with \verb{$register()} are container-based
+and use the AWS log driver.
+For more complicated
+kinds of jobs, we recommend skipping \verb{$register()}: first call
+\url{https://www.paws-r-sdk.com/docs/batch_register_job_definition/}
+to register the job definition, then supply the job definition
+name to the \code{name} argument of \code{\link[=crew_aws_batch_job_definition]{crew_aws_batch_job_definition()}}.
+}
+
 }
 }
