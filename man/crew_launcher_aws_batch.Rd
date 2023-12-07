@@ -235,7 +235,6 @@ the \code{crew} AWS Batch launcher/controller corresponds to the
 
 \seealso{
 Other plugin_aws_batch: 
-\code{\link{crew_class_aws_batch_job_definition}},
 \code{\link{crew_class_launcher_aws_batch}},
 \code{\link{crew_controller_aws_batch}()}
 }

@@ -1,8 +1,12 @@
-#' @title Create an AWS Batch job definition object.
+#' @title Create an AWS Batch monitor object.
 #' @export
-#' @family job_definition
-#' @description Create an `R6` AWS Batch job definition object.
-#' @param name Character of length 1, job definition name.
+#' @family monitor
+#' @description Create an `R6` object to manage AWS Batch jobs and
+#'   job definitions.
+#' @param job_queue Character of length 1, name of the AWS Batch
+#'   job queue.
+#' @param job_definition Character of length 1, name of the AWS Batch
+#'   job definition.
 #' @param log_group Character of length 1,
 #'   AWS Batch CloudWatch log group to get job logs.
 #'   The default log group is often "/aws/batch/job", but not always.
@@ -11,13 +15,18 @@
 #'   know its name, please consult your system administrator.
 #' @param log_group_region Character of length 1, region of the log group.
 #'   Must be a valid region name such as `"us-east-1"` or `"us-east-2"`.
-crew_aws_batch_job_definition <- function(
-  name = paste0("crew-aws-batch-job-definition-", crew::crew_random_name()),
+crew_aws_batch_monitor <- function(
+  job_queue,
+  job_definition = paste0(
+    "crew-aws-batch-job-definition-",
+    crew::crew_random_name()
+  ),
   log_group = "/aws/batch/job",
   log_group_region = "us-east-1"
 ) {
-  out <- crew_class_aws_batch_job_definition$new(
-    name = name,
+  out <- crew_class_aws_batch_monitor$new(
+    job_queue = job_queue,
+    job_definition = job_definition,
     log_group = log_group,
     log_group_region = log_group_region
   )
@@ -25,29 +34,34 @@ crew_aws_batch_job_definition <- function(
   out
 }
 
-#' @title AWS Batch job definition class
+#' @title AWS Batch monitor class
 #' @export
-#' @family plugin_aws_batch
+#' @family monitor
 #' @description AWS Batch job definition `R6` class
-#' @details See [crew_aws_batch_job_definition()].
-crew_class_aws_batch_job_definition <- R6::R6Class(
-  classname = "crew_class_aws_batch_job_definition",
+#' @details See [crew_aws_batch_monitor()].
+crew_class_aws_batch_monitor <- R6::R6Class(
+  classname = "crew_class_aws_batch_monitor",
   cloneable = FALSE,
   private = list(
-    .name = NULL,
+    .job_queue = NULL,
+    .job_definition = NULL,
     .log_group = NULL,
     .log_group_region = NULL
   ),
   active = list(
-    #' @field name See [crew_aws_batch_job_definition()].
-    name = function() {
-      .subset2(private, ".name")
+    #' @field job_queue See [crew_aws_batch_monitor()].
+    job_queue = function() {
+      .subset2(private, ".job_queue")
     },
-    #' @field log_group See [crew_aws_batch_job_definition()].
+    #' @field job_definition See [crew_aws_batch_monitor()].
+    job_definition = function() {
+      .subset2(private, ".job_definition")
+    },
+    #' @field log_group See [crew_aws_batch_monitor()].
     log_group = function() {
       .subset2(private, ".log_group")
     },
-    #' @field log_group_region See [crew_aws_batch_job_definition()].
+    #' @field log_group_region See [crew_aws_batch_monitor()].
     log_group_region = function() {
       .subset2(private, ".log_group_region")
     }
@@ -55,22 +69,31 @@ crew_class_aws_batch_job_definition <- R6::R6Class(
   public = list(
     #' @description AWS Batch job definition constructor.
     #' @return AWS Batch job definition object.
-    #' @param name See [crew_aws_batch_job_definition()].
-    #' @param log_group See [crew_aws_batch_job_definition()].
-    #' @param log_group_region See [crew_aws_batch_job_definition()].
+    #' @param job_queue See [crew_aws_batch_monitor()].
+    #' @param job_definition See [crew_aws_batch_monitor()].
+    #' @param log_group See [crew_aws_batch_monitor()].
+    #' @param log_group_region See [crew_aws_batch_monitor()].
     initialize = function(
-      name = NULL,
+      job_queue = NULL,
+      job_definition = NULL,
       log_group = NULL,
       log_group_region = NULL
     ) {
-      private$.name <- name
+      private$.job_queue <- job_queue
+      private$.job_definition <- job_definition
       private$.log_group <- log_group
       private$.log_group_region <- log_group_region
     },
     #' @description Validate the object.
     #' @return `NULL` (invisibly). Throws an error if a field is invalid.
     validate = function() {
-      for (field in c(".name", ".log_group", ".log_group_region")) {
+      fields <- c(
+        ".job_queue",
+        ".job_definition",
+        ".log_group",
+        ".log_group_region"
+      )
+      for (field in fields) {
         crew::crew_assert(
           private[[field]],
           is.character(.),
@@ -82,18 +105,17 @@ crew_class_aws_batch_job_definition <- R6::R6Class(
       }
       invisible()
     },
-    #' @description Register the job definition as a simple container-based
-    #'   definition.
-    #' @details This method registers a simple
-    #'   job definition under the name and log group
-    #'   supplied to [crew_aws_batch_job_definition()].
+    #' @description Register a job definition.
+    #' @details The `register()` method registers a simple
+    #'   job definition using the job definition name and log group originally
+    #'   supplied to [crew_aws_batch_monitor()].
     #'   Job definitions created with `$register()` are container-based
     #'   and use the AWS log driver.
     #'   For more complicated
-    #'   kinds of jobs, we recommend skipping `$register()`: first call
+    #'   kinds of jobs, we recommend skipping `register()`: first call
     #'   <https://www.paws-r-sdk.com/docs/batch_register_job_definition/>
     #'   to register the job definition, then supply the job definition
-    #'   name to the `name` argument of [crew_aws_batch_job_definition()].
+    #'   name to the `job_definition` argument of [crew_aws_batch_monitor()].
     #' @param image Character of length 1, Docker image used for each job.
     #'   You can supply a path to an image in Docker Hub or the full URI
     #'   of an image in an Amazohn ECR repository.

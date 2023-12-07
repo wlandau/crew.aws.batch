@@ -8,6 +8,6 @@ reference:
   - '`crew_controller_aws_batch`'
   - '`crew_launcher_aws_batch`'
   - '`crew_class_launcher_aws_batch`'
-- title: AWS Batch job definition
-  - '`crew_aws_batch_job_definition`'
-  - '`crew_class_aws_batch_job_definition`'
+- title: Managing AWS Batch jobs and job definitions
+  - '`crew_aws_batch_monitor`'
+  - '`crew_class_aws_batch_monitor`'

@@ -11,7 +11,6 @@ See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.
 }
 \seealso{
 Other plugin_aws_batch: 
-\code{\link{crew_class_aws_batch_job_definition}},
 \code{\link{crew_controller_aws_batch}()},
 \code{\link{crew_launcher_aws_batch}()}
 }
