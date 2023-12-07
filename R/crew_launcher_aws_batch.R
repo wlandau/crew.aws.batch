@@ -1,6 +1,6 @@
 #' @title Create an AWS Batch launcher object.
 #' @export
-#' @family launchers
+#' @family plugin_aws_batch
 #' @description Create an `R6` AWS Batch launcher object.
 #' @inheritParams crew::crew_launcher
 #' @section Verbosity:
@@ -166,7 +166,7 @@ crew_launcher_aws_batch <- function(
 
 #' @title AWS Batch launcher class
 #' @export
-#' @family launchers
+#' @family plugin_aws_batch
 #' @description AWS Batch launcher `R6` class
 #' @details See [crew_launcher_aws_batch()].
 crew_class_launcher_aws_batch <- R6::R6Class(

@@ -1,6 +1,6 @@
 #' @title Create a controller with an AWS Batch launcher.
 #' @export
-#' @family controllers
+#' @family plugin_aws_batch
 #' @description Create an `R6` object to submit tasks and
 #'   launch workers on AWS Batch workers.
 #' @inheritSection crew_launcher_aws_batch Verbosity

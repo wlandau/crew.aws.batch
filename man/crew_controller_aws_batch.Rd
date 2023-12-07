@@ -264,4 +264,9 @@ controller$pop()$result
 controller$terminate()
 }
 }
-\concept{controllers}
+\seealso{
+Other plugin_aws_batch: 
+\code{\link{crew_class_launcher_aws_batch}},
+\code{\link{crew_launcher_aws_batch}()}
+}
+\concept{plugin_aws_batch}
