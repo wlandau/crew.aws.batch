@@ -26,6 +26,7 @@
 #'   `jobDefinition` argument of the web API and
 #'   `paws.compute::batch()$submit_job()`, and both correspond to the
 #'   `--job-definition` argument of the CLI.
+#' @return An `R6` AWS Batch launcher object.
 #' @param aws_batch_config Named list, `config` argument of
 #'   `paws.compute::batch()` with optional configuration details.
 #' @param aws_batch_credentials Named list. `credentials` argument of

@@ -2,8 +2,10 @@
 
 S3method(crew_aws_batch_client,crew_aws_batch_debug)
 S3method(crew_aws_batch_client,default)
+export(crew_aws_batch_job_definition)
 export(crew_aws_batch_launch)
 export(crew_aws_batch_terminate)
+export(crew_class_aws_batch_job_definition)
 export(crew_class_launcher_aws_batch)
 export(crew_controller_aws_batch)
 export(crew_launcher_aws_batch)

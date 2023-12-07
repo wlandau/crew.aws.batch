@@ -198,6 +198,9 @@ For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
 }
+\value{
+An \code{R6} AWS Batch launcher object.
+}
 \description{
 Create an \code{R6} AWS Batch launcher object.
 }
@@ -232,6 +235,7 @@ the \code{crew} AWS Batch launcher/controller corresponds to the
 
 \seealso{
 Other plugin_aws_batch: 
+\code{\link{crew_class_aws_batch_job_definition}},
 \code{\link{crew_class_launcher_aws_batch}},
 \code{\link{crew_controller_aws_batch}()}
 }
