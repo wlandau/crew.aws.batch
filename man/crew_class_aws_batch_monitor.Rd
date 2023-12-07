@@ -123,7 +123,7 @@ Register a job definition.
 \describe{
 \item{\code{image}}{Character of length 1, Docker image used for each job.
 You can supply a path to an image in Docker Hub or the full URI
-of an image in an Amazohn ECR repository.}
+of an image in an Amazon ECR repository.}
 
 \item{\code{platform_capabilities}}{Optional character of length 1, either
 \code{"EC2"} to run on EC2 or \code{"FARGATE"} to run on Fargate.}
@@ -188,13 +188,13 @@ revision number of the registered job definition.
 \if{html}{\out{<a id="method-crew_class_aws_batch_monitor-deregister"></a>}}
 \if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-deregister}{}}}
 \subsection{Method \code{deregister()}}{
-Attempt to deeregister the job definition.
+Attempt to deregister the job definition.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$deregister()}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
-Attempt to dereregister the job definition whose name was
+Attempt to deregister the job definition whose name was
 originally supplied to the \code{job_definition} argument of
 \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
 }

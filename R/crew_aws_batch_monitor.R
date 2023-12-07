@@ -160,7 +160,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
       }
       args <- list()
-      args$jobDefinitionName = private$.job_definition
+      args$jobDefinitionName <- private$.job_definition
       args$type <- "container"
       args$schedulingPriority <- scheduling_priority
       args$propagateTags <- propagate_tags
@@ -304,7 +304,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'  revision number of the registered job definition.
     #' @param image Character of length 1, Docker image used for each job.
     #'   You can supply a path to an image in Docker Hub or the full URI
-    #'   of an image in an Amazohn ECR repository.
+    #'   of an image in an Amazon ECR repository.
     #' @param memory_units Character of length 1,
     #'   either `"gigabytes"` or `"mebibytes"` to set the units of the
     #'   `memory` argument. `"gigabytes"` is simpler for EC2 jobs, but
@@ -372,8 +372,8 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       )
       # nocov end
     },
-    #' @description Attempt to deeregister the job definition.
-    #' @details Attempt to dereregister the job definition whose name was
+    #' @description Attempt to deregister the job definition.
+    #' @details Attempt to deregister the job definition whose name was
     #'   originally supplied to the `job_definition` argument of
     #'   [crew_aws_batch_monitor()].
     #' @return `NULL` (invisibly).
@@ -395,7 +395,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @return If the job definition is not active or does not exist,
     #'   `describe()` returns `NULL`. Otherwise, it returns
     #'   a `tibble` with job definition information. Some fields
-    #'   may be nested lists. 
+    #'   may be nested lists.
     describe = function() {
       # Covered in tests/interactive/job_definitions.R
       # nocov start
