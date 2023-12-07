@@ -97,7 +97,7 @@ crew_class_aws_batch_job_definition <- R6::R6Class(
     #' @param image Character of length 1, Docker image used for each job.
     #'   You can supply a path to an image in Docker Hub or the full URI
     #'   of an image in an Amazohn ECR repository.
-    #' @param units_memory Character of length 1,
+    #' @param memory_units Character of length 1,
     #'   either `"gigabytes"` or `"mebibytes"` to set the units of the
     #'   `memory` argument. `"gigabytes"` is simpler for EC2 jobs, but
     #'   Fargate has strict requirements about specifying exact amounts of
@@ -126,7 +126,7 @@ crew_class_aws_batch_job_definition <- R6::R6Class(
     register = function(
       image,
       platform_capabilities = "EC2",
-      units_memory = "gigabytes",
+      memory_units = "gigabytes",
       memory = NULL,
       cpus = NULL,
       gpus = NULL,
@@ -137,6 +137,71 @@ crew_class_aws_batch_job_definition <- R6::R6Class(
       job_role_arn = NULL,
       execution_role_arn = NULL
     ) {
+      crew::crew_assert(
+        image,
+        is.character(.),
+        !anyNA(.),
+        length(.) == 1L,
+        nzchar(.),
+        message = paste("invalid image path")
+      )
+      crew::crew_assert(
+        unname(platform_capabilities),
+        identical(., "EC2") || identical(., "FARGATE"),
+        message = "platform_capabilities must be \"EC2\" or \"FARGATE\"."
+      )
+      crew::crew_assert(
+        unname(memory_units),
+        identical(., "gigabytes") || identical(., "mebibytes"),
+        message = "memory_units must be \"gigabytes\" or \"mebibytes\"."
+      )
+      amounts <- list(
+        memory = memory,
+        cpus = cpus,
+        gpus = gpus,
+        seconds_timeout = seconds_timeout,
+        scheduling_priority = scheduling_priority
+      )
+      for (name in names(amounts)) {
+        crew::crew_assert(
+          amounts[[name]] %|||% 1L,
+          is.numeric(.),
+          is.finite(.),
+          . >= 0,
+          message = paste(
+            name,
+            "must be NULL or positive numeric of length 1."
+          )
+        )
+      }
+      crew_assert(
+        tags %|||% "x",
+        is.character(.),
+        !anyNA(.),
+        nzchar(.),
+        message = "'tags' must be a character vector or NULL."
+      )
+      crew_assert(
+        propagate_tags %|||% TRUE,
+        isTRUE(.) || isFALSE(.),
+        message = "propagate_tags must be NULL or TRUE or FALSE"
+      )
+      flags <- list(
+        job_role_arn = job_role_arn,
+        execution_role_arn = execution_role_arn
+      )
+      for (name in names(flags)) {
+        crew_assert(
+          flags[[name]] %|||% "x",
+          is.character(.),
+          !anyNA(.),
+          nzchar(.),
+          length(.) == 1L,
+          message = paste(name, "must be NULL or a character of length 1.")
+        )
+      }
+      
+      
       browser()
       
       
