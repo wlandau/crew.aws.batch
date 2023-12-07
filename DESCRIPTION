@@ -34,9 +34,11 @@ Depends:
   R (>= 4.0.0)
 Imports:
   crew (>= 0.7.0),
+  paws.common,
   paws.compute,
   R6,
   rlang,
+  tibble,
   utils
 Suggests:
   knitr (>= 1.30),

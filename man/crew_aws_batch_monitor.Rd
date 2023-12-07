@@ -8,7 +8,10 @@ crew_aws_batch_monitor(
   job_queue,
   job_definition = paste0("crew-aws-batch-job-definition-", crew::crew_random_name()),
   log_group = "/aws/batch/job",
-  log_group_region = "us-east-1"
+  config = NULL,
+  credentials = NULL,
+  endpoint = NULL,
+  region = NULL
 )
 }
 \arguments{
@@ -25,8 +28,23 @@ It is not easy to get the log group of an active job or job
 definition, so if you have a non-default log group and you do not
 know its name, please consult your system administrator.}
 
-\item{log_group_region}{Character of length 1, region of the log group.
-Must be a valid region name such as \code{"us-east-1"} or \code{"us-east-2"}.}
+\item{config}{Optional named list, \code{config} argument of
+\code{paws.compute::batch()} with optional configuration details.}
+
+\item{credentials}{Optional named list. \code{credentials} argument of
+\code{paws.compute::batch()} with optional credentials (if not already
+provided through environment variables such as \code{AWS_ACCESS_KEY_ID}).}
+
+\item{endpoint}{Optional character of length 1. \code{endpoint}
+argument of \code{paws.compute::batch()} with the endpoint to send HTTP
+requests.}
+
+\item{region}{Character of length 1. \code{region} argument of
+\code{paws.compute::batch()} with an AWS region string such as \code{"us-east-2"}.
+Serves as the region for both AWS Batch and CloudWatch. Tries to
+default to \code{paws.common::get_config()$region}, then to
+\code{Sys.getenv("AWS_REGION")} if unsuccessful, then
+\code{Sys.getenv("AWS_REGION")}, then \code{Sys.getenv("AWS_DEFAULT_REGION")}.}
 }
 \description{
 Create an \code{R6} object to manage AWS Batch jobs and

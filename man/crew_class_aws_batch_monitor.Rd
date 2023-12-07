@@ -23,7 +23,13 @@ Other monitor:
 
 \item{\code{log_group}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
 
-\item{\code{log_group_region}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+\item{\code{config}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{credentials}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{endpoint}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{region}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -33,6 +39,8 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-new}{\code{crew_class_aws_batch_monitor$new()}}
 \item \href{#method-crew_class_aws_batch_monitor-validate}{\code{crew_class_aws_batch_monitor$validate()}}
 \item \href{#method-crew_class_aws_batch_monitor-register}{\code{crew_class_aws_batch_monitor$register()}}
+\item \href{#method-crew_class_aws_batch_monitor-deregister}{\code{crew_class_aws_batch_monitor$deregister()}}
+\item \href{#method-crew_class_aws_batch_monitor-describe}{\code{crew_class_aws_batch_monitor$describe()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -45,7 +53,10 @@ AWS Batch job definition constructor.
   job_queue = NULL,
   job_definition = NULL,
   log_group = NULL,
-  log_group_region = NULL
+  config = NULL,
+  credentials = NULL,
+  endpoint = NULL,
+  region = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -58,7 +69,13 @@ AWS Batch job definition constructor.
 
 \item{\code{log_group}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
 
-\item{\code{log_group_region}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+\item{\code{config}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{credentials}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{endpoint}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
+
+\item{\code{region}}{See \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -141,9 +158,11 @@ which has a fair share policy.}
 \item{\code{propagate_tags}}{Optional logical of length 1, whether to propagate
 tags from the job or definition to the ECS task.}
 
-\item{\code{job_role_arn}}{}
+\item{\code{job_role_arn}}{Character of length 1,
+Amazon resource name (ARN) of the job role.}
 
-\item{\code{execution_role_arn}}{}
+\item{\code{execution_role_arn}}{Character of length 1,
+Amazon resource name (ARN) of the execution role.}
 }
 \if{html}{\out{</div>}}
 }
@@ -160,5 +179,44 @@ to register the job definition, then supply the job definition
 name to the \code{job_definition} argument of \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
 }
 
+\subsection{Returns}{
+A one-row \code{tibble} with the job definition name, ARN, and
+revision number of the registered job definition.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-deregister"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-deregister}{}}}
+\subsection{Method \code{deregister()}}{
+Attempt to deeregister the job definition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$deregister()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+Attempt to dereregister the job definition whose name was
+originally supplied to the \code{job_definition} argument of
+\code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+\code{NULL} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-describe"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-describe}{}}}
+\subsection{Method \code{describe()}}{
+Describe the current active revision of the job definition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$describe()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+If the job definition is not active or does not exist,
+\code{describe()} returns \code{NULL}. Otherwise, it returns
+a \code{tibble} with job definition information. Some fields
+may be nested lists.
+}
 }
 }

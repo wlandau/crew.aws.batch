@@ -18,9 +18,11 @@
 #'   and [`batchtools`](https://mllg.github.io/batchtools/).
 #' @importFrom crew crew_assert crew_class_launcher crew_deprecate
 #'   crew_launcher crew_random_name crew_tls
+#' @importFrom paws.common get_config
 #' @importFrom paws.compute batch
 #' @importFrom R6 R6Class
 #' @importFrom rlang is_installed
+#' @importFrom tibble tibble
 #' @importFrom utils globalVariables
 NULL
 

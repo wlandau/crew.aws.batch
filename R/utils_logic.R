@@ -14,6 +14,14 @@
   }
 }
 
+`%|||chr%` <- function(x, y) {
+  if (identical(unname(x), "")) {
+    y
+  } else {
+    x
+  }
+}
+
 if_any <- function(condition, true, false) {
   if (any(condition)) {
     true
