@@ -22,6 +22,5 @@ out <- x$describe()
 expect_equal(nrow(out), 1L)
 expect_equal(out$jobDefinitionName, x$job_definition)
 for (index in seq_len(2L)) {
-  x$deregister()
-  expect_null(x$describe())
+  expect_null(x$deregister())
 }
