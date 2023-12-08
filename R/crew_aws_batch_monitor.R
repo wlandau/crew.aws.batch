@@ -79,7 +79,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         region = private$.region
       )
     },
-    .register_args = function(
+    .args_register = function(
       image,
       platform_capabilities,
       memory_units,
@@ -90,6 +90,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       scheduling_priority,
       tags,
       propagate_tags,
+      parameters,
       job_role_arn,
       execution_role_arn
     ) {
@@ -138,6 +139,13 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         message = "'tags' must be a character vector or NULL."
       )
       crew_assert(
+        parameters %|||% "x",
+        is.character(.),
+        !anyNA(.),
+        nzchar(.),
+        message = "'parameters' must be a character vector or NULL."
+      )
+      crew_assert(
         propagate_tags %|||% TRUE,
         isTRUE(.) || isFALSE(.),
         message = "propagate_tags must be NULL or TRUE or FALSE"
@@ -163,7 +171,13 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       args$jobDefinitionName <- private$.job_definition
       args$type <- "container"
       args$schedulingPriority <- scheduling_priority
+      if (!is.null(tags)) {
+        args$tags <- as.list(tags)
+      }
       args$propagateTags <- propagate_tags
+      if (!is.null(parameters)) {
+        args$parameters <- as.list(parameters)
+      }
       args$platformCapabilities <- platform_capabilities
       if (!is.null(seconds_timeout)) {
         args$timeout <- list(
@@ -329,6 +343,8 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @param tags Optional character vector of tags.
     #' @param propagate_tags Optional logical of length 1, whether to propagate
     #'   tags from the job or definition to the ECS task.
+    #' @param parameters Optional character vector of key-value pairs
+    #'   designating parameters for job submission.
     #' @param job_role_arn Character of length 1,
     #'   Amazon resource name (ARN) of the job role.
     #' @param execution_role_arn Character of length 1,
@@ -344,13 +360,14 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       scheduling_priority = NULL,
       tags = NULL,
       propagate_tags = NULL,
+      parameters = NULL,
       job_role_arn = NULL,
       execution_role_arn = NULL
     ) {
       # Covered in tests/interactive/job_definitions.R
       # nocov start
       client <- private$.client()
-      args <- private$.register_args(
+      args <- private$.args_register(
         image = image,
         platform_capabilities = platform_capabilities,
         memory_units = memory_units,
@@ -361,6 +378,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         scheduling_priority = scheduling_priority,
         tags = tags,
         propagate_tags = propagate_tags,
+        parameters = parameters,
         job_role_arn = job_role_arn,
         execution_role_arn = execution_role_arn
       )

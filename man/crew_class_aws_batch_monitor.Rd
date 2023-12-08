@@ -113,6 +113,7 @@ Register a job definition.
   scheduling_priority = NULL,
   tags = NULL,
   propagate_tags = NULL,
+  parameters = NULL,
   job_role_arn = NULL,
   execution_role_arn = NULL
 )}\if{html}{\out{</div>}}
@@ -157,6 +158,9 @@ which has a fair share policy.}
 
 \item{\code{propagate_tags}}{Optional logical of length 1, whether to propagate
 tags from the job or definition to the ECS task.}
+
+\item{\code{parameters}}{Optional character vector of key-value pairs
+designating parameters for job submission.}
 
 \item{\code{job_role_arn}}{Character of length 1,
 Amazon resource name (ARN) of the job role.}
