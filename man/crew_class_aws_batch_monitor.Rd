@@ -44,6 +44,7 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-submit}{\code{crew_class_aws_batch_monitor$submit()}}
 \item \href{#method-crew_class_aws_batch_monitor-terminate}{\code{crew_class_aws_batch_monitor$terminate()}}
 \item \href{#method-crew_class_aws_batch_monitor-status}{\code{crew_class_aws_batch_monitor$status()}}
+\item \href{#method-crew_class_aws_batch_monitor-log}{\code{crew_class_aws_batch_monitor$log()}}
 \item \href{#method-crew_class_aws_batch_monitor-jobs}{\code{crew_class_aws_batch_monitor$jobs()}}
 \item \href{#method-crew_class_aws_batch_monitor-active}{\code{crew_class_aws_batch_monitor$active()}}
 \item \href{#method-crew_class_aws_batch_monitor-inactive}{\code{crew_class_aws_batch_monitor$inactive()}}
@@ -369,6 +370,39 @@ from the user-supplied job name.}
 }
 \subsection{Returns}{
 A one-row \code{tibble} with information about the job.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-log"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-log}{}}}
+\subsection{Method \code{log()}}{
+Get the CloudWatch log of a job.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$log(id, start_from_head = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character of length 1, job ID. This is different
+from the user-supplied job name.}
+
+\item{\code{start_from_head}}{Logical of length 1, whether to print earlier
+log events before later ones.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method assumes the job has log driver \code{"awslogs"}
+(specifying AWS CloudWatch) and that the log group is the one
+prespecified in the \code{log_group} argument of
+\code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}. This method cannot use
+other log drivers such as Splunk, and it will fail if the log
+group is wrong or missing.
+}
+
+\subsection{Returns}{
+A \code{tibble} with log information.
 }
 }
 \if{html}{\out{<hr>}}

@@ -9,6 +9,7 @@ test_that("empty job list", {
   )
   expect_equal(nrow(x$jobs()), 0L)
   expect_equal(nrow(x$status(id = "does-not-exist")), 0L)
+  expect_null(x$log(id = "does-not-exist"))
 })
 
 test_that("job list", {
@@ -83,37 +84,46 @@ test_that("job list", {
   expect_equal(info$reason, good_reason)
 })
 
-# test_that("job logs", {
-#   x <- crew_aws_batch_monitor(
-#     job_definition = "crew-aws-batch-test",
-#     job_queue = "crew-aws-batch-job-queue",
-#     region = "us-east-2"
-#   )
-#   x$register(
-#     image = "alpine:latest",
-#     platform_capabilities = "EC2",
-#     memory_units = "gigabytes",
-#     memory = 1,
-#     cpus = 1,
-#     seconds_timeout = 600,
-#     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
-#     propagate_tags = TRUE
-#   )
-#   on.exit(x$deregister())
-#   job <- x$submit(command = c("echo", "'done with job'"))
-#   while (jobs <- inacti) {
-#     message(
-#       paste(
-#         "checking terminated job",
-#         sample(c("-", "\\", "|", "/"), size = 1L)
-#       )
-#     )
-#     out <- x$jobs()
-#     info <- out[out$name == job$name, ]
-#     attempts <- attempts + 1L
-#     if (attempts > 20L) {
-#       stop("job did not terminate")
-#     }
-#     Sys.sleep(5)
-#   }
-# })
+test_that("job logs", {
+  x <- crew_aws_batch_monitor(
+    job_definition = "crew-aws-batch-test",
+    job_queue = "crew-aws-batch-job-queue",
+    region = "us-east-2"
+  )
+  x$register(
+    image = "alpine:latest",
+    platform_capabilities = "EC2",
+    memory_units = "gigabytes",
+    memory = 1,
+    cpus = 1,
+    seconds_timeout = 600,
+    tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
+    propagate_tags = TRUE
+  )
+  on.exit(x$deregister())
+  job <- x$submit(
+    command = c("echo", "done with container\ndone with job"),
+    memory_units = "mebibytes",
+    memory = 128,
+    cpus = 1
+  )
+  attempts <- 0L
+  done <- c("succeeded", "failed")
+  while (!((status <- x$status(id = job$id)$status) %in% done)) {
+    message(
+      paste(
+        "job status:",
+        status,
+        sample(c("-", "\\", "|", "/"), size = 1L)
+      )
+    )
+    attempts <- attempts + 1L
+    if (attempts > 60L) {
+      stop("job did not finish")
+    }
+    Sys.sleep(5)
+  }
+  log <- x$log(id = job$id)
+  expect_true(tibble::is_tibble(log))
+  expect_equal(log$message, c("done with container", "done with job"))
+})

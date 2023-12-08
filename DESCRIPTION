@@ -36,6 +36,7 @@ Imports:
   crew (>= 0.7.0),
   paws.common,
   paws.compute,
+  paws.management,
   R6,
   rlang,
   tibble,

@@ -665,6 +665,8 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @param id Character of length 1, job ID. This is different
     #'   from the user-supplied job name.
     status = function(id) {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
       crew::crew_assert(
         id,
         is.character(.),
@@ -704,6 +706,70 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         started = if_any(length(out$startedAt), out$startedAt, NA_real_),
         stopped = if_any(length(out$stoppedAt), out$stoppedAt, NA_real_)
       )
+      # nocov end
+    },
+    #' @description Get the CloudWatch log of a job.
+    #' @details This method assumes the job has log driver `"awslogs"`
+    #'   (specifying AWS CloudWatch) and that the log group is the one
+    #'   prespecified in the `log_group` argument of
+    #'   [crew_aws_batch_monitor()]. This method cannot use
+    #'   other log drivers such as Splunk, and it will fail if the log
+    #'   group is wrong or missing.
+    #' @return A `tibble` with log information.
+    #' @param id Character of length 1, job ID. This is different
+    #'   from the user-supplied job name.
+    #' @param start_from_head Logical of length 1, whether to print earlier
+    #'   log events before later ones.
+    log = function(id, start_from_head = FALSE) {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      crew::crew_assert(
+        id,
+        is.character(.),
+        !anyNA(.),
+        nzchar(.),
+        length(.) == 1L,
+        message = "'id' must be a valid character of length 1"
+      )
+      client <- private$.client()
+      result <- client$describe_jobs(jobs = id)
+      null_log <- tibble::tibble(
+        message = character(0L),
+        timestamp = character(0L),
+        ingestion_time = character(0L)
+      )
+      if (!length(result$jobs)) {
+        return(null_log)
+      }
+      log_stream_name <- result$jobs[[1L]]$container$logStreamName
+      client <- paws.management::cloudwatchlogs(
+        config = as.list(private$.config),
+        credentials = as.list(private$.credentials),
+        endpoint = private$.endpoint,
+        region = private$.region
+      )
+      pages <- list( # TODO: paws.common::paginate() # nolint
+        client$get_log_events(
+          logGroupName = private$.log_group,
+          logStreamName = log_stream_name,
+          startFromHead = start_from_head
+        )
+      )
+      out <- list()
+      for (page in pages) {
+        for (event in page$events) {
+          out[[length(out) + 1L]] <- tibble::tibble(
+            message = event$message,
+            timestamp = event$timestamp,
+            ingestion_time = event$ingestionTime
+          )
+        }
+      }
+      if (!length(out)) {
+        return(null_log)
+      }
+      do.call(what = rbind, args = out)
+      # nocov end
     },
     #' @description List all the jobs in the given job queue
     #'   with the given job definition.
