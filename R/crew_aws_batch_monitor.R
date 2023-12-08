@@ -6,7 +6,8 @@
 #' @param job_queue Character of length 1, name of the AWS Batch
 #'   job queue.
 #' @param job_definition Character of length 1, name of the AWS Batch
-#'   job definition.
+#'   job definition. The job definition might or might not exist
+#'   at the time `crew_aws_batch_monitor()` is called. Either way is fine.
 #' @param log_group Character of length 1,
 #'   AWS Batch CloudWatch log group to get job logs.
 #'   The default log group is often "/aws/batch/job", but not always.

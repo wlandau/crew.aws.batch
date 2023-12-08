@@ -19,7 +19,8 @@ crew_aws_batch_monitor(
 job queue.}
 
 \item{job_definition}{Character of length 1, name of the AWS Batch
-job definition.}
+job definition. The job definition might or might not exist
+at the time \code{crew_aws_batch_monitor()} is called. Either way is fine.}
 
 \item{log_group}{Character of length 1,
 AWS Batch CloudWatch log group to get job logs.

@@ -93,46 +93,113 @@ str(groups$SecurityGroups[[1L]])
 #>  $ VpcId              : chr "vpc-00000"
 ```
 
-# Job definition management
+# Job management
 
-You will most likely need to create custom job definitions for your use case. Typically this involves choosing a container image in [AWS Elastic Container Registry (ECR)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html) and specifying the resource requirements of jobs. AWS has documentation for  The `paws.compute` package makes it straightforward to manage job definitions. Please see the AWS Batch functions at <https://www.paws-r-sdk.com/docs/reference_index/> to register, describe, and deregister job definitions. To see how ECR image URLs work, visit <https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html>.
+With `crew.aws.batch`, your `crew` controller automatically submits jobs to AWS Batch. These jobs may fail or linger for any number of reasons, which could impede work and increase costs. So before you use `crew_controller_aws_batch()`, please learn how to monitor and terminate AWS Batch jobs manually.
 
-To ["register" (create or overwrite) a job definition](https://www.paws-r-sdk.com/docs/batch_register_job_definition/), use the R code below and replace the values with the ones you want.
+`crew.aws.batch` defines a "monitor" class to help you take control of jobs and job definitions. Create a monitor object with `crew_aws_batch_monitor()`. You will need to supply a job definition name and a job queue name.
 
 ```{r}
-client <- paws.compute::batch()
-client$register_job_definition(
-  jobDefinitionName = "JOB_DEFINITION_NAME",
-  type = "container",
-  containerProperties = list(
-    image = "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG",
-    vcpus = 2,
-    memory = 4000
-  )
+monitor <- crew_aws_batch_monitor(
+  job_definition = "YOUR_JOB_DEFINITION_NAME",
+  job_queue = "YOUR_JOB_QUEUE_NAME"
 )
 ```
 
-To collect information about existing job definitions, you can either ask for all job definitions,
+The job definition may or may not exist at this point. If it does not exist, you can register with `register()`, an oversimplified limited-scope method which creates container-based job definitions with the `"awslogs"` log driver (for CloudWatch).^[The log group supplied to `crew_aws_batch_monitor()` must be valid. The default is `"/aws/batch/log"`, which may not exist if your system administrator has a custom logging policy.] Below, your container image can be as simple as a Docker Hub identifier (like `"alpine:latest:`) or a full URI of an ECR image.^[For the `crew` controller, you will definitely want an image with R and `crew` installed. For the purposes of testing the monitor, `"alpine:latest"` will work.]
 
 ```{r}
-client$describe_job_definitions()
+monitor$register(
+  image = "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG",
+  platform_capabilities = "EC2",
+  memory_units = "gigabytes",
+  memory = 8,
+  cpus = 2
+)
 ```
 
-or just the a specific version of a specific job definition.
+You can submit individual AWS Batch jobs to test your computing environment.
 
 ```{r}
-client$describe_job_definitions("JOB_DEFINITION_NAME:1")
+job1 <- monitor$submit(name = "job1", command = c("echo", "hello\nworld"))
+job2 <- monitor$submit(name = "job2", command = c("echo", "job\nsubmitted"))
+job2
+#> # A tibble: 1 × 3
+#>   name  id                                   arn                       
+#>   <chr> <chr>                                <chr>                     
+#> 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…
 ```
 
-To delete a job definition, specify the name and version of the job definition (or the full [Amazon Resource Name](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html), or ARN).
+Method `status()` checks the status of an individual job.
 
 ```{r}
-client$deregister_job_definitions("JOB_DEFINITION_NAME:1")
+monitor$status(id = job2$id)
+#> # A tibble: 1 × 8
+#>   name  id                arn   status   reason created started stopped
+#>   <chr> <chr>             <chr> <chr>    <chr>    <dbl>   <dbl>   <dbl>
+#> 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA
 ```
 
-# Package usage
+The `jobs()` method gets the status of all the jobs within the job queue and job definition you originally supplied to `crew_aws_batch_monitor()`. This may include many more jobs than the ones you submitted during the life cycle of the current `monitor` object.
 
-To start using `crew.aws.batch`, first create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need.
+```{r}
+monitor$jobs()
+#> # A tibble: 2 × 8
+#>   name  id                arn   status    reason created started stopped
+#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
+#> 1 job1  653df636-ac74-43… arn:… succeeded Essen… 1.70e12 1.70e12 1.70e12
+#> 2 job2  c38d55ad-4a86-43… arn:… runnable  NA     1.70e12      NA      NA
+```
+
+The [job state](https://docs.aws.amazon.com/batch/latest/userguide/job_states.html) can be `"submitted"`, `"pending"`, `"runnable"`, `"starting"`, `"running"`, `"succeeded"`, or `"failed"`. The monitor has a method for each job state to get only the jobs with that state.
+
+```{r}
+monitor$succeeded()
+#> # A tibble: 1 × 8
+#>   name  id                arn   status    reason created started stopped
+#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
+#> 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12
+```
+
+In addition, there is an `active()` method for just states `"submitted"`, `"pending"`, `"runnable"`, `"starting"`, and `"running"`, and there is an `inactive()` method for just the `"succeeded"` and `"failed"` states.
+
+```{r}
+monitor$inactive()
+#> # A tibble: 1 × 8
+#>   name  id                arn   status    reason created started stopped
+#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
+#> 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12
+```
+
+To terminate a job, use the `terminate()` method. This has the effect of both canceling and terminating the job, although you may not see the change right away if the job is currently `"runnable"`. Manually terminated jobs are listed as failed.
+
+```{r}
+monitor$terminate(id = job2$id)
+```
+
+To get the CloudWatch logs of a job, use the `log()` method. This method returns a `tibble` with the log messages and numeric timestamps.
+
+```{r}
+log <- monitor$log(id = job1$id)
+log
+#> # A tibble: 2 × 3
+#>   message     timestamp ingestion_time
+#>   <chr>           <dbl>          <dbl>
+#> 1 hello   1702068378163  1702068378245
+#> 2 world   1702068378163  1702068378245
+```
+
+If the log messages are too long to conveniently view in the `tibble`, you can print them to your screen with `cat()` or `writeLines()`.
+
+```{r}
+writeLines(log$message)
+#> hello
+#> world
+```
+
+# Using `crew` with AWS Batch workers
+
+To start using `crew.aws.batch` in earnest, first create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need. If you do not already have a job definition, the "monitor" object above can help you create one (see above).
 
 ```{r}
 library(crew.aws.batch)
