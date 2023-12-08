@@ -9,5 +9,6 @@ reference:
   - '`crew_launcher_aws_batch`'
   - '`crew_class_launcher_aws_batch`'
 - title: Managing AWS Batch jobs and job definitions
+  contents:
   - '`crew_aws_batch_monitor`'
   - '`crew_class_aws_batch_monitor`'

@@ -21,8 +21,8 @@ test_that("job list", {
   x$register(
     image = "alpine:latest",
     platform_capabilities = "EC2",
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
@@ -31,8 +31,8 @@ test_that("job list", {
   on.exit(x$deregister())
   x$submit(
     command = c("sleep", "300"),
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
@@ -94,8 +94,8 @@ test_that("job logs", {
   x$register(
     image = "alpine:latest",
     platform_capabilities = "EC2",
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
