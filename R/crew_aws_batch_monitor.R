@@ -208,6 +208,114 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         )
       )
       args
+    },
+    .args_submit = function(
+      command,
+      name,
+      memory_units,
+      memory,
+      cpus,
+      gpus,
+      seconds_timeout,
+      share_identifier,
+      scheduling_priority_override,
+      tags,
+      propagate_tags,
+      parameters
+    ) {
+      crew::crew_assert(
+        command,
+        is.character(.),
+        !anyNA(.),
+        message = "job command must be a non-missing character vector"
+      )
+      crew::crew_assert(
+        name,
+        is.character(.),
+        length(.) == 1L,
+        !anyNA(.),
+        message = "job name must be a character of length 1"
+      )
+      crew::crew_assert(
+        unname(memory_units),
+        identical(., "gigabytes") || identical(., "mebibytes"),
+        message = "memory_units must be \"gigabytes\" or \"mebibytes\"."
+      )
+      amounts <- list(
+        memory = memory,
+        cpus = cpus,
+        gpus = gpus,
+        seconds_timeout = seconds_timeout,
+        scheduling_priority_override = scheduling_priority_override
+      )
+      for (name_amount in names(amounts)) {
+        crew::crew_assert(
+          amounts[[name_amount]] %|||% 1L,
+          is.numeric(.),
+          is.finite(.),
+          . >= 0,
+          message = paste(
+            name_amount,
+            "must be NULL or positive numeric of length 1."
+          )
+        )
+      }
+      characters <- list(
+        share_identifier = share_identifier,
+        tags = tags,
+        parameters = parameters
+      )
+      for (name_chr in names(characters)) {
+        crew_assert(
+          tags %|||% "x",
+          is.character(.),
+          !anyNA(.),
+          nzchar(.),
+          message = paste(name_chr, "must be a character vector or NULL.")
+        )
+      }
+      crew_assert(
+        propagate_tags %|||% TRUE,
+        isTRUE(.) || isFALSE(.),
+        message = "propagate_tags must be NULL or TRUE or FALSE"
+      )
+      if (identical(memory_units, "gigabytes")) {
+        memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
+      }
+      args <- list()
+      args$jobName <- name
+      args$jobQueue <- private$.job_queue
+      if (!is.null(share_identifier)) {
+        args$shareIdentifier <- share_identifier
+      }
+      if (!is.null(scheduling_priority_override)) {
+        args$schedulingPriorityOverride <- scheduling_priority_override
+      }
+      args$jobDefinition <- private$.job_definition
+      args$parameters <- parameters
+      args$tags <- tags
+      args$propagateTags <- propagate_tags
+      if (!is.null(seconds_timeout)) {
+        args$timeout <- list(
+          attemptDurationSeconds = seconds_timeout
+        )
+      }
+      args$containerOverrides <- list(command = as.list(command))
+      resources <- list()
+      if (!is.null(memory)) {
+        memory <- as.character(round(memory))
+        resources$memory <- list(value = memory, type = "MEMORY")
+      }
+      if (!is.null(cpus)) {
+        resources$cpus <- list(value = as.character(cpus), type = "VCPU")
+      }
+      if (!is.null(gpus)) {
+        resources$gpus <- list(value = as.character(gpus), type = "GPU")
+      }
+      if (length(resources)) {
+        args$containerOverrides$resourceRequirements <- resources
+      }
+      args
     }
   ),
   active = list(
@@ -364,7 +472,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       job_role_arn = NULL,
       execution_role_arn = NULL
     ) {
-      # Covered in tests/interactive/job_definitions.R
+      # Covered in tests/interactive/definitions.R
       # nocov start
       client <- private$.client()
       args <- private$.args_register(
@@ -396,7 +504,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   [crew_aws_batch_monitor()].
     #' @return `NULL` (invisibly).
     deregister = function() {
-      # Covered in tests/interactive/job_definitions.R
+      # Covered in tests/interactive/definitions.R
       # nocov start
       client <- private$.client()
       response <- self$describe()
@@ -415,7 +523,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   a `tibble` with job definition information. Some fields
     #'   may be nested lists.
     describe = function() {
-      # Covered in tests/interactive/job_definitions.R
+      # Covered in tests/interactive/definitions.R
       # nocov start
       client <- private$.client()
       response <- client$describe_job_definitions(
@@ -435,6 +543,54 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         }
       }
       tibble::as_tibble(out)
+      # nocov end
+    },
+    #' @description Submit a single AWS Batch job to the given job queue
+    #'   under the given job definition.
+    #' @details Any jobs submitted this way are different from the
+    #'   `crew` workers that the `crew` controller starts automatically
+    #'   using the AWS Batch launcher plugin.
+    #'   You may use the `submit()` method in the monitor for different
+    #'   purposes such as testing.
+    #' @return A one-row `tibble` with the name, ID, and
+    #'   Amazon resource name (ARN) of the job.
+    submit = function(
+      command = c("sleep", "300"),
+      name = paste0("crew-aws-batch-job-", crew::crew_random_name()),
+      memory_units = "gigabytes",
+      memory = NULL,
+      cpus = NULL,
+      gpus = NULL,
+      seconds_timeout = NULL,
+      share_identifier = NULL,
+      scheduling_priority_override = NULL,
+      tags = NULL,
+      propagate_tags = NULL,
+      parameters = NULL
+    ) {
+      # Covered in tests/interactive/definitions.R
+      # nocov start
+      args <- private$.args_submit(
+        command = command,
+        name = name,
+        memory_units = memory_units,
+        memory = memory,
+        cpus = cpus,
+        gpus = gpus,
+        seconds_timeout = seconds_timeout,
+        share_identifier = share_identifier,
+        scheduling_priority_override = scheduling_priority_override,
+        tags = tags,
+        propagate_tags = propagate_tags,
+        parameters = parameters
+      )
+      client <- private$.client()
+      out <- do.call(what = client$submit_job, args = args)
+      tibble::tibble(
+        name = out$jobName,
+        id = out$jobId,
+        arn = out$jobArn
+      )
       # nocov end
     }
   )
