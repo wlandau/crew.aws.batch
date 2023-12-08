@@ -27,7 +27,10 @@ crew_aws_batch_terminate <- function(args_client, job_id) {
     config = args_client$config,
     args = args_client
   )
-  client$terminate_job(jobId = job_id, reason = "terminated by crew")
+  client$terminate_job(
+    jobId = job_id,
+    reason = "terminated by crew controller"
+  )
 }
 
 crew_aws_batch_client <- function(config, args) {

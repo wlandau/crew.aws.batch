@@ -1,6 +1,7 @@
 library(crew.aws.batch)
 library(testthat)
 x <- crew_aws_batch_monitor(
+  job_definition = "crew-aws-batch-test",
   job_queue = "crew-aws-batch-job-queue",
   region = "us-east-2"
 )

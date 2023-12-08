@@ -42,6 +42,8 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-deregister}{\code{crew_class_aws_batch_monitor$deregister()}}
 \item \href{#method-crew_class_aws_batch_monitor-describe}{\code{crew_class_aws_batch_monitor$describe()}}
 \item \href{#method-crew_class_aws_batch_monitor-submit}{\code{crew_class_aws_batch_monitor$submit()}}
+\item \href{#method-crew_class_aws_batch_monitor-terminate}{\code{crew_class_aws_batch_monitor$terminate()}}
+\item \href{#method-crew_class_aws_batch_monitor-jobs}{\code{crew_class_aws_batch_monitor$jobs()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -298,6 +300,8 @@ designating parameters for job submission.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
+This method uses the job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
 Any jobs submitted this way are different from the
 \code{crew} workers that the \code{crew} controller starts automatically
 using the AWS Batch launcher plugin.
@@ -308,6 +312,71 @@ purposes such as testing.
 \subsection{Returns}{
 A one-row \code{tibble} with the name, ID, and
 Amazon resource name (ARN) of the job.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-terminate"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-terminate}{}}}
+\subsection{Method \code{terminate()}}{
+Terminate an AWS Batch job.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$terminate(
+  id,
+  reason = "terminated by crew.aws.batch monitor"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character of length 1, ID of the AWS Batch job to terminate.}
+
+\item{\code{reason}}{Character of length 1, natural language explaining
+the reason the job was terminated.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{NULL} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-jobs"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-jobs}{}}}
+\subsection{Method \code{jobs()}}{
+List all the jobs in the given job queue
+with the given job definition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$jobs(
+  before = NULL,
+  after = NULL,
+  status = c("submitted", "pending", "runnable", "starting", "running", "succeeded",
+    "failed")
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{before}}{Optional character of length 1, a time stamp.
+Results are limited to jobs created before this time.}
+
+\item{\code{after}}{Character of length 1, a time stamp.
+Results are limited to jobs created after this time.}
+
+\item{\code{status}}{Character vector of job states. Results are limited
+to these job states.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+This method uses the job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
 }
 }
 }
