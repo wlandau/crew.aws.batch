@@ -660,6 +660,51 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       invisible()
       # nocov end
     },
+    #' @description Get the status of a single job
+    #' @return A one-row `tibble` with information about the job.
+    #' @param id Character of length 1, job ID. This is different
+    #'   from the user-supplied job name.
+    status = function(id) {
+      crew::crew_assert(
+        id,
+        is.character(.),
+        !anyNA(.),
+        nzchar(.),
+        length(.) == 1L,
+        message = "'id' must be a valid character of length 1"
+      )
+      client <- private$.client()
+      result <- client$describe_jobs(jobs = id)
+      if (!length(result$jobs)) {
+        return(
+          tibble::tibble(
+            name = character(0L),
+            id = character(0L),
+            arn = character(0L),
+            status = character(0L),
+            reason = character(0L),
+            created = numeric(0L),
+            started = numeric(0L),
+            stopped = numeric(0L)
+          )
+        )
+      }
+      out <- result$jobs[[1L]]
+      tibble::tibble(
+        name = out$jobName,
+        id = out$jobId,
+        arn = out$jobArn,
+        status = out$status,
+        reason = if_any(
+          length(out$statusReason),
+          out$statusReason,
+          NA_character_
+        ),
+        created = out$createdAt,
+        started = if_any(length(out$startedAt), out$startedAt, NA_real_),
+        stopped = if_any(length(out$stoppedAt), out$stoppedAt, NA_real_)
+      )
+    },
     #' @description List all the jobs in the given job queue
     #'   with the given job definition.
     #' @details The output only includes jobs under the
@@ -687,7 +732,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         is.character(.),
         !anyNA(.),
         nzchar(.),
-        message = "'status' must be a valid character of length 1"
+        message = "'status' must be a valid character vector"
       )
       crew::crew_assert(
         status,

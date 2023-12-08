@@ -43,6 +43,7 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-describe}{\code{crew_class_aws_batch_monitor$describe()}}
 \item \href{#method-crew_class_aws_batch_monitor-submit}{\code{crew_class_aws_batch_monitor$submit()}}
 \item \href{#method-crew_class_aws_batch_monitor-terminate}{\code{crew_class_aws_batch_monitor$terminate()}}
+\item \href{#method-crew_class_aws_batch_monitor-status}{\code{crew_class_aws_batch_monitor$status()}}
 \item \href{#method-crew_class_aws_batch_monitor-jobs}{\code{crew_class_aws_batch_monitor$jobs()}}
 \item \href{#method-crew_class_aws_batch_monitor-active}{\code{crew_class_aws_batch_monitor$active()}}
 \item \href{#method-crew_class_aws_batch_monitor-inactive}{\code{crew_class_aws_batch_monitor$inactive()}}
@@ -347,6 +348,27 @@ the reason the job was terminated.}
 }
 \subsection{Returns}{
 \code{NULL} (invisibly).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-status"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-status}{}}}
+\subsection{Method \code{status()}}{
+Get the status of a single job
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$status(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Character of length 1, job ID. This is different
+from the user-supplied job name.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A one-row \code{tibble} with information about the job.
 }
 }
 \if{html}{\out{<hr>}}
