@@ -24,4 +24,3 @@ x$submit(
   propagate_tags = TRUE
 )
 x$deregister()
-

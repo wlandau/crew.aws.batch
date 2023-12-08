@@ -75,6 +75,49 @@ test_that("crew_aws_batch_monitor() private$.args_register()", {
   expect_equal(out, exp)
 })
 
+test_that("crew_aws_batch_monitor() private$.args_submit()", {
+  skip_on_cran()
+  x <- crew_aws_batch_monitor(
+    job_definition = "job-definition-name",
+    job_queue = "crew-aws-batch-job-queue",
+    region = "us-east-2"
+  )
+  out <- x$.__enclos_env__$private$.args_submit(
+    command = c("sleep", "256"),
+    name = "crew-aws-batch-job-test",
+    memory_units = "gigabytes",
+    memory = 234,
+    cpus = 8,
+    gpus = 3,
+    seconds_timeout = 345,
+    share_identifier = "identifier",
+    scheduling_priority_override = 6,
+    tags = c("tag1", "tag2"),
+    propagate_tags = FALSE,
+    parameters = c("key1=value1", "key2=value2")
+  )
+  exp <- list(
+    jobName = "crew-aws-batch-job-test",
+    jobQueue = "crew-aws-batch-job-queue",
+    shareIdentifier = "identifier",
+    schedulingPriorityOverride = 6,
+    jobDefinition = "job-definition-name",
+    parameters = c("key1=value1", "key2=value2"),
+    tags = c("tag1", "tag2"),
+    propagateTags = FALSE,
+    timeout = list(attemptDurationSeconds = 345),
+    containerOverrides = list(
+      command = list("sleep", "256"),
+      resourceRequirements = list(
+        memory = list(value = "223160", type = "MEMORY"),
+        cpus = list(value = "8", type = "VCPU"),
+        gpus = list(value = "3", type = "GPU")
+      )
+    )
+  )
+  expect_equal(out, exp)
+})
+
 test_that("crew_aws_batch_monitor() private$.client()", {
   skip_on_cran()
   x <- crew_aws_batch_monitor(job_queue = "x")

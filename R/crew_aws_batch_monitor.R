@@ -444,10 +444,10 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @param seconds_timeout Optional positive numeric of length 1,
     #'   number of seconds until a job times out.
     #' @param scheduling_priority Optional nonnegative integer of length 1
-    #'   between `0` and `9999`, priority of jobs. Higher-valued jobs
-    #'   are scheduled first. Only applies if the job queue has a fair share
+    #'   between `0` and `9999`, priority of jobs. Jobs with higher-valued
+    #'   priorities are scheduled first.
+    #'   The priority only applies if the job queue has a fair share
     #'   policy. Set to `NULL` to omit.
-    #'   which has a fair share policy.
     #' @param tags Optional character vector of tags.
     #' @param propagate_tags Optional logical of length 1, whether to propagate
     #'   tags from the job or definition to the ECS task.
@@ -554,6 +554,39 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   purposes such as testing.
     #' @return A one-row `tibble` with the name, ID, and
     #'   Amazon resource name (ARN) of the job.
+    #' @param command Character vector with the command
+    #'   to submit for the job. Usually a Linux shell command
+    #'   with each term in its own character string.
+    #' @param name Character of length 1 with the job name.
+    #' @param memory_units Character of length 1,
+    #'   either `"gigabytes"` or `"mebibytes"` to set the units of the
+    #'   `memory` argument. `"gigabytes"` is simpler for EC2 jobs, but
+    #'   Fargate has strict requirements about specifying exact amounts of
+    #'   mebibytes (MiB). for details, read
+    #'   <https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html> # nolint
+    #' @param memory Positive numeric of length 1, amount of memory to request
+    #'   for each job.
+    #' @param cpus Positive numeric of length 1, number of virtual
+    #'   CPUs to request for each job.
+    #' @param gpus Positive numeric of length 1, number of GPUs to
+    #'   request for each job.
+    #' @param seconds_timeout Optional positive numeric of length 1,
+    #'   number of seconds until a job times out.
+    #' @param share_identifier Character of length 1 with the share
+    #'   identifier of the job. Only applies if the job queue has a
+    #'   scheduling policy. Read the official AWS Batch documentation
+    #'   for details.
+    #' @param scheduling_priority_override Optional nonnegative integer
+    #'   of length between `0` and `9999`, priority of the job.
+    #'   This value overrides the priority in the job definition.
+    #'   Jobs with higher-valued priorities are scheduled first.
+    #'   The priority applies if the job queue has a fair share policy.
+    #'   Set to `NULL` to omit.
+    #' @param tags Optional character vector of tags.
+    #' @param propagate_tags Optional logical of length 1, whether to propagate
+    #'   tags from the job or definition to the ECS task.
+    #' @param parameters Optional character vector of key-value pairs
+    #'   designating parameters for job submission.
     submit = function(
       command = c("sleep", "300"),
       name = paste0("crew-aws-batch-job-", crew::crew_random_name()),

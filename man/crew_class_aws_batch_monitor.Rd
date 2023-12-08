@@ -41,6 +41,7 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-register}{\code{crew_class_aws_batch_monitor$register()}}
 \item \href{#method-crew_class_aws_batch_monitor-deregister}{\code{crew_class_aws_batch_monitor$deregister()}}
 \item \href{#method-crew_class_aws_batch_monitor-describe}{\code{crew_class_aws_batch_monitor$describe()}}
+\item \href{#method-crew_class_aws_batch_monitor-submit}{\code{crew_class_aws_batch_monitor$submit()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -149,10 +150,10 @@ request for each job.}
 number of seconds until a job times out.}
 
 \item{\code{scheduling_priority}}{Optional nonnegative integer of length 1
-between \code{0} and \code{9999}, priority of jobs. Higher-valued jobs
-are scheduled first. Only applies if the job queue has a fair share
-policy. Set to \code{NULL} to omit.
-which has a fair share policy.}
+between \code{0} and \code{9999}, priority of jobs. Jobs with higher-valued
+priorities are scheduled first.
+The priority only applies if the job queue has a fair share
+policy. Set to \code{NULL} to omit.}
 
 \item{\code{tags}}{Optional character vector of tags.}
 
@@ -221,6 +222,92 @@ If the job definition is not active or does not exist,
 \code{describe()} returns \code{NULL}. Otherwise, it returns
 a \code{tibble} with job definition information. Some fields
 may be nested lists.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-submit"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-submit}{}}}
+\subsection{Method \code{submit()}}{
+Submit a single AWS Batch job to the given job queue
+under the given job definition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$submit(
+  command = c("sleep", "300"),
+  name = paste0("crew-aws-batch-job-", crew::crew_random_name()),
+  memory_units = "gigabytes",
+  memory = NULL,
+  cpus = NULL,
+  gpus = NULL,
+  seconds_timeout = NULL,
+  share_identifier = NULL,
+  scheduling_priority_override = NULL,
+  tags = NULL,
+  propagate_tags = NULL,
+  parameters = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{command}}{Character vector with the command
+to submit for the job. Usually a Linux shell command
+with each term in its own character string.}
+
+\item{\code{name}}{Character of length 1 with the job name.}
+
+\item{\code{memory_units}}{Character of length 1,
+either \code{"gigabytes"} or \code{"mebibytes"} to set the units of the
+\code{memory} argument. \code{"gigabytes"} is simpler for EC2 jobs, but
+Fargate has strict requirements about specifying exact amounts of
+mebibytes (MiB). for details, read
+\url{https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html} # nolint}
+
+\item{\code{memory}}{Positive numeric of length 1, amount of memory to request
+for each job.}
+
+\item{\code{cpus}}{Positive numeric of length 1, number of virtual
+CPUs to request for each job.}
+
+\item{\code{gpus}}{Positive numeric of length 1, number of GPUs to
+request for each job.}
+
+\item{\code{seconds_timeout}}{Optional positive numeric of length 1,
+number of seconds until a job times out.}
+
+\item{\code{share_identifier}}{Character of length 1 with the share
+identifier of the job. Only applies if the job queue has a
+scheduling policy. Read the official AWS Batch documentation
+for details.}
+
+\item{\code{scheduling_priority_override}}{Optional nonnegative integer
+of length between \code{0} and \code{9999}, priority of the job.
+This value overrides the priority in the job definition.
+Jobs with higher-valued priorities are scheduled first.
+The priority applies if the job queue has a fair share policy.
+Set to \code{NULL} to omit.}
+
+\item{\code{tags}}{Optional character vector of tags.}
+
+\item{\code{propagate_tags}}{Optional logical of length 1, whether to propagate
+tags from the job or definition to the ECS task.}
+
+\item{\code{parameters}}{Optional character vector of key-value pairs
+designating parameters for job submission.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Any jobs submitted this way are different from the
+\code{crew} workers that the \code{crew} controller starts automatically
+using the AWS Batch launcher plugin.
+You may use the \code{submit()} method in the monitor for different
+purposes such as testing.
+}
+
+\subsection{Returns}{
+A one-row \code{tibble} with the name, ID, and
+Amazon resource name (ARN) of the job.
 }
 }
 }
