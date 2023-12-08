@@ -34,7 +34,13 @@
     <loc>/reference/crew_aws_batch_launch.html</loc>
   </url>
   <url>
+    <loc>/reference/crew_aws_batch_monitor.html</loc>
+  </url>
+  <url>
     <loc>/reference/crew_aws_batch_terminate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crew_class_aws_batch_monitor.html</loc>
   </url>
   <url>
     <loc>/reference/crew_class_launcher_aws_batch.html</loc>

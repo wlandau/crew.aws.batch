@@ -188,36 +188,85 @@
 <span><span class="co">#&gt;  $ VpcId              : chr "vpc-00000"</span></span></code></pre></div>
 </div>
 <div class="section level1">
-<h1 id="job-definition-management">Job definition management<a class="anchor" aria-label="anchor" href="#job-definition-management"></a>
+<h1 id="job-management">Job management<a class="anchor" aria-label="anchor" href="#job-management"></a>
 </h1>
-<p>You will most likely need to create custom job definitions for your use case. Typically this involves choosing a container image in <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html" class="external-link">AWS Elastic Container Registry (ECR)</a> and specifying the resource requirements of jobs. AWS has documentation for The <code>paws.compute</code> package makes it straightforward to manage job definitions. Please see the AWS Batch functions at <a href="https://www.paws-r-sdk.com/docs/reference_index/" class="external-link uri">https://www.paws-r-sdk.com/docs/reference_index/</a> to register, describe, and deregister job definitions. To see how ECR image URLs work, visit <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html" class="external-link uri">https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html</a>.</p>
-<p>To <a href="https://www.paws-r-sdk.com/docs/batch_register_job_definition/" class="external-link">“register” (create or overwrite) a job definition</a>, use the R code below and replace the values with the ones you want.</p>
+<p>With <code>crew.aws.batch</code>, your <code>crew</code> controller automatically submits jobs to AWS Batch. These jobs may fail or linger for any number of reasons, which could impede work and increase costs. So before you use <code><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch()</a></code>, please learn how to monitor and terminate AWS Batch jobs manually.</p>
+<p><code>crew.aws.batch</code> defines a “monitor” class to help you take control of jobs and job definitions. Create a monitor object with <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code>. You will need to supply a job definition name and a job queue name.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu">paws.compute</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">batch</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">client</span><span class="op">$</span><span class="fu">register_job_definition</span><span class="op">(</span></span>
-<span>  jobDefinitionName <span class="op">=</span> <span class="st">"JOB_DEFINITION_NAME"</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"container"</span>,</span>
-<span>  containerProperties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    image <span class="op">=</span> <span class="st">"AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG"</span>,</span>
-<span>    vcpus <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>    memory <span class="op">=</span> <span class="fl">4000</span></span>
-<span>  <span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor</a></span><span class="op">(</span></span>
+<span>  job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
+<span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>To collect information about existing job definitions, you can either ask for all job definitions,</p>
+<p>The job definition may or may not exist at this point. If it does not exist, you can register with <code>register()</code>, an oversimplified limited-scope method which creates container-based job definitions with the <code>"awslogs"</code> log driver (for CloudWatch).<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> Below, your container image can be as simple as a Docker Hub identifier (like <code>"alpine:latest:</code>) or a full URI of an ECR image.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">client</span><span class="op">$</span><span class="fu">describe_job_definitions</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>or just the a specific version of a specific job definition.</p>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">register</span><span class="op">(</span></span>
+<span>  image <span class="op">=</span> <span class="st">"AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG"</span>,</span>
+<span>  platform_capabilities <span class="op">=</span> <span class="st">"EC2"</span>,</span>
+<span>  memory_units <span class="op">=</span> <span class="st">"gigabytes"</span>,</span>
+<span>  memory <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  cpus <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>You can submit individual AWS Batch jobs to test your computing environment.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">client</span><span class="op">$</span><span class="fu">describe_job_definitions</span><span class="op">(</span><span class="st">"JOB_DEFINITION_NAME:1"</span><span class="op">)</span></span></code></pre></div>
-<p>To delete a job definition, specify the name and version of the job definition (or the full <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html" class="external-link">Amazon Resource Name</a>, or ARN).</p>
+<code class="sourceCode R"><span><span class="va">job1</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job1"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"hello\nworld"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">job2</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job2"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"job\nsubmitted"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">job2</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span><span class="co">#&gt;   name  id                                   arn                       </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt;                     </span></span>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…</span></span></code></pre></div>
+<p>Method <code>status()</code> checks the status of an individual job.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">client</span><span class="op">$</span><span class="fu">deregister_job_definitions</span><span class="op">(</span><span class="st">"JOB_DEFINITION_NAME:1"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span><span class="co">#&gt;   name  id                arn   status   reason created started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA</span></span></code></pre></div>
+<p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 8</span></span>
+<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded Essen… 1.70e12 1.70e12 1.70e12</span></span>
+<span><span class="co">#&gt; 2 job2  c38d55ad-4a86-43… arn:… runnable  NA     1.70e12      NA      NA</span></span></code></pre></div>
+<p>The <a href="https://docs.aws.amazon.com/batch/latest/userguide/job_states.html" class="external-link">job state</a> can be <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, <code>"running"</code>, <code>"succeeded"</code>, or <code>"failed"</code>. The monitor has a method for each job state to get only the jobs with that state.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12</span></span></code></pre></div>
+<p>In addition, there is an <code>active()</code> method for just states <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, and <code>"running"</code>, and there is an <code>inactive()</code> method for just the <code>"succeeded"</code> and <code>"failed"</code> states.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12</span></span></code></pre></div>
+<p>To terminate a job, use the <code>terminate()</code> method. This has the effect of both canceling and terminating the job, although you may not see the change right away if the job is currently <code>"runnable"</code>. Manually terminated jobs are listed as failed.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
+<p>To get the CloudWatch logs of a job, use the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> method. This method returns a <code>tibble</code> with the log messages and numeric timestamps.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">log</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job1</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span><span class="va">log</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span><span class="co">#&gt;   message     timestamp ingestion_time</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 hello   1702068378163  1702068378245</span></span>
+<span><span class="co">#&gt; 2 world   1702068378163  1702068378245</span></span></code></pre></div>
+<p>If the log messages are too long to conveniently view in the <code>tibble</code>, you can print them to your screen with <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> or <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">log</span><span class="op">$</span><span class="va">message</span><span class="op">)</span></span>
+<span><span class="co">#&gt; hello</span></span>
+<span><span class="co">#&gt; world</span></span></code></pre></div>
 </div>
 <div class="section level1">
-<h1 id="package-usage">Package usage<a class="anchor" aria-label="anchor" href="#package-usage"></a>
+<h1 id="using-crew-with-aws-batch-workers">Using <code>crew</code> with AWS Batch workers<a class="anchor" aria-label="anchor" href="#using-crew-with-aws-batch-workers"></a>
 </h1>
-<p>To start using <code>crew.aws.batch</code>, first create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>To start using <code>crew.aws.batch</code> in earnest, first create a controller object. Also supply the names of your job queue and job definition, as well as any optional flags and settings you may need. If you do not already have a job definition, the “monitor” object above can help you create one (see above).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wlandau.github.io/crew.aws.batch/" class="external-link">crew.aws.batch</a></span><span class="op">)</span></span>
 <span><span class="va">controller</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="st">"my_workflow"</span>, <span class="co"># for informative job names</span></span>
@@ -231,10 +280,10 @@
 <span><span class="op">)</span></span>
 <span><span class="va">controller</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>At this point, usage is exactly the same as basic <a href="https://wlandau.github.io/crew" class="external-link"><code>crew</code></a>. The <code>push()</code> method submits tasks and auto-scales <a href="https://aws.amazon.com/batch/" class="external-link">AWS Batch</a> workers to meet demand.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">controller</span><span class="op">$</span><span class="fu">push</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"do work"</span>, command <span class="op">=</span> <span class="fu">do_work</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>pop()</code> method retrieves available tasks.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">controller</span><span class="op">$</span><span class="fu">pop</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 11</span></span>
 <span><span class="co">#&gt;   name         command result seconds   seed error trace warni…¹ launc…² worker insta…³</span></span>
@@ -242,7 +291,7 @@
 <span><span class="co">#&gt; 1 do work   … do_work… &lt;int&gt;        0 1.56e8 NA    NA    NA      79e71c…      1 7686b2…</span></span>
 <span><span class="co">#&gt; # … with abbreviated variable names ¹​warnings, ²​launcher, ³​instance</span></span></code></pre></div>
 <p>Remember to terminate the controller when you are done.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">controller</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
@@ -272,30 +321,31 @@
 <div class="section level1">
 <h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h1>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"crew.aws.batch"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  Landau <span class="fu">WM</span> (<span class="dv">2023</span>). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9001</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2023</span>},</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9001</span>, </span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch},</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"crew.aws.batch"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  Landau <span class="fu">WM</span> (????). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9001</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">0.9001</span>, </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch},</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
 <li id="fn1"><p>If you already know the TCP port you will supply to <code>port</code> argument of <code><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch()</a></code>, you can restrict the port range to only use that port number.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>Please read about the <a href="https://wlandau.github.io/crew/articles/risks.html" class="external-link">risks</a> and keep TLS encryption turned on (default: <code>tls = crew_tls(mode = "automatic")</code>). Please understand and comply with all the security policies of your organization.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>The log group supplied to <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code> must be valid. The default is <code>"/aws/batch/log"</code>, which may not exist if your system administrator has a custom logging policy.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>For the <code>crew</code> controller, you will definitely want an image with R and <code>crew</code> installed. For the purposes of testing the monitor, <code>"alpine:latest"</code> will work.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
