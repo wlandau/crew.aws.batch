@@ -739,6 +739,18 @@ crew_class_aws_batch_monitor <- R6::R6Class(
           )
         }
       }
+      if (!length(out)) {
+        out[[length(out) + 1L]] <- tibble::tibble(
+          name = character(0L),
+          id = character(0L),
+          arn = character(0L),
+          status = character(0L),
+          reason = character(0L),
+          created = numeric(0L),
+          started = numeric(0L),
+          stopped = numeric(0L)
+        )
+      }
       out <- do.call(what = rbind, args = out)
       out$status <- tolower(out$status)
       out[out$status %in% status, ]
