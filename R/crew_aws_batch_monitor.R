@@ -689,12 +689,12 @@ crew_class_aws_batch_monitor <- R6::R6Class(
           )
         )
       }
-      out <- result$jobs[[1L]]
+      out <- client$describe_jobs(jobs = id)$jobs[[1L]]
       tibble::tibble(
         name = out$jobName,
         id = out$jobId,
         arn = out$jobArn,
-        status = out$status,
+        status = tolower(out$status),
         reason = if_any(
           length(out$statusReason),
           out$statusReason,
