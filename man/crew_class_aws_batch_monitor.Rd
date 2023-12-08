@@ -348,8 +348,6 @@ List all the jobs in the given job queue
 with the given job definition.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$jobs(
-  before = NULL,
-  after = NULL,
   status = c("submitted", "pending", "runnable", "starting", "running", "succeeded",
     "failed")
 )}\if{html}{\out{</div>}}
@@ -358,12 +356,6 @@ with the given job definition.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{before}}{Optional character of length 1, a time stamp.
-Results are limited to jobs created before this time.}
-
-\item{\code{after}}{Character of length 1, a time stamp.
-Results are limited to jobs created after this time.}
-
 \item{\code{status}}{Character vector of job states. Results are limited
 to these job states.}
 }
@@ -377,6 +369,7 @@ that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_m
 \subsection{Returns}{
 A \code{tibble} with one row per job and columns
 with job information.
+Results are limited to jobs created after this time.
 }
 }
 }

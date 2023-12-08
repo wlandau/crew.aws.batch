@@ -603,7 +603,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       propagate_tags = NULL,
       parameters = NULL
     ) {
-      # Covered in tests/interactive/definitions.R
+      # Covered in tests/interactive/jobs.R
       # nocov start
       args <- private$.args_submit(
         command = command,
@@ -637,7 +637,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       id,
       reason = "terminated by crew.aws.batch monitor"
     ) {
-      # Covered in tests/interactive/definitions.R
+      # Covered in tests/interactive/jobs.R
       # nocov start
       crew::crew_assert(
         id,
@@ -666,15 +666,10 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   that were supplied through [crew_aws_batch_monitor()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
-    #' @param before Optional character of length 1, a time stamp.
-    #'   Results are limited to jobs created before this time.
-    #' @param after Character of length 1, a time stamp.
     #'   Results are limited to jobs created after this time.
     #' @param status Character vector of job states. Results are limited
     #'   to these job states.
     jobs = function(
-      before = NULL,
-      after = NULL,
       status = c(
         "submitted",
         "pending",
@@ -685,22 +680,8 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         "failed"
       )
     ) {
-      crew::crew_assert(
-        before %|||% "x",
-        is.character(.),
-        !anyNA(.),
-        length(.) == 1L,
-        nzchar(.),
-        message = "'before' must be NULL or a valid character of length 1"
-      )
-      crew::crew_assert(
-        after %|||% "x",
-        is.character(.),
-        !anyNA(.),
-        length(.) == 1L,
-        nzchar(.),
-        message = "'before' must be NULL or a valid character of length 1"
-      )
+      # Covered in tests/interactive/jobs.R
+      # nocov start
       crew::crew_assert(
         status,
         is.character(.),
@@ -727,24 +708,11 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       )
       status <- unique(status)
       filters <- list(
-        definition = list(
+        list(
           name = "JOB_DEFINITION",
           values = private$.job_definition
         )
       )
-      if (!is.null(before)) {
-        filters$before <- list(
-          name = "BEFORE_CREATED_AT",
-          values = before
-        )
-      }
-      if (!is.null(after)) {
-        filters$after <- list(
-          name = "AFTER_CREATED_AT",
-          values = after
-        )
-      }
-      filters <- unname(filters)
       client <- private$.client()
       pages <- paws.common::paginate(
         Operation = client$list_jobs(
@@ -774,6 +742,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       out <- do.call(what = rbind, args = out)
       out$status <- tolower(out$status)
       out[out$status %in% status, ]
+      # nocov end
     }
   )
 )
