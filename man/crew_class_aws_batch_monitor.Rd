@@ -44,6 +44,15 @@ Other monitor:
 \item \href{#method-crew_class_aws_batch_monitor-submit}{\code{crew_class_aws_batch_monitor$submit()}}
 \item \href{#method-crew_class_aws_batch_monitor-terminate}{\code{crew_class_aws_batch_monitor$terminate()}}
 \item \href{#method-crew_class_aws_batch_monitor-jobs}{\code{crew_class_aws_batch_monitor$jobs()}}
+\item \href{#method-crew_class_aws_batch_monitor-active}{\code{crew_class_aws_batch_monitor$active()}}
+\item \href{#method-crew_class_aws_batch_monitor-inactive}{\code{crew_class_aws_batch_monitor$inactive()}}
+\item \href{#method-crew_class_aws_batch_monitor-submitted}{\code{crew_class_aws_batch_monitor$submitted()}}
+\item \href{#method-crew_class_aws_batch_monitor-pending}{\code{crew_class_aws_batch_monitor$pending()}}
+\item \href{#method-crew_class_aws_batch_monitor-runnable}{\code{crew_class_aws_batch_monitor$runnable()}}
+\item \href{#method-crew_class_aws_batch_monitor-starting}{\code{crew_class_aws_batch_monitor$starting()}}
+\item \href{#method-crew_class_aws_batch_monitor-running}{\code{crew_class_aws_batch_monitor$running()}}
+\item \href{#method-crew_class_aws_batch_monitor-succeeded}{\code{crew_class_aws_batch_monitor$succeeded()}}
+\item \href{#method-crew_class_aws_batch_monitor-failed}{\code{crew_class_aws_batch_monitor$failed()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -362,14 +371,197 @@ to these job states.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-This method uses the job queue and job definition
+The output only includes jobs under the
+job queue and job definition
 that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
 }
 
 \subsection{Returns}{
 A \code{tibble} with one row per job and columns
 with job information.
-Results are limited to jobs created after this time.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-active"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-active}{}}}
+\subsection{Method \code{active()}}{
+List active jobs: submitted, pending,
+runnable, starting, or running (not succeeded or failed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$active()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-inactive"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-inactive}{}}}
+\subsection{Method \code{inactive()}}{
+List inactive jobs: ones whose status
+is succeeded or failed (not submitted, pending,
+runnable, starting, or running).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$inactive()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-submitted"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-submitted}{}}}
+\subsection{Method \code{submitted()}}{
+List jobs whose status is \code{"submitted"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$submitted()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-pending"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-pending}{}}}
+\subsection{Method \code{pending()}}{
+List jobs whose status is \code{"pending"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$pending()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-runnable"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-runnable}{}}}
+\subsection{Method \code{runnable()}}{
+List jobs whose status is \code{"runnable"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$runnable()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-starting"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-starting}{}}}
+\subsection{Method \code{starting()}}{
+List jobs whose status is \code{"starting"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$starting()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-running"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-running}{}}}
+\subsection{Method \code{running()}}{
+List jobs whose status is \code{"running"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$running()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-succeeded"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-succeeded}{}}}
+\subsection{Method \code{succeeded()}}{
+List jobs whose status is \code{"succeeded"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$succeeded()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-crew_class_aws_batch_monitor-failed"></a>}}
+\if{latex}{\out{\hypertarget{method-crew_class_aws_batch_monitor-failed}{}}}
+\subsection{Method \code{failed()}}{
+List jobs whose status is \code{"failed"}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_aws_batch_monitor$failed()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+The output only includes jobs under the
+job queue and job definition
+that were supplied through \code{\link[=crew_aws_batch_monitor]{crew_aws_batch_monitor()}}.
+}
+
+\subsection{Returns}{
+A \code{tibble} with one row per job and columns
+with job information.
 }
 }
 }

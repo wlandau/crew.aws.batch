@@ -662,11 +662,11 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     },
     #' @description List all the jobs in the given job queue
     #'   with the given job definition.
-    #' @details This method uses the job queue and job definition
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
     #'   that were supplied through [crew_aws_batch_monitor()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
-    #'   Results are limited to jobs created after this time.
     #' @param status Character vector of job states. Results are limited
     #'   to these job states.
     jobs = function(
@@ -742,6 +742,124 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       out <- do.call(what = rbind, args = out)
       out$status <- tolower(out$status)
       out[out$status %in% status, ]
+      # nocov end
+    },
+    #' @description List active jobs: submitted, pending,
+    #'   runnable, starting, or running (not succeeded or failed).
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    active = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      status <- c(
+        "submitted",
+        "pending",
+        "runnable",
+        "starting",
+        "running"
+      )
+      self$jobs(status = status)
+      # nocov end
+    },
+    #' @description List inactive jobs: ones whose status
+    #'   is succeeded or failed (not submitted, pending,
+    #'   runnable, starting, or running).
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    inactive = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = c("succeeded", "failed"))
+      # nocov end
+    },
+    #' @description List jobs whose status is `"submitted"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    submitted = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "submitted")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"pending"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    pending = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "pending")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"runnable"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    runnable = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "runnable")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"starting"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    starting = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "starting")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"running"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    running = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "running")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"succeeded"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    succeeded = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "succeeded")
+      # nocov end
+    },
+    #' @description List jobs whose status is `"failed"`.
+    #' @details The output only includes jobs under the
+    #'   job queue and job definition
+    #'   that were supplied through [crew_aws_batch_monitor()].
+    #' @return A `tibble` with one row per job and columns
+    #'   with job information.
+    failed = function() {
+      # Covered in tests/interactive/jobs.R
+      # nocov start
+      self$jobs(status = "failed")
       # nocov end
     }
   )
