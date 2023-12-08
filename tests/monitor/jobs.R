@@ -9,7 +9,7 @@ test_that("empty job list", {
   )
   expect_equal(nrow(x$jobs()), 0L)
   expect_equal(nrow(x$status(id = "does-not-exist")), 0L)
-  expect_null(x$log(id = "does-not-exist"))
+  expect_true(tibble::is_tibble(x$log(id = "does-not-exist")))
 })
 
 test_that("job list", {
