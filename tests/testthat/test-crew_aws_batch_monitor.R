@@ -120,7 +120,7 @@ test_that("crew_aws_batch_monitor() private$.args_submit()", {
 
 test_that("crew_aws_batch_monitor() private$.client()", {
   skip_on_cran()
-  x <- crew_aws_batch_monitor(job_queue = "x")
+  x <- crew_aws_batch_monitor(job_queue = "x", region = "us-east-2")
   out <- x$.__enclos_env__$private$.client()
   expect_true(is.function(out$list_jobs))
 })

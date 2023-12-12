@@ -382,7 +382,8 @@ crew_class_aws_batch_monitor <- R6::R6Class(
       fields <- c(
         ".job_queue",
         ".job_definition",
-        ".log_group"
+        ".log_group",
+        ".region"
       )
       for (field in fields) {
         crew::crew_assert(
@@ -391,19 +392,17 @@ crew_class_aws_batch_monitor <- R6::R6Class(
           !anyNA(.),
           length(.) == 1L,
           nzchar(.),
-          message = paste("invalid", field)
+          message = paste(field, "must be a nonempty character of length 1")
         )
       }
-      for (field in c(".endpoint", ".region")) {
-        crew::crew_assert(
-          private[[field]] %|||% "x",
-          is.character(.),
-          !anyNA(.),
-          length(.) == 1L,
-          nzchar(.),
-          message = paste(field, "must be NULL or a character of length 1.")
-        )
-      }
+      crew::crew_assert(
+        private$.endpoint %|||% "x",
+        is.character(.),
+        !anyNA(.),
+        length(.) == 1L,
+        nzchar(.),
+        message = "endpoint must be NULL or a character of length 1."
+      )
       for (field in c(".config", ".credentials")) {
         crew_assert(
           private[[field]] %|||% list(),
