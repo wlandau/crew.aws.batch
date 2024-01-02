@@ -7,7 +7,7 @@
 #'   job queue.
 #' @param job_definition Character of length 1, name of the AWS Batch
 #'   job definition. The job definition might or might not exist
-#'   at the time `crew_aws_batch_monitor()` is called. Either way is fine.
+#'   at the time `crew_monitor_aws_batch()` is called. Either way is fine.
 #' @param log_group Character of length 1,
 #'   AWS Batch CloudWatch log group to get job logs.
 #'   The default log group is often "/aws/batch/job", but not always.
@@ -28,7 +28,7 @@
 #'   default to `paws.common::get_config()$region`, then to
 #'   `Sys.getenv("AWS_REGION")` if unsuccessful, then
 #'   `Sys.getenv("AWS_REGION")`, then `Sys.getenv("AWS_DEFAULT_REGION")`.
-crew_aws_batch_monitor <- function(
+crew_monitor_aws_batch <- function(
   job_queue,
   job_definition = paste0(
     "crew-aws-batch-job-definition-",
@@ -43,7 +43,7 @@ crew_aws_batch_monitor <- function(
   region <- region %|||% paws.common::get_config()$region
   region <- region %|||chr% Sys.getenv("AWS_REGION", unset = "")
   region <- region %|||chr% Sys.getenv("AWS_DEFAULT_REGION", unset = "")
-  out <- crew_class_aws_batch_monitor$new(
+  out <- crew_class_monitor_aws_batch$new(
     job_queue = job_queue,
     job_definition = job_definition,
     log_group = log_group,
@@ -60,9 +60,9 @@ crew_aws_batch_monitor <- function(
 #' @export
 #' @family monitor
 #' @description AWS Batch job definition `R6` class
-#' @details See [crew_aws_batch_monitor()].
-crew_class_aws_batch_monitor <- R6::R6Class(
-  classname = "crew_class_aws_batch_monitor",
+#' @details See [crew_monitor_aws_batch()].
+crew_class_monitor_aws_batch <- R6::R6Class(
+  classname = "crew_class_monitor_aws_batch",
   cloneable = FALSE,
   private = list(
     .job_queue = NULL,
@@ -320,31 +320,31 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field job_queue See [crew_aws_batch_monitor()].
+    #' @field job_queue See [crew_monitor_aws_batch()].
     job_queue = function() {
       .subset2(private, ".job_queue")
     },
-    #' @field job_definition See [crew_aws_batch_monitor()].
+    #' @field job_definition See [crew_monitor_aws_batch()].
     job_definition = function() {
       .subset2(private, ".job_definition")
     },
-    #' @field log_group See [crew_aws_batch_monitor()].
+    #' @field log_group See [crew_monitor_aws_batch()].
     log_group = function() {
       .subset2(private, ".log_group")
     },
-    #' @field config See [crew_aws_batch_monitor()].
+    #' @field config See [crew_monitor_aws_batch()].
     config = function() {
       .subset2(private, ".config")
     },
-    #' @field credentials See [crew_aws_batch_monitor()].
+    #' @field credentials See [crew_monitor_aws_batch()].
     credentials = function() {
       .subset2(private, ".credentials")
     },
-    #' @field endpoint See [crew_aws_batch_monitor()].
+    #' @field endpoint See [crew_monitor_aws_batch()].
     endpoint = function() {
       .subset2(private, ".endpoint")
     },
-    #' @field region See [crew_aws_batch_monitor()].
+    #' @field region See [crew_monitor_aws_batch()].
     region = function() {
       .subset2(private, ".region")
     }
@@ -352,13 +352,13 @@ crew_class_aws_batch_monitor <- R6::R6Class(
   public = list(
     #' @description AWS Batch job definition constructor.
     #' @return AWS Batch job definition object.
-    #' @param job_queue See [crew_aws_batch_monitor()].
-    #' @param job_definition See [crew_aws_batch_monitor()].
-    #' @param log_group See [crew_aws_batch_monitor()].
-    #' @param config See [crew_aws_batch_monitor()].
-    #' @param credentials See [crew_aws_batch_monitor()].
-    #' @param endpoint See [crew_aws_batch_monitor()].
-    #' @param region See [crew_aws_batch_monitor()].
+    #' @param job_queue See [crew_monitor_aws_batch()].
+    #' @param job_definition See [crew_monitor_aws_batch()].
+    #' @param log_group See [crew_monitor_aws_batch()].
+    #' @param config See [crew_monitor_aws_batch()].
+    #' @param credentials See [crew_monitor_aws_batch()].
+    #' @param endpoint See [crew_monitor_aws_batch()].
+    #' @param region See [crew_monitor_aws_batch()].
     initialize = function(
       job_queue = NULL,
       job_definition = NULL,
@@ -415,14 +415,14 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description Register a job definition.
     #' @details The `register()` method registers a simple
     #'   job definition using the job definition name and log group originally
-    #'   supplied to [crew_aws_batch_monitor()].
+    #'   supplied to [crew_monitor_aws_batch()].
     #'   Job definitions created with `$register()` are container-based
     #'   and use the AWS log driver.
     #'   For more complicated
     #'   kinds of jobs, we recommend skipping `register()`: first call
     #'   <https://www.paws-r-sdk.com/docs/batch_register_job_definition/>
     #'   to register the job definition, then supply the job definition
-    #'   name to the `job_definition` argument of [crew_aws_batch_monitor()].
+    #'   name to the `job_definition` argument of [crew_monitor_aws_batch()].
     #' @return A one-row `tibble` with the job definition name, ARN, and
     #'  revision number of the registered job definition.
     #' @param image Character of length 1, Docker image used for each job.
@@ -502,7 +502,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description Attempt to deregister the job definition.
     #' @details Attempt to deregister the job definition whose name was
     #'   originally supplied to the `job_definition` argument of
-    #'   [crew_aws_batch_monitor()].
+    #'   [crew_monitor_aws_batch()].
     #' @return `NULL` (invisibly).
     deregister = function() {
       # Covered in tests/interactive/definitions.R
@@ -549,7 +549,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description Submit a single AWS Batch job to the given job queue
     #'   under the given job definition.
     #' @details This method uses the job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #'   Any jobs submitted this way are different from the
     #'   `crew` workers that the `crew` controller starts automatically
     #'   using the AWS Batch launcher plugin.
@@ -713,7 +713,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @details This method assumes the job has log driver `"awslogs"`
     #'   (specifying AWS CloudWatch) and that the log group is the one
     #'   prespecified in the `log_group` argument of
-    #'   [crew_aws_batch_monitor()]. This method cannot use
+    #'   [crew_monitor_aws_batch()]. This method cannot use
     #'   other log drivers such as Splunk, and it will fail if the log
     #'   group is wrong or missing.
     #' @return A `tibble` with log information.
@@ -777,7 +777,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   with the given job definition.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     #' @param status Character vector of job states. Results are limited
@@ -873,7 +873,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   runnable, starting, or running (not succeeded or failed).
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     active = function() {
@@ -894,7 +894,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #'   runnable, starting, or running).
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     inactive = function() {
@@ -906,7 +906,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"submitted"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     submitted = function() {
@@ -918,7 +918,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"pending"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     pending = function() {
@@ -930,7 +930,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"runnable"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     runnable = function() {
@@ -942,7 +942,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"starting"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     starting = function() {
@@ -954,7 +954,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"running"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     running = function() {
@@ -966,7 +966,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"succeeded"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     succeeded = function() {
@@ -978,7 +978,7 @@ crew_class_aws_batch_monitor <- R6::R6Class(
     #' @description List jobs whose status is `"failed"`.
     #' @details The output only includes jobs under the
     #'   job queue and job definition
-    #'   that were supplied through [crew_aws_batch_monitor()].
+    #'   that were supplied through [crew_monitor_aws_batch()].
     #' @return A `tibble` with one row per job and columns
     #'   with job information.
     failed = function() {

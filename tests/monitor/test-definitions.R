@@ -2,7 +2,7 @@ library(crew.aws.batch)
 library(testthat)
 
 test_that("job definition management", {
-  x <- crew_aws_batch_monitor(
+  x <- crew_monitor_aws_batch(
     job_definition = "crew-aws-batch-test",
     job_queue = "crew-aws-batch-job-queue",
     region = "us-east-2"

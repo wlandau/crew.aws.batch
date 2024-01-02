@@ -119,11 +119,11 @@ AWS Batch jobs manually.
 
 `crew.aws.batch` defines a “monitor” class to help you take control of
 jobs and job definitions. Create a monitor object with
-`crew_aws_batch_monitor()`. You will need to supply a job definition
+`crew_monitor_aws_batch()`. You will need to supply a job definition
 name and a job queue name.
 
 ``` r
-monitor <- crew_aws_batch_monitor(
+monitor <- crew_monitor_aws_batch(
   job_definition = "YOUR_JOB_DEFINITION_NAME",
   job_queue = "YOUR_JOB_QUEUE_NAME"
 )
@@ -171,7 +171,7 @@ monitor$status(id = job2$id)
 
 The `jobs()` method gets the status of all the jobs within the job queue
 and job definition you originally supplied to
-`crew_aws_batch_monitor()`. This may include many more jobs than the
+`crew_monitor_aws_batch()`. This may include many more jobs than the
 ones you submitted during the life cycle of the current `monitor`
 object.
 
@@ -362,7 +362,7 @@ https://github.com/wlandau/crew.aws.batch},
     `tls = crew_tls(mode = "automatic")`). Please understand and comply
     with all the security policies of your organization.
 
-[^3]: The log group supplied to `crew_aws_batch_monitor()` must be
+[^3]: The log group supplied to `crew_monitor_aws_batch()` must be
     valid. The default is `"/aws/batch/log"`, which may not exist if
     your system administrator has a custom logging policy.
 

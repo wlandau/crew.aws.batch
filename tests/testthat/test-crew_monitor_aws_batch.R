@@ -1,5 +1,5 @@
-test_that("crew_aws_batch_monitor()", {
-  out <- crew_aws_batch_monitor(
+test_that("crew_monitor_aws_batch()", {
+  out <- crew_monitor_aws_batch(
     job_queue = "job_queue_name",
     job_definition = "job_definition_name",
     log_group = "/aws/batch/job",
@@ -18,9 +18,9 @@ test_that("crew_aws_batch_monitor()", {
   expect_equal(out$region, "us-east-2")
 })
 
-test_that("crew_aws_batch_monitor() private$.args_register()", {
+test_that("crew_monitor_aws_batch() private$.args_register()", {
   skip_on_cran()
-  x <- crew_aws_batch_monitor(
+  x <- crew_monitor_aws_batch(
     job_definition = "job-definition-name",
     job_queue = "crew-aws-batch-job-queue",
     region = "us-east-2"
@@ -75,9 +75,9 @@ test_that("crew_aws_batch_monitor() private$.args_register()", {
   expect_equal(out, exp)
 })
 
-test_that("crew_aws_batch_monitor() private$.args_submit()", {
+test_that("crew_monitor_aws_batch() private$.args_submit()", {
   skip_on_cran()
-  x <- crew_aws_batch_monitor(
+  x <- crew_monitor_aws_batch(
     job_definition = "job-definition-name",
     job_queue = "crew-aws-batch-job-queue",
     region = "us-east-2"
@@ -118,9 +118,9 @@ test_that("crew_aws_batch_monitor() private$.args_submit()", {
   expect_equal(out, exp)
 })
 
-test_that("crew_aws_batch_monitor() private$.client()", {
+test_that("crew_monitor_aws_batch() private$.client()", {
   skip_on_cran()
-  x <- crew_aws_batch_monitor(job_queue = "x", region = "us-east-2")
+  x <- crew_monitor_aws_batch(job_queue = "x", region = "us-east-2")
   out <- x$.__enclos_env__$private$.client()
   expect_true(is.function(out$list_jobs))
 })

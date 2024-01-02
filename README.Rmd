@@ -97,16 +97,16 @@ str(groups$SecurityGroups[[1L]])
 
 With `crew.aws.batch`, your `crew` controller automatically submits jobs to AWS Batch. These jobs may fail or linger for any number of reasons, which could impede work and increase costs. So before you use `crew_controller_aws_batch()`, please learn how to monitor and terminate AWS Batch jobs manually.
 
-`crew.aws.batch` defines a "monitor" class to help you take control of jobs and job definitions. Create a monitor object with `crew_aws_batch_monitor()`. You will need to supply a job definition name and a job queue name.
+`crew.aws.batch` defines a "monitor" class to help you take control of jobs and job definitions. Create a monitor object with `crew_monitor_aws_batch()`. You will need to supply a job definition name and a job queue name.
 
 ```{r}
-monitor <- crew_aws_batch_monitor(
+monitor <- crew_monitor_aws_batch(
   job_definition = "YOUR_JOB_DEFINITION_NAME",
   job_queue = "YOUR_JOB_QUEUE_NAME"
 )
 ```
 
-The job definition may or may not exist at this point. If it does not exist, you can register with `register()`, an oversimplified limited-scope method which creates container-based job definitions with the `"awslogs"` log driver (for CloudWatch).^[The log group supplied to `crew_aws_batch_monitor()` must be valid. The default is `"/aws/batch/log"`, which may not exist if your system administrator has a custom logging policy.] Below, your container image can be as simple as a Docker Hub identifier (like `"alpine:latest:`) or a full URI of an ECR image.^[For the `crew` controller, you will definitely want an image with R and `crew` installed. For the purposes of testing the monitor, `"alpine:latest"` will work.]
+The job definition may or may not exist at this point. If it does not exist, you can register with `register()`, an oversimplified limited-scope method which creates container-based job definitions with the `"awslogs"` log driver (for CloudWatch).^[The log group supplied to `crew_monitor_aws_batch()` must be valid. The default is `"/aws/batch/log"`, which may not exist if your system administrator has a custom logging policy.] Below, your container image can be as simple as a Docker Hub identifier (like `"alpine:latest:`) or a full URI of an ECR image.^[For the `crew` controller, you will definitely want an image with R and `crew` installed. For the purposes of testing the monitor, `"alpine:latest"` will work.]
 
 ```{r}
 monitor$register(
@@ -140,7 +140,7 @@ monitor$status(id = job2$id)
 #> 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA
 ```
 
-The `jobs()` method gets the status of all the jobs within the job queue and job definition you originally supplied to `crew_aws_batch_monitor()`. This may include many more jobs than the ones you submitted during the life cycle of the current `monitor` object.
+The `jobs()` method gets the status of all the jobs within the job queue and job definition you originally supplied to `crew_monitor_aws_batch()`. This may include many more jobs than the ones you submitted during the life cycle of the current `monitor` object.
 
 ```{r}
 monitor$jobs()
