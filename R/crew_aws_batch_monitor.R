@@ -749,12 +749,13 @@ crew_class_aws_batch_monitor <- R6::R6Class(
         endpoint = private$.endpoint,
         region = private$.region
       )
-      pages <- list( # TODO: paws.common::paginate() # nolint
+      pages <- paws.common::paginate(
         client$get_log_events(
           logGroupName = private$.log_group,
           logStreamName = log_stream_name,
           startFromHead = start_from_head
-        )
+        ),
+        StopOnSameToken = TRUE
       )
       out <- list()
       for (page in pages) {
