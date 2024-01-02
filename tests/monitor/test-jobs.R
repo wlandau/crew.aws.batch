@@ -9,7 +9,7 @@ test_that("empty job list", {
   )
   expect_equal(nrow(x$jobs()), 0L)
   expect_equal(nrow(x$status(id = "does-not-exist")), 0L)
-  expect_null(x$log(id = "does-not-exist"))
+  expect_true(tibble::is_tibble(x$log(id = "does-not-exist")))
 })
 
 test_that("job list", {
@@ -21,8 +21,8 @@ test_that("job list", {
   x$register(
     image = "alpine:latest",
     platform_capabilities = "EC2",
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
@@ -31,8 +31,8 @@ test_that("job list", {
   on.exit(x$deregister())
   x$submit(
     command = c("sleep", "300"),
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
@@ -69,7 +69,8 @@ test_that("job list", {
   while (!info$status %in% c("succeeded", "failed")) {
     message(
       paste(
-        "checking terminated job",
+        "checking terminated job with status:",
+        info$status,
         sample(c("-", "\\", "|", "/"), size = 1L)
       )
     )
@@ -93,8 +94,8 @@ test_that("job logs", {
   x$register(
     image = "alpine:latest",
     platform_capabilities = "EC2",
-    memory_units = "gigabytes",
-    memory = 1,
+    memory_units = "mebibytes",
+    memory = 128,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
