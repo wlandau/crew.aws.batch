@@ -52,7 +52,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">crew.aws.batch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.1.9001</span>
       </span>
     </div>
 
@@ -190,9 +190,9 @@
 <h1 id="job-management">Job management<a class="anchor" aria-label="anchor" href="#job-management"></a>
 </h1>
 <p>With <code>crew.aws.batch</code>, your <code>crew</code> controller automatically submits jobs to AWS Batch. These jobs may fail or linger for any number of reasons, which could impede work and increase costs. So before you use <code><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch()</a></code>, please learn how to monitor and terminate AWS Batch jobs manually.</p>
-<p><code>crew.aws.batch</code> defines a “monitor” class to help you take control of jobs and job definitions. Create a monitor object with <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code>. You will need to supply a job definition name and a job queue name.</p>
+<p><code>crew.aws.batch</code> defines a “monitor” class to help you take control of jobs and job definitions. Create a monitor object with <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>. You will need to supply a job definition name and a job queue name.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch</a></span><span class="op">(</span></span>
 <span>  job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
 <span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -221,7 +221,7 @@
 <span><span class="co">#&gt;   name  id                arn   status   reason created started stopped</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA</span></span></code></pre></div>
-<p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
+<p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 8</span></span>
@@ -343,7 +343,7 @@
 <ol>
 <li id="fn1"><p>If you already know the TCP port you will supply to <code>port</code> argument of <code><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch()</a></code>, you can restrict the port range to only use that port number.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>Please read about the <a href="https://wlandau.github.io/crew/articles/risks.html" class="external-link">risks</a> and keep TLS encryption turned on (default: <code>tls = crew_tls(mode = "automatic")</code>). Please understand and comply with all the security policies of your organization.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>The log group supplied to <code><a href="reference/crew_aws_batch_monitor.html">crew_aws_batch_monitor()</a></code> must be valid. The default is <code>"/aws/batch/log"</code>, which may not exist if your system administrator has a custom logging policy.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>The log group supplied to <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code> must be valid. The default is <code>"/aws/batch/log"</code>, which may not exist if your system administrator has a custom logging policy.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p>For the <code>crew</code> controller, you will definitely want an image with R and <code>crew</code> installed. For the purposes of testing the monitor, <code>"alpine:latest"</code> will work.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
