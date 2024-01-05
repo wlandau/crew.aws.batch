@@ -4,7 +4,7 @@
 \alias{crew_class_monitor_aws_batch}
 \title{AWS Batch monitor class}
 \description{
-AWS Batch job definition \code{R6} class
+AWS Batch monitor \code{R6} class
 }
 \details{
 See \code{\link[=crew_monitor_aws_batch]{crew_monitor_aws_batch()}}.

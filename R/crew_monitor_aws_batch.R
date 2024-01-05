@@ -59,7 +59,7 @@ crew_monitor_aws_batch <- function(
 #' @title AWS Batch monitor class
 #' @export
 #' @family monitor
-#' @description AWS Batch job definition `R6` class
+#' @description AWS Batch monitor `R6` class
 #' @details See [crew_monitor_aws_batch()].
 crew_class_monitor_aws_batch <- R6::R6Class(
   classname = "crew_class_monitor_aws_batch",
