@@ -153,12 +153,12 @@ test_that("job terminate", {
   }
   while (nrow(x$active()) < n) {
     message(nrow(x$active()))
-    Sys.sleep(0.5)
+    Sys.sleep(1)
   }
   x$terminate(ids = x$active()$id, verbose = TRUE)
   while (nrow(x$active()) > 0L) {
     message(paste(x$active()$status, collapse = " "))
-    Sys.sleep(0.5)
+    Sys.sleep(5)
   }
   expect_equal(nrow(x$active()), 0L)
 })
