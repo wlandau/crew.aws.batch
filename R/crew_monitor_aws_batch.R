@@ -629,24 +629,28 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       )
       # nocov end
     },
-    #' @description Terminate an AWS Batch job.
+    #' @description Terminate one or more AWS Batch jobs.
     #' @return `NULL` (invisibly).
-    #' @param id Character of length 1, ID of the AWS Batch job to terminate.
+    #' @param ids Character vector with the IDs of the AWS Batch jobs
+    #'   to terminate.
     #' @param reason Character of length 1, natural language explaining
     #'   the reason the job was terminated.
+    #' @param verbose Logical of length 1, whether to show a progress bar
+    #'   if the R process is interactive and `length(ids)` is greater than 1.
     terminate = function(
-      id,
-      reason = "terminated by crew.aws.batch monitor"
+      ids,
+      reason = "terminated by crew.aws.batch monitor",
+      verbose = TRUE
     ) {
       # Covered in tests/interactive/jobs.R
       # nocov start
       crew::crew_assert(
-        id,
+        ids,
         is.character(.),
+        length(.) > 0L,
         !anyNA(.),
-        length(.) == 1L,
         nzchar(.),
-        message = "job ID must be a valid character of length 1"
+        message = "'ids' must be a valid nonempty character"
       )
       crew::crew_assert(
         reason,
@@ -656,8 +660,14 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         nzchar(.),
         message = "'reason' must be a valid character of length 1"
       )
+      crew::crew_assert(verbose, isTRUE(.) || isFALSE(.))
       client <- private$.client()
-      client$terminate_job(jobId = id, reason = reason)
+      progress <- progress_init(verbose = verbose, total = length(ids))
+      for (id in ids) {
+        client$terminate_job(jobId = id, reason = reason)
+        progress_update(progress)
+      }
+      progress_terminate(progress)
       invisible()
       # nocov end
     },

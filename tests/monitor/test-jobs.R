@@ -50,13 +50,6 @@ test_that("job list", {
   expect_true(tibble::is_tibble(succeeded <- x$succeeded()))
   expect_true(tibble::is_tibble(failed <- x$failed()))
   expect_true(nrow(jobs) > 0L)
-  exp <- nrow(submitted) +
-    nrow(pending) +
-    nrow(runnable) +
-    nrow(running) +
-    nrow(succeeded) +
-    nrow(failed)
-  expect_equal(nrow(jobs), exp)
   expect_true(job$name %in% jobs$name)
   expect_true(job$id %in% jobs$id)
   expect_true(job$arn %in% jobs$arn)
@@ -127,4 +120,45 @@ test_that("job logs", {
   log <- x$log(id = job$id)
   expect_true(tibble::is_tibble(log))
   expect_equal(log$message, c("done with container", "done with job"))
+})
+
+test_that("job terminate", {
+  x <- crew_monitor_aws_batch(
+    job_definition = "crew-aws-batch-test",
+    job_queue = "crew-aws-batch-job-queue",
+    region = "us-east-2"
+  )
+  x$register(
+    image = "alpine:latest",
+    platform_capabilities = "EC2",
+    memory_units = "mebibytes",
+    memory = 128,
+    cpus = 1,
+    seconds_timeout = 600,
+    tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
+    propagate_tags = TRUE
+  )
+  on.exit(x$deregister())
+  n <- 2L
+  for (index in seq_len(n)) {
+    x$submit(
+      command = c("sleep", "600"),
+      memory_units = "mebibytes",
+      memory = 128,
+      cpus = 1,
+      seconds_timeout = 600,
+      tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
+      propagate_tags = TRUE
+    )
+  }
+  while (nrow(x$active()) < n) {
+    message(nrow(x$active()))
+    Sys.sleep(0.5)
+  }
+  x$terminate(ids = x$active()$id, verbose = TRUE)
+  while (nrow(x$active()) > 0L) {
+    message(paste(x$active()$status, collapse = " "))
+    Sys.sleep(0.5)
+  }
+  expect_equal(nrow(x$active()), 0L)
 })

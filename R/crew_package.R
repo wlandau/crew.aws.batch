@@ -16,6 +16,7 @@
 #'   [`rrq`](https://mrc-ide.github.io/rrq/),
 #'   [`clustermq`](https://mschubert.github.io/clustermq/),
 #'   and [`batchtools`](https://mllg.github.io/batchtools/).
+#' @importFrom cli cli_progress_bar cli_progress_done cli_progress_update
 #' @importFrom crew crew_assert crew_class_launcher crew_deprecate
 #'   crew_launcher crew_random_name crew_tls
 #' @importFrom paws.common get_config paginate

@@ -329,21 +329,26 @@ Amazon resource name (ARN) of the job.
 \if{html}{\out{<a id="method-crew_class_monitor_aws_batch-terminate"></a>}}
 \if{latex}{\out{\hypertarget{method-crew_class_monitor_aws_batch-terminate}{}}}
 \subsection{Method \code{terminate()}}{
-Terminate an AWS Batch job.
+Terminate one or more AWS Batch jobs.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_monitor_aws_batch$terminate(
-  id,
-  reason = "terminated by crew.aws.batch monitor"
+  ids,
+  reason = "terminated by crew.aws.batch monitor",
+  verbose = TRUE
 )}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{Character of length 1, ID of the AWS Batch job to terminate.}
+\item{\code{ids}}{Character vector with the IDs of the AWS Batch jobs
+to terminate.}
 
 \item{\code{reason}}{Character of length 1, natural language explaining
 the reason the job was terminated.}
+
+\item{\code{verbose}}{Logical of length 1, whether to show a progress bar
+if the R process is interactive and \code{length(ids)} is greater than 1.}
 }
 \if{html}{\out{</div>}}
 }

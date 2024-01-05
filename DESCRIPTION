@@ -13,7 +13,7 @@ Description: In computationally demanding analysis projects,
   'clustermq' by Schubert (2019) <doi:10.1093/bioinformatics/btz284>),
   and 'batchtools' by Lang, Bischl, and Surmann (2017).
   <doi:10.21105/joss.00135>.
-Version: 0.0.1.9001
+Version: 0.0.1.9002
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/crew.aws.batch/,
   https://github.com/wlandau/crew.aws.batch
@@ -33,6 +33,7 @@ Authors@R: c(
 Depends:
   R (>= 4.0.0)
 Imports:
+  cli (>= 3.1.0),
   crew (>= 0.7.0),
   paws.common (>= 0.7.0),
   paws.compute,
