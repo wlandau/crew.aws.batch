@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.2.9000 (development)
+# crew.aws.batch 0.0.3
 
-
+* Move all job definition management methods to their own class. (See `crew_definition_aws_batch()`.)
 
 # crew.aws.batch 0.0.2
 

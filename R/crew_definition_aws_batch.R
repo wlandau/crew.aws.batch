@@ -3,25 +3,10 @@
 #' @family definition
 #' @description Create an `R6` object to manage a job definition for AWS
 #'   Batch jobs.
-#' @param job_queue Character of length 1, name of the AWS Batch
-#'   job queue.
+#' @inheritParams crew_monitor_aws_batch
 #' @param job_definition Character of length 1, name of the AWS Batch
 #'   job definition. The job definition might or might not exist
 #'   at the time `crew_definition_aws_batch()` is called. Either way is fine.
-#' @param config Optional named list, `config` argument of
-#'   `paws.compute::batch()` with optional configuration details.
-#' @param credentials Optional named list. `credentials` argument of
-#'   `paws.compute::batch()` with optional credentials (if not already
-#'   provided through environment variables such as `AWS_ACCESS_KEY_ID`).
-#' @param endpoint Optional character of length 1. `endpoint`
-#'   argument of `paws.compute::batch()` with the endpoint to send HTTP
-#'   requests.
-#' @param region Character of length 1. `region` argument of
-#'   `paws.compute::batch()` with an AWS region string such as `"us-east-2"`.
-#'   Serves as the region for both AWS Batch and CloudWatch. Tries to
-#'   default to `paws.common::get_config()$region`, then to
-#'   `Sys.getenv("AWS_REGION")` if unsuccessful, then
-#'   `Sys.getenv("AWS_REGION")`, then `Sys.getenv("AWS_DEFAULT_REGION")`.
 crew_definition_aws_batch <- function(
   job_queue,
   job_definition = paste0(
@@ -596,7 +581,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
           arn = character(0L),
           revision = integer(0L),
           status = character(0L),
-          type =character(0L),
+          type = character(0L),
           scheduling_priority = character(0L),
           parameters = list(),
           retry_strategy = list(),

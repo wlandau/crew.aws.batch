@@ -109,21 +109,17 @@ str(groups$SecurityGroups[[1L]])
 #>  $ VpcId              : chr "vpc-00000"
 ```
 
-# Job management
+# Managing job definitions
 
-With `crew.aws.batch`, your `crew` controller automatically submits jobs
-to AWS Batch. These jobs may fail or linger for any number of reasons,
-which could impede work and increase costs. So before you use
-`crew_controller_aws_batch()`, please learn how to monitor and terminate
-AWS Batch jobs manually.
-
-`crew.aws.batch` defines a “monitor” class to help you take control of
-jobs and job definitions. Create a monitor object with
-`crew_monitor_aws_batch()`. You will need to supply a job definition
-name and a job queue name.
+Before submitting jobs, AWS Batch requires a job definition to describe
+the container image and resource requirements. You can do this through
+the AWS web console, the AWS command line interface (CLI), a software
+development kit (SDK) like the `paws` R package, or the job definition
+class in `crew.aws.batch`. For `crew.aws.batch`, first create a job
+definition object.
 
 ``` r
-monitor <- crew_monitor_aws_batch(
+definition <- crew_definition_aws_batch(
   job_definition = "YOUR_JOB_DEFINITION_NAME",
   job_queue = "YOUR_JOB_QUEUE_NAME"
 )
@@ -137,12 +133,68 @@ image can be as simple as a Docker Hub identifier (like
 `"alpine:latest:`) or a full URI of an ECR image.[^4]
 
 ``` r
-monitor$register(
+definition$register(
   image = "AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/ECR_REPOSITORY_NAME:IMAGE_TAG",
   platform_capabilities = "EC2",
   memory_units = "gigabytes",
   memory = 8,
   cpus = 2
+)
+#> # A tibble: 1 × 3
+#>   name                     revision arn                                     
+#>   <chr>                       <int> <chr>                                   
+#> 1 YOUR_JOB_DEFINITION_NAME       81 arn:aws:batch:us-east-1:CENSORED:jo…
+```
+
+The `describe()` method shows information about current and past
+revisions of the job definition. Set `active` to `TRUE` to see just the
+active revisions.
+
+``` r
+definition$describe(active = TRUE)
+#> # A tibble: 2 × 16
+#>   name            arn   revision status type  scheduling_priority parameters
+#>   <chr>           <chr>    <int> <chr>  <chr>               <dbl> <list>    
+#> 1 YOUR_JOB_DEFIN… arn:…       82 active cont…                   3 <list [0]>
+#> 2 YOUR_JOB_DEFIN… arn:…       81 active cont…                   3 <list [0]>
+#> # ℹ 9 more variables: retry_strategy <list>, container_properties <list>,
+#> #   timeout <list>, node_properties <list>, tags <list>,
+#> #   propagate_tags <lgl>, platform_capabilities <chr>,
+#> #   eks_properties <list>, container_orchestration_type <chr>
+```
+
+Use `deregister()` to deregister a revision of a job definition. If a
+revision number is not supplied, then it defaults to the greatest active
+revision number.
+
+``` r
+definition$deregister()
+#> # A tibble: 1 × 16
+#>   name            arn   revision status type  scheduling_priority parameters
+#>   <chr>           <chr>    <int> <chr>  <chr>               <dbl> <list>    
+#> 1 YOUR_JOB_DEFIN… arn:…       81 active cont…                   3 <list [0]>
+#> # ℹ 9 more variables: retry_strategy <list>, container_properties <list>,
+#> #   timeout <list>, node_properties <list>, tags <list>,
+#> #   propagate_tags <lgl>, platform_capabilities <chr>,
+#> #   eks_properties <list>, container_orchestration_type <chr>
+```
+
+# Monitoring and terminating jobs
+
+With `crew.aws.batch`, your `crew` controller automatically submits jobs
+to AWS Batch. These jobs may fail or linger for any number of reasons,
+which could impede work and increase costs. So before you use
+`crew_controller_aws_batch()`, please learn how to monitor and terminate
+AWS Batch jobs manually.
+
+`crew_monitor_aws_batch()` defines a “monitor” to help you manually
+list, inspect, and terminate jobs. You will need to supply a job
+definition name and a job queue name.
+
+``` r
+monitor <- crew_monitor_aws_batch(
+  job_definition = "YOUR_JOB_DEFINITION_NAME",
+  job_queue = "YOUR_JOB_QUEUE_NAME"
 )
 ```
 
@@ -337,7 +389,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.1,
+  Batch_. R package version 0.0.2.9000,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -346,7 +398,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.1, 
+    note = {R package version 0.0.2.9000, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }

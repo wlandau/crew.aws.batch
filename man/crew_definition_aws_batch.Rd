@@ -22,6 +22,13 @@ job queue.}
 job definition. The job definition might or might not exist
 at the time \code{crew_definition_aws_batch()} is called. Either way is fine.}
 
+\item{log_group}{Character of length 1,
+AWS Batch CloudWatch log group to get job logs.
+The default log group is often \code{"/aws/batch/job"}, but not always.
+It is not easy to get the log group of an active job or job
+definition, so if you have a non-default log group and you do not
+know its name, please consult your system administrator.}
+
 \item{config}{Optional named list, \code{config} argument of
 \code{paws.compute::batch()} with optional configuration details.}
 
