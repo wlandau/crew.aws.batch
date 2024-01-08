@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">crew.aws.batch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
       </span>
     </div>
 
@@ -102,10 +102,6 @@
 
 <ul><li><p><a href="#method-crew_class_monitor_aws_batch-new"><code>crew_class_monitor_aws_batch$new()</code></a></p></li>
 <li><p><a href="#method-crew_class_monitor_aws_batch-validate"><code>crew_class_monitor_aws_batch$validate()</code></a></p></li>
-<li><p><a href="#method-crew_class_monitor_aws_batch-register"><code>crew_class_monitor_aws_batch$register()</code></a></p></li>
-<li><p><a href="#method-crew_class_monitor_aws_batch-deregister"><code>crew_class_monitor_aws_batch$deregister()</code></a></p></li>
-<li><p><a href="#method-crew_class_monitor_aws_batch-describe"><code>crew_class_monitor_aws_batch$describe()</code></a></p></li>
-<li><p><a href="#method-crew_class_monitor_aws_batch-submit"><code>crew_class_monitor_aws_batch$submit()</code></a></p></li>
 <li><p><a href="#method-crew_class_monitor_aws_batch-terminate"><code>crew_class_monitor_aws_batch$terminate()</code></a></p></li>
 <li><p><a href="#method-crew_class_monitor_aws_batch-status"><code>crew_class_monitor_aws_batch$status()</code></a></p></li>
 <li><p><a href="#method-crew_class_monitor_aws_batch-log"><code>crew_class_monitor_aws_batch$log()</code></a></p></li>
@@ -183,272 +179,10 @@
 <p><code>NULL</code> (invisibly). Throws an error if a field is invalid.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-register"></a><div class="section">
-<h3 id="method-register-">Method <code>register()</code><a class="anchor" aria-label="anchor" href="#method-register-"></a></h3>
-<p>Register a job definition.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">register</span><span class="op">(</span></span>
-<span>  <span class="va">image</span>,</span>
-<span>  platform_capabilities <span class="op">=</span> <span class="st">"EC2"</span>,</span>
-<span>  memory_units <span class="op">=</span> <span class="st">"gigabytes"</span>,</span>
-<span>  memory <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  cpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  gpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seconds_timeout <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  scheduling_priority <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  propagate_tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  job_role_arn <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  execution_role_arn <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>image</code></dt>
-<dd><p>Character of length 1, Docker image used for each job.
-You can supply a path to an image in Docker Hub or the full URI
-of an image in an Amazon ECR repository.</p></dd>
-
-
-<dt><code>platform_capabilities</code></dt>
-<dd><p>Optional character of length 1, either
-<code>"EC2"</code> to run on EC2 or <code>"FARGATE"</code> to run on Fargate.</p></dd>
-
-
-<dt><code>memory_units</code></dt>
-<dd><p>Character of length 1,
-either <code>"gigabytes"</code> or <code>"mebibytes"</code> to set the units of the
-<code>memory</code> argument. <code>"gigabytes"</code> is simpler for EC2 jobs, but
-Fargate has strict requirements about specifying exact amounts of
-mebibytes (MiB). for details, read
-<a href="https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html" class="external-link">https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html</a> # nolint</p></dd>
-
-
-<dt><code>memory</code></dt>
-<dd><p>Positive numeric of length 1, amount of memory to request
-for each job.</p></dd>
-
-
-<dt><code>cpus</code></dt>
-<dd><p>Positive numeric of length 1, number of virtual
-CPUs to request for each job.</p></dd>
-
-
-<dt><code>gpus</code></dt>
-<dd><p>Positive numeric of length 1, number of GPUs to
-request for each job.</p></dd>
-
-
-<dt><code>seconds_timeout</code></dt>
-<dd><p>Optional positive numeric of length 1,
-number of seconds until a job times out.</p></dd>
-
-
-<dt><code>scheduling_priority</code></dt>
-<dd><p>Optional nonnegative integer of length 1
-between <code>0</code> and <code>9999</code>, priority of jobs. Jobs with higher-valued
-priorities are scheduled first.
-The priority only applies if the job queue has a fair share
-policy. Set to <code>NULL</code> to omit.</p></dd>
-
-
-<dt><code>tags</code></dt>
-<dd><p>Optional character vector of tags.</p></dd>
-
-
-<dt><code>propagate_tags</code></dt>
-<dd><p>Optional logical of length 1, whether to propagate
-tags from the job or definition to the ECS task.</p></dd>
-
-
-<dt><code>parameters</code></dt>
-<dd><p>Optional character vector of key-value pairs
-designating parameters for job submission.</p></dd>
-
-
-<dt><code>job_role_arn</code></dt>
-<dd><p>Character of length 1,
-Amazon resource name (ARN) of the job role.</p></dd>
-
-
-<dt><code>execution_role_arn</code></dt>
-<dd><p>Character of length 1,
-Amazon resource name (ARN) of the execution role.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-<div class="section">
-<h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
-<p>The <code>register()</code> method registers a simple
-job definition using the job definition name and log group originally
-supplied to <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.
-Job definitions created with <code>$register()</code> are container-based
-and use the AWS log driver.
-For more complicated
-kinds of jobs, we recommend skipping <code>register()</code>: first call
-<a href="https://www.paws-r-sdk.com/docs/batch_register_job_definition/" class="external-link">https://www.paws-r-sdk.com/docs/batch_register_job_definition/</a>
-to register the job definition, then supply the job definition
-name to the <code>job_definition</code> argument of <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p>A one-row <code>tibble</code> with the job definition name, ARN, and
-revision number of the registered job definition.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-deregister"></a><div class="section">
-<h3 id="method-deregister-">Method <code>deregister()</code><a class="anchor" aria-label="anchor" href="#method-deregister-"></a></h3>
-<p>Attempt to deregister the job definition.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">deregister</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
-<p>Attempt to deregister the job definition whose name was
-originally supplied to the <code>job_definition</code> argument of
-<code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
-<p><code>NULL</code> (invisibly).</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-describe"></a><div class="section">
-<h3 id="method-describe-">Method <code>describe()</code><a class="anchor" aria-label="anchor" href="#method-describe-"></a></h3>
-<p>Describe the current active revision of the job definition.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">describe</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
-<p>If the job definition is not active or does not exist,
-<code>describe()</code> returns <code>NULL</code>. Otherwise, it returns
-a <code>tibble</code> with job definition information. Some fields
-may be nested lists.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-submit"></a><div class="section">
-<h3 id="method-submit-">Method <code>submit()</code><a class="anchor" aria-label="anchor" href="#method-submit-"></a></h3>
-<p>Submit a single AWS Batch job to the given job queue
-under the given job definition.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span></span>
-<span>  command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sleep"</span>, <span class="st">"300"</span><span class="op">)</span>,</span>
-<span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"crew-aws-batch-job-"</span>, <span class="fu">crew</span><span class="fu">::</span><span class="fu"><a href="https://wlandau.github.io/crew/reference/crew_random_name.html" class="external-link">crew_random_name</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  memory_units <span class="op">=</span> <span class="st">"gigabytes"</span>,</span>
-<span>  memory <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  cpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  gpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seconds_timeout <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  share_identifier <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  scheduling_priority_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  propagate_tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  parameters <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>command</code></dt>
-<dd><p>Character vector with the command
-to submit for the job. Usually a Linux shell command
-with each term in its own character string.</p></dd>
-
-
-<dt><code>name</code></dt>
-<dd><p>Character of length 1 with the job name.</p></dd>
-
-
-<dt><code>memory_units</code></dt>
-<dd><p>Character of length 1,
-either <code>"gigabytes"</code> or <code>"mebibytes"</code> to set the units of the
-<code>memory</code> argument. <code>"gigabytes"</code> is simpler for EC2 jobs, but
-Fargate has strict requirements about specifying exact amounts of
-mebibytes (MiB). for details, read
-<a href="https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html" class="external-link">https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html</a> # nolint</p></dd>
-
-
-<dt><code>memory</code></dt>
-<dd><p>Positive numeric of length 1, amount of memory to request
-for each job.</p></dd>
-
-
-<dt><code>cpus</code></dt>
-<dd><p>Positive numeric of length 1, number of virtual
-CPUs to request for each job.</p></dd>
-
-
-<dt><code>gpus</code></dt>
-<dd><p>Positive numeric of length 1, number of GPUs to
-request for each job.</p></dd>
-
-
-<dt><code>seconds_timeout</code></dt>
-<dd><p>Optional positive numeric of length 1,
-number of seconds until a job times out.</p></dd>
-
-
-<dt><code>share_identifier</code></dt>
-<dd><p>Character of length 1 with the share
-identifier of the job. Only applies if the job queue has a
-scheduling policy. Read the official AWS Batch documentation
-for details.</p></dd>
-
-
-<dt><code>scheduling_priority_override</code></dt>
-<dd><p>Optional nonnegative integer
-of length between <code>0</code> and <code>9999</code>, priority of the job.
-This value overrides the priority in the job definition.
-Jobs with higher-valued priorities are scheduled first.
-The priority applies if the job queue has a fair share policy.
-Set to <code>NULL</code> to omit.</p></dd>
-
-
-<dt><code>tags</code></dt>
-<dd><p>Optional character vector of tags.</p></dd>
-
-
-<dt><code>propagate_tags</code></dt>
-<dd><p>Optional logical of length 1, whether to propagate
-tags from the job or definition to the ECS task.</p></dd>
-
-
-<dt><code>parameters</code></dt>
-<dd><p>Optional character vector of key-value pairs
-designating parameters for job submission.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-<div class="section">
-<h4 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a></h4>
-<p>This method uses the job queue and job definition
-that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.
-Any jobs submitted this way are different from the
-<code>crew</code> workers that the <code>crew</code> controller starts automatically
-using the AWS Batch launcher plugin.
-You may use the <code>submit()</code> method in the monitor for different
-purposes such as testing.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
-<p>A one-row <code>tibble</code> with the name, ID, and
-Amazon resource name (ARN) of the job.</p>
-</div>
-
 </div><p></p><hr><a id="method-crew_class_monitor_aws_batch-terminate"></a><div class="section">
 <h3 id="method-terminate-">Method <code>terminate()</code><a class="anchor" aria-label="anchor" href="#method-terminate-"></a></h3>
 <p>Terminate one or more AWS Batch jobs.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span></span>
 <span>  <span class="va">ids</span>,</span>
 <span>  reason <span class="op">=</span> <span class="st">"terminated by crew.aws.batch monitor"</span>,</span>
@@ -457,7 +191,7 @@ Amazon resource name (ARN) of the job.</p>
 </div>
 
 <div class="section">
-<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>ids</code></dt>
 <dd><p>Character vector with the IDs of the AWS Batch jobs
 to terminate.</p></dd>
@@ -476,19 +210,19 @@ if the R process is interactive and <code>length(ids)</code> is greater than 1.<
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
+<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p><code>NULL</code> (invisibly).</p>
 </div>
 
 </div><p></p><hr><a id="method-crew_class_monitor_aws_batch-status"></a><div class="section">
 <h3 id="method-status-">Method <code>status()</code><a class="anchor" aria-label="anchor" href="#method-status-"></a></h3>
 <p>Get the status of a single job</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>Character of length 1, job ID. This is different
 from the user-supplied job name.</p></dd>
@@ -497,19 +231,19 @@ from the user-supplied job name.</p></dd>
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
+<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p>A one-row <code>tibble</code> with information about the job.</p>
 </div>
 
 </div><p></p><hr><a id="method-crew_class_monitor_aws_batch-log"></a><div class="section">
 <h3 id="method-log-">Method <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code><a class="anchor" aria-label="anchor" href="#method-log-"></a></h3>
 <p>Get the CloudWatch log of a job.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span><span class="va">id</span>, start_from_head <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
+<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>id</code></dt>
 <dd><p>Character of length 1, job ID. This is different
 from the user-supplied job name.</p></dd>
@@ -523,7 +257,7 @@ log events before later ones.</p></dd>
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a></h4>
+<h4 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h4>
 <p>This method assumes the job has log driver <code>"awslogs"</code>
 (specifying AWS CloudWatch) and that the log group is the one
 prespecified in the <code>log_group</code> argument of
@@ -533,7 +267,7 @@ group is wrong or missing.</p>
 </div>
 
 <div class="section">
-<h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
+<h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p>A <code>tibble</code> with log information.</p>
 </div>
 
@@ -541,7 +275,7 @@ group is wrong or missing.</p>
 <h3 id="method-jobs-">Method <code>jobs()</code><a class="anchor" aria-label="anchor" href="#method-jobs-"></a></h3>
 <p>List all the jobs in the given job queue
 with the given job definition.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span></span>
 <span>  status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"submitted"</span>, <span class="st">"pending"</span>, <span class="st">"runnable"</span>, <span class="st">"starting"</span>, <span class="st">"running"</span>, <span class="st">"succeeded"</span>,</span>
 <span>    <span class="st">"failed"</span><span class="op">)</span></span>
@@ -549,7 +283,7 @@ with the given job definition.</p><div class="section">
 </div>
 
 <div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
+<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>status</code></dt>
 <dd><p>Character vector of job states. Results are limited
 to these job states.</p></dd>
@@ -558,7 +292,90 @@ to these job states.</p></dd>
 </dl><p></p></div>
 </div>
 <div class="section">
+<h4 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a></h4>
+<p>The output only includes jobs under the
+job queue and job definition
+that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
+</div>
+
+<div class="section">
+<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
+<p>A <code>tibble</code> with one row per job and columns
+with job information.</p>
+</div>
+
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-active"></a><div class="section">
+<h3 id="method-active-">Method <code>active()</code><a class="anchor" aria-label="anchor" href="#method-active-"></a></h3>
+<p>List active jobs: submitted, pending,
+runnable, starting, or running (not succeeded or failed).</p><div class="section">
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">active</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a></h4>
+<p>The output only includes jobs under the
+job queue and job definition
+that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
+</div>
+
+<div class="section">
+<h4 id="returns-6">Returns<a class="anchor" aria-label="anchor" href="#returns-6"></a></h4>
+<p>A <code>tibble</code> with one row per job and columns
+with job information.</p>
+</div>
+
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-inactive"></a><div class="section">
+<h3 id="method-inactive-">Method <code>inactive()</code><a class="anchor" aria-label="anchor" href="#method-inactive-"></a></h3>
+<p>List inactive jobs: ones whose status
+is succeeded or failed (not submitted, pending,
+runnable, starting, or running).</p><div class="section">
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a></h4>
+<p>The output only includes jobs under the
+job queue and job definition
+that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
+</div>
+
+<div class="section">
+<h4 id="returns-7">Returns<a class="anchor" aria-label="anchor" href="#returns-7"></a></h4>
+<p>A <code>tibble</code> with one row per job and columns
+with job information.</p>
+</div>
+
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-submitted"></a><div class="section">
+<h3 id="method-submitted-">Method <code>submitted()</code><a class="anchor" aria-label="anchor" href="#method-submitted-"></a></h3>
+<p>List jobs whose status is <code>"submitted"</code>.</p><div class="section">
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">submitted</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
 <h4 id="details-4">Details<a class="anchor" aria-label="anchor" href="#details-4"></a></h4>
+<p>The output only includes jobs under the
+job queue and job definition
+that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
+</div>
+
+<div class="section">
+<h4 id="returns-8">Returns<a class="anchor" aria-label="anchor" href="#returns-8"></a></h4>
+<p>A <code>tibble</code> with one row per job and columns
+with job information.</p>
+</div>
+
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-pending"></a><div class="section">
+<h3 id="method-pending-">Method <code>pending()</code><a class="anchor" aria-label="anchor" href="#method-pending-"></a></h3>
+<p>List jobs whose status is <code>"pending"</code>.</p><div class="section">
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">pending</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="details-5">Details<a class="anchor" aria-label="anchor" href="#details-5"></a></h4>
 <p>The output only includes jobs under the
 job queue and job definition
 that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
@@ -570,16 +387,15 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 with job information.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-active"></a><div class="section">
-<h3 id="method-active-">Method <code>active()</code><a class="anchor" aria-label="anchor" href="#method-active-"></a></h3>
-<p>List active jobs: submitted, pending,
-runnable, starting, or running (not succeeded or failed).</p><div class="section">
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-runnable"></a><div class="section">
+<h3 id="method-runnable-">Method <code>runnable()</code><a class="anchor" aria-label="anchor" href="#method-runnable-"></a></h3>
+<p>List jobs whose status is <code>"runnable"</code>.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">active</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">runnable</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="details-5">Details<a class="anchor" aria-label="anchor" href="#details-5"></a></h4>
+<h4 id="details-6">Details<a class="anchor" aria-label="anchor" href="#details-6"></a></h4>
 <p>The output only includes jobs under the
 job queue and job definition
 that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
@@ -591,17 +407,15 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 with job information.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-inactive"></a><div class="section">
-<h3 id="method-inactive-">Method <code>inactive()</code><a class="anchor" aria-label="anchor" href="#method-inactive-"></a></h3>
-<p>List inactive jobs: ones whose status
-is succeeded or failed (not submitted, pending,
-runnable, starting, or running).</p><div class="section">
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-starting"></a><div class="section">
+<h3 id="method-starting-">Method <code>starting()</code><a class="anchor" aria-label="anchor" href="#method-starting-"></a></h3>
+<p>List jobs whose status is <code>"starting"</code>.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">starting</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="details-6">Details<a class="anchor" aria-label="anchor" href="#details-6"></a></h4>
+<h4 id="details-7">Details<a class="anchor" aria-label="anchor" href="#details-7"></a></h4>
 <p>The output only includes jobs under the
 job queue and job definition
 that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
@@ -613,15 +427,15 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 with job information.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-submitted"></a><div class="section">
-<h3 id="method-submitted-">Method <code>submitted()</code><a class="anchor" aria-label="anchor" href="#method-submitted-"></a></h3>
-<p>List jobs whose status is <code>"submitted"</code>.</p><div class="section">
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-running"></a><div class="section">
+<h3 id="method-running-">Method <code>running()</code><a class="anchor" aria-label="anchor" href="#method-running-"></a></h3>
+<p>List jobs whose status is <code>"running"</code>.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">submitted</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">running</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="details-7">Details<a class="anchor" aria-label="anchor" href="#details-7"></a></h4>
+<h4 id="details-8">Details<a class="anchor" aria-label="anchor" href="#details-8"></a></h4>
 <p>The output only includes jobs under the
 job queue and job definition
 that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
@@ -633,15 +447,15 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 with job information.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-pending"></a><div class="section">
-<h3 id="method-pending-">Method <code>pending()</code><a class="anchor" aria-label="anchor" href="#method-pending-"></a></h3>
-<p>List jobs whose status is <code>"pending"</code>.</p><div class="section">
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-succeeded"></a><div class="section">
+<h3 id="method-succeeded-">Method <code>succeeded()</code><a class="anchor" aria-label="anchor" href="#method-succeeded-"></a></h3>
+<p>List jobs whose status is <code>"succeeded"</code>.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">pending</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="details-8">Details<a class="anchor" aria-label="anchor" href="#details-8"></a></h4>
+<h4 id="details-9">Details<a class="anchor" aria-label="anchor" href="#details-9"></a></h4>
 <p>The output only includes jobs under the
 job queue and job definition
 that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
@@ -653,31 +467,11 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 with job information.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-runnable"></a><div class="section">
-<h3 id="method-runnable-">Method <code>runnable()</code><a class="anchor" aria-label="anchor" href="#method-runnable-"></a></h3>
-<p>List jobs whose status is <code>"runnable"</code>.</p><div class="section">
+</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-failed"></a><div class="section">
+<h3 id="method-failed-">Method <code>failed()</code><a class="anchor" aria-label="anchor" href="#method-failed-"></a></h3>
+<p>List jobs whose status is <code>"failed"</code>.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">runnable</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="details-9">Details<a class="anchor" aria-label="anchor" href="#details-9"></a></h4>
-<p>The output only includes jobs under the
-job queue and job definition
-that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
-<p>A <code>tibble</code> with one row per job and columns
-with job information.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-starting"></a><div class="section">
-<h3 id="method-starting-">Method <code>starting()</code><a class="anchor" aria-label="anchor" href="#method-starting-"></a></h3>
-<p>List jobs whose status is <code>"starting"</code>.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">starting</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">failed</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -688,67 +482,7 @@ that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_moni
 </div>
 
 <div class="section">
-<h4 id="returns-15">Returns<a class="anchor" aria-label="anchor" href="#returns-15"></a></h4>
-<p>A <code>tibble</code> with one row per job and columns
-with job information.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-running"></a><div class="section">
-<h3 id="method-running-">Method <code>running()</code><a class="anchor" aria-label="anchor" href="#method-running-"></a></h3>
-<p>List jobs whose status is <code>"running"</code>.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">running</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="details-11">Details<a class="anchor" aria-label="anchor" href="#details-11"></a></h4>
-<p>The output only includes jobs under the
-job queue and job definition
-that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-16">Returns<a class="anchor" aria-label="anchor" href="#returns-16"></a></h4>
-<p>A <code>tibble</code> with one row per job and columns
-with job information.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-succeeded"></a><div class="section">
-<h3 id="method-succeeded-">Method <code>succeeded()</code><a class="anchor" aria-label="anchor" href="#method-succeeded-"></a></h3>
-<p>List jobs whose status is <code>"succeeded"</code>.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="details-12">Details<a class="anchor" aria-label="anchor" href="#details-12"></a></h4>
-<p>The output only includes jobs under the
-job queue and job definition
-that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-17">Returns<a class="anchor" aria-label="anchor" href="#returns-17"></a></h4>
-<p>A <code>tibble</code> with one row per job and columns
-with job information.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_monitor_aws_batch-failed"></a><div class="section">
-<h3 id="method-failed-">Method <code>failed()</code><a class="anchor" aria-label="anchor" href="#method-failed-"></a></h3>
-<p>List jobs whose status is <code>"failed"</code>.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">failed</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="details-13">Details<a class="anchor" aria-label="anchor" href="#details-13"></a></h4>
-<p>The output only includes jobs under the
-job queue and job definition
-that were supplied through <code><a href="crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>.</p>
-</div>
-
-<div class="section">
-<h4 id="returns-18">Returns<a class="anchor" aria-label="anchor" href="#returns-18"></a></h4>
+<h4 id="returns-14">Returns<a class="anchor" aria-label="anchor" href="#returns-14"></a></h4>
 <p>A <code>tibble</code> with one row per job and columns
 with job information.</p>
 </div>
