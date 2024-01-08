@@ -1,8 +1,8 @@
 #' @title Create an AWS Batch monitor object.
 #' @export
 #' @family monitor
-#' @description Create an `R6` object to manage AWS Batch jobs and
-#'   job definitions.
+#' @description Create an `R6` object to list, inspect, and terminate
+#'   AWS Batch jobs.
 #' @param job_queue Character of length 1, name of the AWS Batch
 #'   job queue.
 #' @param job_definition Character of length 1, name of the AWS Batch
@@ -780,7 +780,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       if (!length(out)) {
         return(null_log)
       }
-      do.call(what = rbind, args = out)
+      do.call(what = vctrs::vec_rbind, args = out)
       # nocov end
     },
     #' @description List all the jobs in the given job queue
@@ -874,7 +874,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           stopped = numeric(0L)
         )
       }
-      out <- do.call(what = rbind, args = out)
+      out <- do.call(what = vctrs::vec_rbind, args = out)
       out$status <- tolower(out$status)
       out[out$status %in% status, ]
       # nocov end

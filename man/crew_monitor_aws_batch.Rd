@@ -48,8 +48,8 @@ default to \code{paws.common::get_config()$region}, then to
 \code{Sys.getenv("AWS_REGION")}, then \code{Sys.getenv("AWS_DEFAULT_REGION")}.}
 }
 \description{
-Create an \code{R6} object to manage AWS Batch jobs and
-job definitions.
+Create an \code{R6} object to list, inspect, and terminate
+AWS Batch jobs.
 }
 \seealso{
 Other monitor: 

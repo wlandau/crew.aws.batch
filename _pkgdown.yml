@@ -12,3 +12,7 @@ reference:
   contents:
   - '`crew_monitor_aws_batch`'
   - '`crew_class_monitor_aws_batch`'
+- title: AWS Batch job definition
+  contents:
+  - '`crew_definition_aws_batch`'
+  - '`crew_class_definition_aws_batch`'
