@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.3.9000 (development)
+# crew.aws.batch 0.0.4
 
-
+* Move the `args_client()` and `args_submit()` launcher methods to the `private` list.
 
 # crew.aws.batch 0.0.3
 

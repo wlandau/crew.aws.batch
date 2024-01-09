@@ -60,8 +60,6 @@ Other plugin_aws_batch:
 \itemize{
 \item \href{#method-crew_class_launcher_aws_batch-new}{\code{crew_class_launcher_aws_batch$new()}}
 \item \href{#method-crew_class_launcher_aws_batch-validate}{\code{crew_class_launcher_aws_batch$validate()}}
-\item \href{#method-crew_class_launcher_aws_batch-args_client}{\code{crew_class_launcher_aws_batch$args_client()}}
-\item \href{#method-crew_class_launcher_aws_batch-args_submit}{\code{crew_class_launcher_aws_batch$args_submit()}}
 \item \href{#method-crew_class_launcher_aws_batch-launch_worker}{\code{crew_class_launcher_aws_batch$launch_worker()}}
 \item \href{#method-crew_class_launcher_aws_batch-terminate_worker}{\code{crew_class_launcher_aws_batch$terminate_worker()}}
 }
@@ -213,42 +211,6 @@ Validate the launcher.
 
 \subsection{Returns}{
 \code{NULL} (invisibly). Throws an error if a field is invalid.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-crew_class_launcher_aws_batch-args_client"></a>}}
-\if{latex}{\out{\hypertarget{method-crew_class_launcher_aws_batch-args_client}{}}}
-\subsection{Method \code{args_client()}}{
-Argument list for \code{paws.compute::batch()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$args_client()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-Argument list for \code{paws.compute::batch()}.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-crew_class_launcher_aws_batch-args_submit"></a>}}
-\if{latex}{\out{\hypertarget{method-crew_class_launcher_aws_batch-args_submit}{}}}
-\subsection{Method \code{args_submit()}}{
-Argument list for \code{paws.compute::batch()$submit_job()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$args_submit(call, name)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{call}}{Character of length 1, a namespaced call to \code{\link[=crew_worker]{crew_worker()}}
-which will run in the worker and accept tasks.}
-
-\item{\code{name}}{Character of length 1, an informative worker name.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Argument list for \code{paws.compute::batch()$submit_job()}.
 }
 }
 \if{html}{\out{<hr>}}

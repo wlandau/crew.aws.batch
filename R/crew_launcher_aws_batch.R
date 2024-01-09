@@ -190,7 +190,35 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     .aws_batch_propagate_tags = NULL,
     .aws_batch_timeout = NULL,
     .aws_batch_tags = NULL,
-    .aws_batch_eks_properties_override = NULL
+    .aws_batch_eks_properties_override = NULL,
+    .args_client = function() {
+      list(
+        config = private$.aws_batch_config,
+        credentials = private$.aws_batch_credentials,
+        endpoint = private$.aws_batch_endpoint,
+        region = private$.aws_batch_region
+      )
+    },
+    .args_submit = function(call, name) {
+      container_overrides <- as.list(private$.aws_batch_parameters)
+      container_overrides$command <- list("R", "-e", call)
+      list(
+        jobName = name,
+        jobQueue = private$.aws_batch_job_queue,
+        shareIdentifier = private$.aws_batch_share_identifier,
+        schedulingPriorityOverride =
+          private$.aws_batch_scheduling_priority_override,
+        jobDefinition = private$.aws_batch_job_definition,
+        parameters = private$.aws_batch_parameters,
+        containerOverrides = container_overrides,
+        nodeOverrides = private$.aws_batch_node_overrides,
+        retryStrategy = private$.aws_batch_retry_strategy,
+        propagateTags = private$.aws_batch_propagate_tags,
+        timeout = private$.aws_batch_timeout,
+        tags = private$.aws_batch_tags,
+        eksPropertiesOverride = private$.aws_batch_eks_properties_override
+      )
+    }
   ),
   active = list(
     #' @field aws_batch_config See [crew_launcher_aws_batch()].
@@ -439,41 +467,6 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       }
       invisible()
     },
-    #' @description Argument list for `paws.compute::batch()`.
-    #' @return Argument list for `paws.compute::batch()`.
-    args_client = function() {
-      list(
-        config = private$.aws_batch_config,
-        credentials = private$.aws_batch_credentials,
-        endpoint = private$.aws_batch_endpoint,
-        region = private$.aws_batch_region
-      )
-    },
-    #' @description Argument list for `paws.compute::batch()$submit_job()`.
-    #' @return Argument list for `paws.compute::batch()$submit_job()`.
-    #' @param call Character of length 1, a namespaced call to [crew_worker()]
-    #'   which will run in the worker and accept tasks.
-    #' @param name Character of length 1, an informative worker name.
-    args_submit = function(call, name) {
-      container_overrides <- as.list(private$.aws_batch_parameters)
-      container_overrides$command <- list("R", "-e", call)
-      list(
-        jobName = name,
-        jobQueue = private$.aws_batch_job_queue,
-        shareIdentifier = private$.aws_batch_share_identifier,
-        schedulingPriorityOverride =
-          private$.aws_batch_scheduling_priority_override,
-        jobDefinition = private$.aws_batch_job_definition,
-        parameters = private$.aws_batch_parameters,
-        containerOverrides = container_overrides,
-        nodeOverrides = private$.aws_batch_node_overrides,
-        retryStrategy = private$.aws_batch_retry_strategy,
-        propagateTags = private$.aws_batch_propagate_tags,
-        timeout = private$.aws_batch_timeout,
-        tags = private$.aws_batch_tags,
-        eksPropertiesOverride = private$.aws_batch_eks_properties_override
-      )
-    },
     #' @description Launch a local process worker which will
     #'   dial into a socket.
     #' @details The `call` argument is R code that will run to
@@ -491,32 +484,85 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param instance Character of length 1 to uniquely identify
     #'   the current instance of the worker.
     launch_worker = function(call, name, launcher, worker, instance) {
+      # Tested in tests/controller/persistent.R
+      # nocov start
       self$async$eval(
-        command = crew.aws.batch::crew_aws_batch_launch(
+        command = crew.aws.batch::crew_launcher_aws_batch_launch(
           args_client = args_client,
           args_submit = args_submit
         ),
         data = list(
-          args_client = self$args_client(),
-          args_submit = self$args_submit(call = call, name = name)
+          args_client = private$.args_client(),
+          args_submit = private$.args_submit(call = call, name = name)
         )
       )
+      # nocov end
     },
     #' @description Terminate a local process worker.
     #' @return `NULL` (invisibly).
     #' @param handle A process handle object previously
     #'   returned by `launch_worker()`.
     terminate_worker = function(handle) {
+      # Tested in tests/controller/minimal.R
+      # nocov start
       self$async$eval(
-        crew.aws.batch::crew_aws_batch_terminate(
+        crew.aws.batch::crew_launcher_aws_batch_terminate(
           args_client = args_client,
           job_id = job_id
         ),
         data = list(
-          args_client = self$args_client(),
+          args_client = private$.args_client(),
           job_id = handle$data$jobId
         )
       )
+      # nocov end
     }
   )
 )
+
+#' @title Submit an AWS Batch job.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. For internal use only.
+#' @details This utility is its own separate exported function specific to
+#'   the launcher and not shared with the job definition or monitor classes.
+#'   It generates the `paws.compute::batch()` client within itself
+#'   instead of a method inside the class.
+#'   This is all because it needs to run on a separate local worker process
+#'   and it needs to accept exportable arguments.
+#' @return HTTP response from submitting the job.
+#' @param args_client Named list of arguments to `paws.compute::batch()`.
+#' @param args_submit Named list of arguments to
+#'   `paws.compute::batch()$submit_job()`.
+crew_launcher_aws_batch_launch <- function(args_client, args_submit) {
+  # Tested in tests/controller/persistent.R
+  # nocov start
+  client <- do.call(what = paws.compute::batch, args = args_client)
+  do.call(what = client$submit_job, args = args_submit)
+  # nocov end
+}
+
+#' @title Terminate an AWS Batch job.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. For internal use only.
+#' @details This utility is its own separate exported function specific to
+#'   the launcher and not shared with the job definition or monitor classes.
+#'   It generates the `paws.compute::batch()` client within itself
+#'   instead of a method inside the class.
+#'   This is all because it needs to run on a separate local worker process
+#'   and it needs to accept exportable arguments.
+#' @return HTTP response from submitting the job.
+#' @param args_client Named list of arguments to `paws.compute::batch()`.
+#' @param job_id Character of length 1, ID of the AWS Batch job to
+#'   terminate.
+crew_launcher_aws_batch_terminate <- function(args_client, job_id) {
+  # nocov start
+  # Tested in tests/controller/minimal.R
+  client <- do.call(what = paws.compute::batch, args = args_client)
+  client$terminate_job(
+    jobId = job_id,
+    reason = "terminated by crew controller"
+  )
+  # nocov end
+}
