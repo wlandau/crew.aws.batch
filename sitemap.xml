@@ -31,12 +31,6 @@
     <loc>/reference/crew.aws.batch-package.html</loc>
   </url>
   <url>
-    <loc>/reference/crew_aws_batch_launch.html</loc>
-  </url>
-  <url>
-    <loc>/reference/crew_aws_batch_terminate.html</loc>
-  </url>
-  <url>
     <loc>/reference/crew_class_definition_aws_batch.html</loc>
   </url>
   <url>
@@ -53,6 +47,12 @@
   </url>
   <url>
     <loc>/reference/crew_launcher_aws_batch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crew_launcher_aws_batch_launch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/crew_launcher_aws_batch_terminate.html</loc>
   </url>
   <url>
     <loc>/reference/crew_monitor_aws_batch.html</loc>

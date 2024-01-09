@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">crew.aws.batch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4</span>
       </span>
     </div>
 
@@ -143,8 +143,6 @@
 
 <ul><li><p><a href="#method-crew_class_launcher_aws_batch-new"><code>crew_class_launcher_aws_batch$new()</code></a></p></li>
 <li><p><a href="#method-crew_class_launcher_aws_batch-validate"><code>crew_class_launcher_aws_batch$validate()</code></a></p></li>
-<li><p><a href="#method-crew_class_launcher_aws_batch-args_client"><code>crew_class_launcher_aws_batch$args_client()</code></a></p></li>
-<li><p><a href="#method-crew_class_launcher_aws_batch-args_submit"><code>crew_class_launcher_aws_batch$args_submit()</code></a></p></li>
 <li><p><a href="#method-crew_class_launcher_aws_batch-launch_worker"><code>crew_class_launcher_aws_batch$launch_worker()</code></a></p></li>
 <li><p><a href="#method-crew_class_launcher_aws_batch-terminate_worker"><code>crew_class_launcher_aws_batch$terminate_worker()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="crew" data-topic="crew_class_launcher" data-id="active"><a href="https://wlandau.github.io/crew/reference/crew_class_launcher.html#method-active"><code>crew::crew_class_launcher$active()</code></a></span></li>
@@ -349,48 +347,11 @@
 <p><code>NULL</code> (invisibly). Throws an error if a field is invalid.</p>
 </div>
 
-</div><p></p><hr><a id="method-crew_class_launcher_aws_batch-args_client"></a><div class="section">
-<h3 id="method-args-client-">Method <code>args_client()</code><a class="anchor" aria-label="anchor" href="#method-args-client-"></a></h3>
-<p>Argument list for <code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code>.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_launcher_aws_batch</span><span class="op">$</span><span class="fu">args_client</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p>Argument list for <code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code>.</p>
-</div>
-
-</div><p></p><hr><a id="method-crew_class_launcher_aws_batch-args_submit"></a><div class="section">
-<h3 id="method-args-submit-">Method <code>args_submit()</code><a class="anchor" aria-label="anchor" href="#method-args-submit-"></a></h3>
-<p>Argument list for <code>paws.compute::batch()$submit_job()</code>.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_launcher_aws_batch</span><span class="op">$</span><span class="fu">args_submit</span><span class="op">(</span><span class="va">call</span>, <span class="va">name</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>call</code></dt>
-<dd><p>Character of length 1, a namespaced call to <code>crew_worker()</code>
-which will run in the worker and accept tasks.</p></dd>
-
-
-<dt><code>name</code></dt>
-<dd><p>Character of length 1, an informative worker name.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-<div class="section">
-<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
-<p>Argument list for <code>paws.compute::batch()$submit_job()</code>.</p>
-</div>
-
 </div><p></p><hr><a id="method-crew_class_launcher_aws_batch-launch_worker"></a><div class="section">
 <h3 id="method-launch-worker-">Method <code>launch_worker()</code><a class="anchor" aria-label="anchor" href="#method-launch-worker-"></a></h3>
 <p>Launch a local process worker which will
 dial into a socket.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_launcher_aws_batch</span><span class="op">$</span><span class="fu">launch_worker</span><span class="op">(</span></span>
 <span>  <span class="va">call</span>,</span>
 <span>  <span class="va">name</span>,</span>
@@ -401,7 +362,7 @@ dial into a socket.</p><div class="section">
 </div>
 
 <div class="section">
-<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>call</code></dt>
 <dd><p>Character of length 1, a namespaced call to <code>crew_worker()</code>
 which will run in the worker and accept tasks.</p></dd>
@@ -436,7 +397,7 @@ initiate the worker.</p>
 </div>
 
 <div class="section">
-<h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
+<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p>A handle object to allow the termination of the worker
 later on.</p>
 </div>
@@ -444,12 +405,12 @@ later on.</p>
 </div><p></p><hr><a id="method-crew_class_launcher_aws_batch-terminate_worker"></a><div class="section">
 <h3 id="method-terminate-worker-">Method <code>terminate_worker()</code><a class="anchor" aria-label="anchor" href="#method-terminate-worker-"></a></h3>
 <p>Terminate a local process worker.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_launcher_aws_batch</span><span class="op">$</span><span class="fu">terminate_worker</span><span class="op">(</span><span class="va">handle</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>handle</code></dt>
 <dd><p>A process handle object previously
 returned by <code>launch_worker()</code>.</p></dd>
@@ -458,7 +419,7 @@ returned by <code>launch_worker()</code>.</p></dd>
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns-5">Returns<a class="anchor" aria-label="anchor" href="#returns-5"></a></h4>
+<h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p><code>NULL</code> (invisibly).</p>
 </div>
 
