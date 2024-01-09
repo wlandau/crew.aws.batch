@@ -1,6 +1,7 @@
 # crew.aws.batch 0.0.4
 
 * Move the `args_client()` and `args_submit()` launcher methods to the `private` list.
+* Refactor testing infrastructure.
 
 # crew.aws.batch 0.0.3
 
