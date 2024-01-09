@@ -560,7 +560,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
             revision = as.integer(definition$revision),
             status = tolower(definition$status),
             type = definition$type,
-            scheduling_priority = definition$schedulingPriority,
+            scheduling_priority = definition$schedulingPriority %||% NA,
             parameters = list(definition$parameters),
             retry_strategy = list(definition$retryStrategy),
             container_properties = list(definition$containerProperties),
