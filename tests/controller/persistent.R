@@ -2,6 +2,7 @@ test_that("persistent worker workload", {
   definition <- "crew-aws-batch"
   queue <- "crew-aws-batch"
   for (processes in list(NULL, 1L)) {
+    message("Testing a controller.")
     controller <- crew_controller_aws_batch(
       name = "my_workflow",
       workers = 1L,
@@ -22,6 +23,7 @@ test_that("persistent worker workload", {
       message(paste("push", name))
     }
     results <- list()
+    message("Waiting for results.")
     while (length(results) < n) {
       out <- controller$pop()
       if (!is.null(out)) {

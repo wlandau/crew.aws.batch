@@ -1,7 +1,7 @@
 test_that("minimal workload", {
   definition <- "crew-aws-batch"
-  queue <- "hpc"
-  region <- "us-east-2"
+  queue <- "crew-aws-batch"
+  region <- "us-east-1"
   monitor <- crew_monitor_aws_batch(
     job_definition = definition,
     job_queue = queue,
@@ -25,19 +25,19 @@ test_that("minimal workload", {
       command = as.character(Sys.info()["nodename"])
     )
     controller$wait()
+    id <- controller$launcher$workers$handle[[1L]]$data$jobId
     message("Waiting for active jobs to be listed as started.")
     crew::crew_retry(
-      ~nrow(monitor$active()) > 0L,
+      ~id %in% monitor$active()$id,
       seconds_interval = 1,
       seconds_timeout = 180
     )
     task <- controller$pop()
     expect_false(task$result[[1L]] == as.character(Sys.info()["nodename"]))
     controller$launcher$terminate()
-    # Assumes no other work is using the crew-aws-batch job definition:
     message("Waiting for active jobs to terminate.")
     crew::crew_retry(
-      ~nrow(monitor$active()) < 1L,
+      ~!(id %in% monitor$active()$id),
       seconds_interval = 1,
       seconds_timeout = 180
     )
