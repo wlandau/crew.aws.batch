@@ -2,6 +2,7 @@
 
 * Move the `args_client()` and `args_submit()` launcher methods to the `private` list.
 * Refactor testing infrastructure.
+* Handle missing scheduling priorities so `definition$describe()` does not error out if the field is missing.
 
 # crew.aws.batch 0.0.3
 
