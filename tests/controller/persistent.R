@@ -1,4 +1,6 @@
 test_that("persistent worker workload", {
+  definition <- "crew-aws-batch"
+  queue <- "crew-aws-batch"
   for (processes in list(NULL, 1L)) {
     controller <- crew_controller_aws_batch(
       name = "my_workflow",
@@ -6,8 +8,8 @@ test_that("persistent worker workload", {
       seconds_launch = 1800,
       seconds_idle = 300,
       processes = processes,
-      aws_batch_job_definition = "crew-aws-batch",
-      aws_batch_job_queue = "crew-aws-batch"
+      aws_batch_job_definition = definition,
+      aws_batch_job_queue = queue
     )
     controller$start()
     n <- 200
