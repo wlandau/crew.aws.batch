@@ -3,9 +3,10 @@
 
 [![CRAN](https://www.r-pkg.org/badges/version/crew.aws.batch)](https://CRAN.R-project.org/package=crew.aws.batch)
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#Active)
-[![check](https://github.com/wlandau/crew.aws.batch/workflows/check/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Acheck)
-[![codecov](https://codecov.io/gh/wlandau/crew.aws.batch/branch/main/graph/badge.svg)](https://app.codecov.io/gh/wlandau/crew.aws.batch)
-[![lint](https://github.com/wlandau/crew.aws.batch/workflows/lint/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Alint)
+[![check](https://github.com/wlandau/crew.aws.batch/actions/workflows/check.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Acheck)
+[![codecov](https://codecov.io/gh/wlandau/crew.aws.batch/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/wlandau/crew.aws.batch)
+[![lint](https://github.com/wlandau/crew.aws.batch/actions/workflows/lint.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Alint)
+[![pkgdown](https://github.com/wlandau/crew.aws.batch/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Apkgdown)
 
 In computationally demanding analysis projects, statisticians and data
 scientists asynchronously deploy long-running tasks to distributed
@@ -389,7 +390,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.2.9000,
+  Batch_. R package version 0.0.4,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -398,7 +399,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.2.9000, 
+    note = {R package version 0.0.4, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }
