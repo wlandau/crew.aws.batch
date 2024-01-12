@@ -1,6 +1,6 @@
 # crew.aws.batch 0.0.4.9000 (development)
 
-
+* Require `crew` >= 0.8.0.
 
 # crew.aws.batch 0.0.4
 
