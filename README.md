@@ -48,7 +48,28 @@ comes with a set of special requirements:
     container image with R and `crew.aws.batch` installed. You may wish
     to inherit from an existing
     [rocker](https://github.com/rocker-org/rocker-versioned2) image.
-3.  In the [compute
+3.  At minimum, for the launcher plugin to work, your [IAM
+    policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
+    need permission to
+    [submit](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html)
+    and
+    [terminate](https://docs.aws.amazon.com/batch/latest/APIReference/API_TerminateJob.html)
+    jobs. To appropriately monitor jobs, your policies also need
+    permission to
+    [list](https://docs.aws.amazon.com/batch/latest/APIReference/API_ListJobs.html)
+    and
+    [describe](https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeJobs.html)
+    jobs. In addition, managing job definitions as described below
+    requires permission to
+    [register](https://docs.aws.amazon.com/batch/latest/APIReference/API_RegisterJobDefinition.html),
+    [deregister](https://docs.aws.amazon.com/batch/latest/APIReference/API_DeregisterJobDefinition.html),
+    and
+    [describe](https://docs.aws.amazon.com/batch/latest/APIReference/API_DescribeJobDefinitions.html)
+    job definitions. To view
+    [CloudWatch](https://aws.amazon.com/cloudwatch/) logs, you need
+    permission to [get log
+    events](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html).
+4.  In the [compute
     environment](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html),
     the [security
     group](https://docs.aws.amazon.com/vpc/latest/userguide/security-groups.html)
