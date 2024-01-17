@@ -18,7 +18,7 @@ Batch jobs."><meta property="og:image" content="/logo.png"><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">crew.aws.batch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4.9001</span>
       </span>
     </div>
 
@@ -114,6 +114,23 @@ default to <code>paws.common::get_config()$region</code>, then to
 <code>Sys.getenv("AWS_REGION")</code>, then <code>Sys.getenv("AWS_DEFAULT_REGION")</code>.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>An <code>R6</code> job definition object.</p>
+    </div>
+    <div id="iam-policies">
+    <h2>IAM policies</h2>
+    
+
+<p>In order for the AWS Batch <code>crew</code> job definition class to function
+properly, your IAM policy needs permission to perform the
+<code>RegisterJobDefinition</code>, <code>DeregisterJobDefinition</code>, and
+<code>DescribeJobDefinitions</code> AWS Batch API calls.
+For more information on AWS policies and permissions, please visit
+<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" class="external-link">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html</a>.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other definition: 

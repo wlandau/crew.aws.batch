@@ -18,7 +18,7 @@ launch workers on AWS Batch workers."><meta property="og:image" content="/logo.p
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">crew.aws.batch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.4.9001</span>
       </span>
     </div>
 
@@ -342,12 +342,15 @@ For more details, visit
 "AWS arguments" sections of this help file.</p></dd>
 
 </dl></div>
-    <div id="verbosity">
-    <h2>Verbosity</h2>
+    <div id="iam-policies">
+    <h2>IAM policies</h2>
     
 
-<p>Control verbosity with the <code>paws.log_level</code> global option in R.
-Set to 0 for minimum verbosity and 3 for maximum verbosity.</p>
+<p>In order for the AWS Batch <code>crew</code> plugin to function properly, your IAM
+policy needs permission to perform the <code>SubmitJob</code> and <code>TerminateJob</code>
+AWS Batch API calls. For more information on AWS policies and permissions,
+please visit
+<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" class="external-link">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html</a>.</p>
     </div>
     <div id="aws-arguments">
     <h2>AWS arguments</h2>
@@ -370,6 +373,13 @@ the <code>crew</code> AWS Batch launcher/controller corresponds to the
 <code>jobDefinition</code> argument of the web API and
 <code>paws.compute::batch()$submit_job()</code>, and both correspond to the
 <code>--job-definition</code> argument of the CLI.</p>
+    </div>
+    <div id="verbosity">
+    <h2>Verbosity</h2>
+    
+
+<p>Control verbosity with the <code>paws.log_level</code> global option in R.
+Set to 0 for minimum verbosity and 3 for maximum verbosity.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
