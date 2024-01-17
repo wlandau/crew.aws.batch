@@ -47,10 +47,23 @@ default to \code{paws.common::get_config()$region}, then to
 \code{Sys.getenv("AWS_REGION")} if unsuccessful, then
 \code{Sys.getenv("AWS_REGION")}, then \code{Sys.getenv("AWS_DEFAULT_REGION")}.}
 }
+\value{
+An \code{R6} job definition object.
+}
 \description{
 Create an \code{R6} object to manage a job definition for AWS
 Batch jobs.
 }
+\section{IAM policies}{
+
+In order for the AWS Batch \code{crew} job definition class to function
+properly, your IAM policy needs permission to perform the
+\code{RegisterJobDefinition}, \code{DeregisterJobDefinition}, and
+\code{DescribeJobDefinitions} AWS Batch API calls.
+For more information on AWS policies and permissions, please visit
+\url{https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html}.
+}
+
 \seealso{
 Other definition: 
 \code{\link{crew_class_definition_aws_batch}}

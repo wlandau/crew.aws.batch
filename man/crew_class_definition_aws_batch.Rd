@@ -9,6 +9,16 @@ AWS Batch definition \code{R6} class
 \details{
 See \code{\link[=crew_definition_aws_batch]{crew_definition_aws_batch()}}.
 }
+\section{IAM policies}{
+
+In order for the AWS Batch \code{crew} job definition class to function
+properly, your IAM policy needs permission to perform the
+\code{RegisterJobDefinition}, \code{DeregisterJobDefinition}, and
+\code{DescribeJobDefinitions} AWS Batch API calls.
+For more information on AWS policies and permissions, please visit
+\url{https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html}.
+}
+
 \seealso{
 Other definition: 
 \code{\link{crew_definition_aws_batch}()}

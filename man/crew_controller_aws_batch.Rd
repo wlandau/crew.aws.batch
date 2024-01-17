@@ -222,10 +222,13 @@ For more details, visit
 Create an \code{R6} object to submit tasks and
 launch workers on AWS Batch workers.
 }
-\section{Verbosity}{
+\section{IAM policies}{
 
-Control verbosity with the \code{paws.log_level} global option in R.
-Set to 0 for minimum verbosity and 3 for maximum verbosity.
+In order for the AWS Batch \code{crew} plugin to function properly, your IAM
+policy needs permission to perform the \code{SubmitJob} and \code{TerminateJob}
+AWS Batch API calls. For more information on AWS policies and permissions,
+please visit
+\url{https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html}.
 }
 
 \section{AWS arguments}{
@@ -249,6 +252,12 @@ the \code{crew} AWS Batch launcher/controller corresponds to the
 \code{jobDefinition} argument of the web API and
 \code{paws.compute::batch()$submit_job()}, and both correspond to the
 \code{--job-definition} argument of the CLI.
+}
+
+\section{Verbosity}{
+
+Control verbosity with the \code{paws.log_level} global option in R.
+Set to 0 for minimum verbosity and 3 for maximum verbosity.
 }
 
 \examples{

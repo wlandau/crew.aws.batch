@@ -9,6 +9,18 @@ AWS Batch monitor \code{R6} class
 \details{
 See \code{\link[=crew_monitor_aws_batch]{crew_monitor_aws_batch()}}.
 }
+\section{IAM policies}{
+
+In order for the AWS Batch \code{crew} monitor class to function
+properly, your IAM policy needs permission to perform the \code{SubmitJob},
+\code{TerminateJob}, \code{ListJobs}, and \code{DescribeJobs} AWS Batch API calls.
+In addition, to download CloudWatch logs with the \code{log()} method,
+your IAM policy also needs permission to perform the \code{GetLogEvents}
+CloudWatch logs API call.
+For more information on AWS policies and permissions, please visit
+\url{https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html}.
+}
+
 \seealso{
 Other monitor: 
 \code{\link{crew_monitor_aws_batch}()}

@@ -3,9 +3,12 @@
 #' @family plugin_aws_batch
 #' @description Create an `R6` AWS Batch launcher object.
 #' @inheritParams crew::crew_launcher
-#' @section Verbosity:
-#'   Control verbosity with the `paws.log_level` global option in R.
-#'   Set to 0 for minimum verbosity and 3 for maximum verbosity.
+#' @section IAM policies:
+#'   In order for the AWS Batch `crew` plugin to function properly, your IAM
+#'   policy needs permission to perform the `SubmitJob` and `TerminateJob`
+#'   AWS Batch API calls. For more information on AWS policies and permissions,
+#'   please visit
+#'   <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html>.
 #' @section AWS arguments:
 #'   The AWS Batch controller and launcher accept many arguments
 #'   which start with `"aws_batch_"`. These arguments are AWS-Batch-specific
@@ -26,6 +29,9 @@
 #'   `jobDefinition` argument of the web API and
 #'   `paws.compute::batch()$submit_job()`, and both correspond to the
 #'   `--job-definition` argument of the CLI.
+#' @section Verbosity:
+#'   Control verbosity with the `paws.log_level` global option in R.
+#'   Set to 0 for minimum verbosity and 3 for maximum verbosity.
 #' @return An `R6` AWS Batch launcher object.
 #' @param aws_batch_config Named list, `config` argument of
 #'   `paws.compute::batch()` with optional configuration details.
@@ -170,6 +176,9 @@ crew_launcher_aws_batch <- function(
 #' @family plugin_aws_batch
 #' @description AWS Batch launcher `R6` class
 #' @details See [crew_launcher_aws_batch()].
+#' @inheritSection crew_launcher_aws_batch IAM policies
+#' @inheritSection crew_launcher_aws_batch AWS arguments
+#' @inheritSection crew_launcher_aws_batch Verbosity
 crew_class_launcher_aws_batch <- R6::R6Class(
   classname = "crew_class_launcher_aws_batch",
   inherit = crew::crew_class_launcher,

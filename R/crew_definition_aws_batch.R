@@ -3,6 +3,14 @@
 #' @family definition
 #' @description Create an `R6` object to manage a job definition for AWS
 #'   Batch jobs.
+#' @section IAM policies:
+#'   In order for the AWS Batch `crew` job definition class to function
+#'   properly, your IAM policy needs permission to perform the
+#'   `RegisterJobDefinition`, `DeregisterJobDefinition`, and
+#'   `DescribeJobDefinitions` AWS Batch API calls.
+#'   For more information on AWS policies and permissions, please visit
+#'   <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html>.
+#' @return An `R6` job definition object.
 #' @inheritParams crew_monitor_aws_batch
 #' @param job_definition Character of length 1, name of the AWS Batch
 #'   job definition. The job definition might or might not exist
@@ -40,6 +48,7 @@ crew_definition_aws_batch <- function(
 #' @family definition
 #' @description AWS Batch definition `R6` class
 #' @details See [crew_definition_aws_batch()].
+#' @inheritSection crew_definition_aws_batch IAM policies
 crew_class_definition_aws_batch <- R6::R6Class(
   classname = "crew_class_definition_aws_batch",
   cloneable = FALSE,

@@ -9,6 +9,44 @@ AWS Batch launcher \code{R6} class
 \details{
 See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.
 }
+\section{IAM policies}{
+
+In order for the AWS Batch \code{crew} plugin to function properly, your IAM
+policy needs permission to perform the \code{SubmitJob} and \code{TerminateJob}
+AWS Batch API calls. For more information on AWS policies and permissions,
+please visit
+\url{https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html}.
+}
+
+\section{AWS arguments}{
+
+The AWS Batch controller and launcher accept many arguments
+which start with \code{"aws_batch_"}. These arguments are AWS-Batch-specific
+parameters forwarded directly to the \code{submit_job()} method for
+the Batch client in the \code{paws.compute} R package
+
+For a full description
+of each argument, including its meaning and format, please visit
+\url{https://www.paws-r-sdk.com/docs/batch_submit_job/}. The upstream API
+documentation is at
+\url{https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html}
+and the analogous CLI documentation is at
+\url{https://docs.aws.amazon.com/cli/latest/reference/batch/submit-job.html}.
+
+The actual argument names may vary slightly, depending
+on which : for example, the \code{aws_batch_job_definition} argument of
+the \code{crew} AWS Batch launcher/controller corresponds to the
+\code{jobDefinition} argument of the web API and
+\code{paws.compute::batch()$submit_job()}, and both correspond to the
+\code{--job-definition} argument of the CLI.
+}
+
+\section{Verbosity}{
+
+Control verbosity with the \code{paws.log_level} global option in R.
+Set to 0 for minimum verbosity and 3 for maximum verbosity.
+}
+
 \seealso{
 Other plugin_aws_batch: 
 \code{\link{crew_controller_aws_batch}()},

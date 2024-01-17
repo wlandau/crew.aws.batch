@@ -3,6 +3,15 @@
 #' @family monitor
 #' @description Create an `R6` object to list, inspect, and terminate
 #'   AWS Batch jobs.
+#' @section IAM policies:
+#'   In order for the AWS Batch `crew` monitor class to function
+#'   properly, your IAM policy needs permission to perform the `SubmitJob`,
+#'   `TerminateJob`, `ListJobs`, and `DescribeJobs` AWS Batch API calls.
+#'   In addition, to download CloudWatch logs with the `log()` method,
+#'   your IAM policy also needs permission to perform the `GetLogEvents`
+#'   CloudWatch logs API call.
+#'   For more information on AWS policies and permissions, please visit
+#'   <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html>.
 #' @param job_queue Character of length 1, name of the AWS Batch
 #'   job queue.
 #' @param job_definition Character of length 1, name of the AWS Batch
@@ -57,6 +66,7 @@ crew_monitor_aws_batch <- function(
 #' @family monitor
 #' @description AWS Batch monitor `R6` class
 #' @details See [crew_monitor_aws_batch()].
+#' @inheritSection crew_monitor_aws_batch IAM policies
 crew_class_monitor_aws_batch <- R6::R6Class(
   classname = "crew_class_monitor_aws_batch",
   cloneable = FALSE,

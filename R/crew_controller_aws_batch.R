@@ -3,8 +3,9 @@
 #' @family plugin_aws_batch
 #' @description Create an `R6` object to submit tasks and
 #'   launch workers on AWS Batch workers.
-#' @inheritSection crew_launcher_aws_batch Verbosity
+#' @inheritSection crew_launcher_aws_batch IAM policies
 #' @inheritSection crew_launcher_aws_batch AWS arguments
+#' @inheritSection crew_launcher_aws_batch Verbosity
 #' @inheritParams crew::crew_client
 #' @inheritParams crew_launcher_aws_batch
 #' @inheritParams crew::crew_controller

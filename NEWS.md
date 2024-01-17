@@ -1,6 +1,7 @@
 # crew.aws.batch 0.0.4.9000 (development)
 
 * Require `crew` >= 0.8.0.
+* Describe IAM policy requirements in the documentation.
 
 # crew.aws.batch 0.0.4
 
