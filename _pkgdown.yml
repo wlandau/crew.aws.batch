@@ -1,18 +1,20 @@
 destination: docs/
+template:
+  bootstrap: 5
 reference:
 - title: Package help
   contents:
-  - '`crew.aws.batch-package`'
+  - 'crew.aws.batch-package'
 - title: AWS Batch launcher plugin
   contents:
-  - '`crew_controller_aws_batch`'
-  - '`crew_launcher_aws_batch`'
-  - '`crew_class_launcher_aws_batch`'
+  - 'crew_controller_aws_batch'
+  - 'crew_launcher_aws_batch'
+  - 'crew_class_launcher_aws_batch'
 - title: AWS Batch monitor
   contents:
-  - '`crew_monitor_aws_batch`'
-  - '`crew_class_monitor_aws_batch`'
+  - 'crew_monitor_aws_batch'
+  - 'crew_class_monitor_aws_batch'
 - title: AWS Batch job definition
   contents:
-  - '`crew_definition_aws_batch`'
-  - '`crew_class_definition_aws_batch`'
+  - 'crew_definition_aws_batch'
+  - 'crew_class_definition_aws_batch'
