@@ -340,7 +340,7 @@ controller$start()
 ```
 
 At this point, usage is exactly the same as basic
-[`crew`](https://wlandau.github.io/crew). The `push()` method submits
+[`crew`](https://wlandau.github.io/crew/). The `push()` method submits
 tasks and auto-scales [AWS Batch](https://aws.amazon.com/batch/) workers
 to meet demand.
 
@@ -411,7 +411,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.4,
+  Batch_. R package version 0.0.6,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -420,7 +420,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.4, 
+    note = {R package version 0.0.6, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }

@@ -1,6 +1,5 @@
 #' @title crew.aws.batch: a crew launcher plugin for AWS Batch
 #' @name crew.aws.batch-package
-#' @docType package
 #' @family help
 #' @description In computationally demanding analysis projects,
 #'   statisticians and data scientists asynchronously
