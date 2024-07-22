@@ -196,7 +196,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
           "awslogs-stream-prefix" = private$.job_definition
         )
       )
-      args
+      non_null(args)
     },
     .args_submit = function(
       command,
@@ -304,7 +304,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
       if (length(resources)) {
         args$containerOverrides$resourceRequirements <- resources
       }
-      args
+      non_null(args)
     }
   ),
   active = list(

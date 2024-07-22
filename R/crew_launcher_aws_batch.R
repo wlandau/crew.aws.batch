@@ -211,7 +211,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     .args_submit = function(call, name) {
       container_overrides <- as.list(private$.aws_batch_parameters)
       container_overrides$command <- list("R", "-e", call)
-      list(
+      out <- list(
         jobName = name,
         jobQueue = private$.aws_batch_job_queue,
         shareIdentifier = private$.aws_batch_share_identifier,
@@ -227,6 +227,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         tags = private$.aws_batch_tags,
         eksPropertiesOverride = private$.aws_batch_eks_properties_override
       )
+      non_null(out)
     }
   ),
   active = list(

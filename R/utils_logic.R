@@ -29,3 +29,7 @@ if_any <- function(condition, true, false) {
     false
   }
 }
+
+non_null <- function(x) {
+  Filter(f = function(x) !is.null(x), x = x)
+}
