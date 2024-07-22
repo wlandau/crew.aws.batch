@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.6.9000 (development)
+# crew.aws.batch 0.0.6.9001 (development)
 
-
+* Send both cancellation and termination requests to end jobs.
 
 # crew.aws.batch 0.0.6
 

@@ -126,7 +126,7 @@ Terminate one or more AWS Batch jobs.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_monitor_aws_batch$terminate(
   ids,
-  reason = "terminated by crew.aws.batch monitor",
+  reason = "cancelled/terminated by crew.aws.batch monitor",
   verbose = TRUE
 )}\if{html}{\out{</div>}}
 }

@@ -570,6 +570,10 @@ crew_launcher_aws_batch_terminate <- function(args_client, job_id) {
   # nocov start
   # Tested in tests/controller/minimal.R
   client <- do.call(what = paws.compute::batch, args = args_client)
+  client$cancel_job(
+    jobId = job_id,
+    reason = "cancelled by crew controller"
+  )
   client$terminate_job(
     jobId = job_id,
     reason = "terminated by crew controller"

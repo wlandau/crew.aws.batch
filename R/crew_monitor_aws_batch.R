@@ -190,7 +190,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #'   if the R process is interactive and `length(ids)` is greater than 1.
     terminate = function(
       ids,
-      reason = "terminated by crew.aws.batch monitor",
+      reason = "cancelled/terminated by crew.aws.batch monitor",
       verbose = TRUE
     ) {
       # Covered in tests/interactive/jobs.R
@@ -215,6 +215,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       client <- private$.client()
       progress <- progress_init(verbose = verbose, total = length(ids))
       for (id in ids) {
+        client$cancel_job(jobId = id, reason = reason)
         client$terminate_job(jobId = id, reason = reason)
         progress_update(progress)
       }
