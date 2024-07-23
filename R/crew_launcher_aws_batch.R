@@ -209,7 +209,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       )
     },
     .args_submit = function(call, name) {
-      container_overrides <- as.list(private$.aws_batch_parameters)
+      container_overrides <- as.list(private$.aws_container_overrides)
       container_overrides$command <- list("R", "-e", call)
       out <- list(
         jobName = name,
@@ -394,7 +394,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       private$.aws_batch_scheduling_priority_override <-
         aws_batch_scheduling_priority_override
       private$.aws_batch_parameters <- aws_batch_parameters
-      private$.aws_batch_parameters <- aws_batch_container_overrides
+      private$.aws_batch_container_overrides <- aws_batch_container_overrides
       private$.aws_batch_node_overrides <- aws_batch_node_overrides
       private$.aws_batch_retry_strategy <- aws_batch_retry_strategy
       private$.aws_batch_propagate_tags <- aws_batch_propagate_tags

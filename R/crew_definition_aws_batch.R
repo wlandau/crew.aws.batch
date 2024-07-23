@@ -186,7 +186,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
         resources$gpus <- list(value = as.character(gpus), type = "GPU")
       }
       if (length(resources)) {
-        args$containerProperties$resourceRequirements <- resources
+        args$containerProperties$resourceRequirements <- non_null(resources)
       }
       args$containerProperties$logConfiguration <- list(
         logDriver = "awslogs",
