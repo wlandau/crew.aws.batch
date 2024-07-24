@@ -125,7 +125,8 @@ Validate the object.
 Terminate one or more AWS Batch jobs.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_monitor_aws_batch$terminate(
-  ids,
+  ids = NULL,
+  all = FALSE,
   reason = "cancelled/terminated by crew.aws.batch monitor",
   verbose = TRUE
 )}\if{html}{\out{</div>}}
@@ -135,7 +136,11 @@ Terminate one or more AWS Batch jobs.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{ids}}{Character vector with the IDs of the AWS Batch jobs
-to terminate.}
+to terminate. Leave as \code{NULL} if \code{all} is \code{TRUE}.}
+
+\item{\code{all}}{\code{TRUE} to terminate all jobs belonging to
+the previously specified job definition. \code{FALSE} to terminate
+only the job IDs given in the \code{ids} argument.}
 
 \item{\code{reason}}{Character of length 1, natural language explaining
 the reason the job was terminated.}

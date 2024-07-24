@@ -26,6 +26,7 @@ crew_controller_aws_batch(
   garbage_collection = FALSE,
   launch_max = 5L,
   processes = NULL,
+  r_arguments = NULL,
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
@@ -144,6 +145,10 @@ Plugins that may use these processes should run asynchronous calls
 using \code{launcher$async$eval()} and expect a \code{mirai} task object
 as the return value.}
 
+\item{r_arguments}{Optional character vector of command line arguments
+to pass to R when starting a worker. Example:
+\code{r_arguments = c("--vanilla", "--max-connections=32")}.}
+
 \item{aws_batch_config}{Named list, \code{config} argument of
 \code{paws.compute::batch()} with optional configuration details.}
 
@@ -206,7 +211,7 @@ For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
 
-\item{aws_batch_propagate_tags}{\code{NULL} or a nonempty list.
+\item{aws_batch_propagate_tags}{\code{NULL} or a logical of length 1.
 For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
@@ -216,7 +221,7 @@ For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
 
-\item{aws_batch_tags}{\code{NULL} or a nonempty list.
+\item{aws_batch_tags}{\code{NULL} or a nonempty named list.
 For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}

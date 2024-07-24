@@ -148,6 +148,7 @@ Abstract launcher constructor.
   launch_max = NULL,
   tls = NULL,
   processes = NULL,
+  r_arguments = NULL,
   aws_batch_config = NULL,
   aws_batch_credentials = NULL,
   aws_batch_endpoint = NULL,
@@ -199,6 +200,8 @@ Abstract launcher constructor.
 \item{\code{tls}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{processes}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+
+\item{\code{r_arguments}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{aws_batch_config}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 

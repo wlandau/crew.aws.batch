@@ -83,7 +83,7 @@
 #'   For more details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
-#' @param aws_batch_propagate_tags `NULL` or a nonempty list.
+#' @param aws_batch_propagate_tags `NULL` or a logical of length 1.
 #'   For more details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
@@ -91,7 +91,7 @@
 #'   For more details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
-#' @param aws_batch_tags `NULL` or a nonempty list.
+#' @param aws_batch_tags `NULL` or a nonempty named list.
 #'   For more details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
@@ -115,6 +115,7 @@ crew_launcher_aws_batch <- function(
   launch_max = 5L,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
+  r_arguments = NULL,
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
@@ -149,6 +150,7 @@ crew_launcher_aws_batch <- function(
     launch_max = launch_max,
     tls = tls,
     processes = processes,
+    r_arguments = r_arguments,
     aws_batch_config = aws_batch_config,
     aws_batch_credentials = aws_batch_credentials,
     aws_batch_endpoint = aws_batch_endpoint,
@@ -316,6 +318,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param launch_max See [crew_launcher_aws_batch()].
     #' @param tls See [crew_launcher_aws_batch()].
     #' @param processes See [crew_launcher_aws_batch()].
+    #' @param r_arguments See [crew_launcher_aws_batch()].
     #' @param aws_batch_config See [crew_launcher_aws_batch()].
     #' @param aws_batch_credentials See [crew_launcher_aws_batch()].
     #' @param aws_batch_endpoint See [crew_launcher_aws_batch()].
@@ -350,6 +353,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       launch_max = NULL,
       tls = NULL,
       processes = NULL,
+      r_arguments = NULL,
       aws_batch_config = NULL,
       aws_batch_credentials = NULL,
       aws_batch_endpoint = NULL,
@@ -382,7 +386,8 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         garbage_collection = garbage_collection,
         launch_max = launch_max,
         tls = tls,
-        processes = processes
+        processes = processes,
+        r_arguments = r_arguments
       )
       private$.aws_batch_config <- aws_batch_config
       private$.aws_batch_credentials <- aws_batch_credentials
