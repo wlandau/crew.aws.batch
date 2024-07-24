@@ -170,7 +170,7 @@ test_that("job terminate", {
     message(nrow(monitor$active()))
     Sys.sleep(1)
   }
-  monitor$terminate(ids = monitor$active()$id, verbose = TRUE)
+  monitor$terminate(all = TRUE, verbose = TRUE)
   while (nrow(monitor$active()) > 0L) {
     message(paste(monitor$active()$status, collapse = " "))
     Sys.sleep(5)

@@ -183,25 +183,34 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #' @description Terminate one or more AWS Batch jobs.
     #' @return `NULL` (invisibly).
     #' @param ids Character vector with the IDs of the AWS Batch jobs
-    #'   to terminate.
+    #'   to terminate. Leave as `NULL` if `all` is `TRUE`.
+    #' @param all `TRUE` to terminate all jobs belonging to
+    #'   the previously specified job definition. `FALSE` to terminate
+    #'   only the job IDs given in the `ids` argument.
     #' @param reason Character of length 1, natural language explaining
     #'   the reason the job was terminated.
     #' @param verbose Logical of length 1, whether to show a progress bar
     #'   if the R process is interactive and `length(ids)` is greater than 1.
     terminate = function(
-      ids,
+      ids = NULL,
+      all = FALSE,
       reason = "cancelled/terminated by crew.aws.batch monitor",
       verbose = TRUE
     ) {
       # Covered in tests/interactive/jobs.R
       # nocov start
       crew::crew_assert(
-        ids,
+        ids %|||% "x",
         is.character(.),
         length(.) > 0L,
         !anyNA(.),
         nzchar(.),
         message = "'ids' must be a valid nonempty character"
+      )
+      crew::crew_assert(
+        all,
+        isTRUE(.) || isFALSE(.),
+        message = "'all' must be TRUE or FALSE."
       )
       crew::crew_assert(
         reason,
@@ -213,6 +222,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       )
       crew::crew_assert(verbose, isTRUE(.) || isFALSE(.))
       client <- private$.client()
+      if (all) {
+        ids <- self$jobs()$id
+      }
       progress <- progress_init(verbose = verbose, total = length(ids))
       for (id in ids) {
         client$cancel_job(jobId = id, reason = reason)
