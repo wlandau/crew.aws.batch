@@ -35,6 +35,7 @@ crew_controller_aws_batch <- function(
   seconds_idle = Inf,
   seconds_wall = Inf,
   retry_tasks = TRUE,
+  log_resources = NULL,
   tasks_max = Inf,
   tasks_timers = 0L,
   reset_globals = TRUE,
@@ -71,7 +72,8 @@ crew_controller_aws_batch <- function(
     tls_config = tls_config,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
-    retry_tasks = retry_tasks
+    retry_tasks = retry_tasks,
+    log_resources = log_resources
   )
   launcher <- crew_launcher_aws_batch(
     name = name,
