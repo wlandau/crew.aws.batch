@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">crew.aws.batch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,7 +181,8 @@ For more information on AWS policies and permissions, please visit
 <p>Terminate one or more AWS Batch jobs.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span></span>
-<span>  <span class="va">ids</span>,</span>
+<span>  ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  reason <span class="op">=</span> <span class="st">"cancelled/terminated by crew.aws.batch monitor"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -191,7 +192,13 @@ For more information on AWS policies and permissions, please visit
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>ids</code></dt>
 <dd><p>Character vector with the IDs of the AWS Batch jobs
-to terminate.</p></dd>
+to terminate. Leave as <code>NULL</code> if <code>all</code> is <code>TRUE</code>.</p></dd>
+
+
+<dt><code>all</code></dt>
+<dd><p><code>TRUE</code> to terminate all jobs belonging to
+the previously specified job definition. <code>FALSE</code> to terminate
+only the job IDs given in the <code>ids</code> argument.</p></dd>
 
 
 <dt><code>reason</code></dt>
