@@ -44,7 +44,7 @@ crew_controller_aws_batch <- function(
   garbage_collection = FALSE,
   launch_max = 5L,
   processes = NULL,
-  r_arguments = NULL,
+  r_arguments = c("--no-save", "--no-restore"),
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,

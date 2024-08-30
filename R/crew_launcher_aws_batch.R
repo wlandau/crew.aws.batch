@@ -115,7 +115,7 @@ crew_launcher_aws_batch <- function(
   launch_max = 5L,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
-  r_arguments = NULL,
+  r_arguments = c("--no-save", "--no-restore"),
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
