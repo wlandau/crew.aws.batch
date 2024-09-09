@@ -212,7 +212,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     },
     .args_submit = function(call, name) {
       container_overrides <- as.list(private$.aws_container_overrides)
-      container_overrides$command <- list("R", "-e", call)
+      container_overrides$command <- list("Rscript", "-e", call)
       out <- list(
         jobName = name,
         jobQueue = private$.aws_batch_job_queue,
