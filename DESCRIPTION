@@ -13,7 +13,7 @@ Description: In computationally demanding analysis projects,
   'clustermq' by Schubert (2019) <doi:10.1093/bioinformatics/btz284>),
   and 'batchtools' by Lang, Bischl, and Surmann (2017).
   <doi:10.21105/joss.00135>.
-Version: 0.0.6.9005
+Version: 0.0.6.9008
 License: MIT + file LICENSE
 URL: https://wlandau.github.io/crew.aws.batch/,
   https://github.com/wlandau/crew.aws.batch
@@ -34,7 +34,7 @@ Depends:
   R (>= 4.0.0)
 Imports:
   cli (>= 3.1.0),
-  crew (>= 0.9.5.9007),
+  crew (>= 0.9.5.9012),
   paws.common (>= 0.7.0),
   paws.compute,
   paws.management,
@@ -47,6 +47,8 @@ Suggests:
   markdown (>= 1.1),
   rmarkdown (>= 2.4),
   testthat (>= 3.0.0)
+Remotes:
+  wlandau/crew
 Encoding: UTF-8
 Language: en-US
 Config/testthat/edition: 3

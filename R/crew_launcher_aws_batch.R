@@ -116,6 +116,7 @@ crew_launcher_aws_batch <- function(
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
+  options_metrics = crew::crew_options_metrics(),
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
@@ -151,6 +152,7 @@ crew_launcher_aws_batch <- function(
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
+    options_metrics = options_metrics,
     aws_batch_config = aws_batch_config,
     aws_batch_credentials = aws_batch_credentials,
     aws_batch_endpoint = aws_batch_endpoint,
@@ -319,6 +321,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param tls See [crew_launcher_aws_batch()].
     #' @param processes See [crew_launcher_aws_batch()].
     #' @param r_arguments See [crew_launcher_aws_batch()].
+    #' @param options_metrics See [crew_launcher_aws_batch()].
     #' @param aws_batch_config See [crew_launcher_aws_batch()].
     #' @param aws_batch_credentials See [crew_launcher_aws_batch()].
     #' @param aws_batch_endpoint See [crew_launcher_aws_batch()].
@@ -354,6 +357,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       tls = NULL,
       processes = NULL,
       r_arguments = NULL,
+      options_metrics = NULL,
       aws_batch_config = NULL,
       aws_batch_credentials = NULL,
       aws_batch_endpoint = NULL,
@@ -387,7 +391,8 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         launch_max = launch_max,
         tls = tls,
         processes = processes,
-        r_arguments = r_arguments
+        r_arguments = r_arguments,
+        options_metrics = options_metrics
       )
       private$.aws_batch_config <- aws_batch_config
       private$.aws_batch_credentials <- aws_batch_credentials

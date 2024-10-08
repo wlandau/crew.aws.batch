@@ -18,7 +18,6 @@ crew_controller_aws_batch(
   seconds_idle = Inf,
   seconds_wall = Inf,
   retry_tasks = TRUE,
-  log_resources = NULL,
   tasks_max = Inf,
   tasks_timers = 0L,
   reset_globals = TRUE,
@@ -28,6 +27,7 @@ crew_controller_aws_batch(
   launch_max = 5L,
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
+  options_metrics = crew::crew_options_metrics(),
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
@@ -102,37 +102,6 @@ return a \code{mirai} error code (code number 19).
 Use \code{FALSE} for debugging purposes, e.g. to confirm that a task
 is causing a worker to run out of memory or crash in some other way.}
 
-\item{log_resources}{Optional character string with a file path to a
-text file to log memory consumption.
-Set \code{log_resources} to \code{NULL} to avoid writing to a log file.
-If you supply a path, then
-the \code{log()} method will write memory usage statistics to the file,
-and most controller methods will do the same with throttling
-so resource consumption is recorded throughout the whole life cycle
-of the controller.
-
-The log file is in comma-separated values
-(CSV) format which can be easily read by \code{readr::read_csv()}.
-The controller automatically deletes the old log file when it starts
-(when \code{controller$start()} is called for the first time, but not
-subsequent times).
-
-The log file has one row per observation of a process,
-including the current
-R process ("client") and the \code{mirai} dispatcher. If the dispatcher
-is not included in the output, it means the dispatcher process
-is not running.
-Columns include:
-* \code{type}: the type of process (client or dispatcher)
-* \code{pid}: the process ID.
-* \code{status}: The process status (from \code{ps::ps_status()}).
-* \code{rss}: resident set size (RSS). RS is the total memory held by
-a process, including shared libraries which may also be
-in use by other processes. RSS is obtained
-from \code{ps::ps_memory_info()} and shown in bytes.
-* \code{elapsed}: number of elapsed seconds since the R process was
-started (from \code{proc.time()["elapsed"]}).}
-
 \item{tasks_max}{Maximum number of tasks that a worker will do before
 exiting. See the \code{maxtasks} argument of \code{mirai::daemon()}.
 \code{crew} does not
@@ -178,8 +147,13 @@ using \code{launcher$async$eval()} and expect a \code{mirai} task object
 as the return value.}
 
 \item{r_arguments}{Optional character vector of command line arguments
-to pass to R when starting a worker. Example:
+to pass to \code{Rscript} (non-Windows) or \code{Rscript.exe} (Windows)
+when starting a worker. Example:
 \code{r_arguments = c("--vanilla", "--max-connections=32")}.}
+
+\item{options_metrics}{Either \code{NULL} to opt out of resource metric logging
+for workers, or an object from \code{\link[crew:crew_options_metrics]{crew_options_metrics()}} to enable
+and configure resource metric logging for workers.}
 
 \item{aws_batch_config}{Named list, \code{config} argument of
 \code{paws.compute::batch()} with optional configuration details.}

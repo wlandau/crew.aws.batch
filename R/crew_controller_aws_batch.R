@@ -35,7 +35,6 @@ crew_controller_aws_batch <- function(
   seconds_idle = Inf,
   seconds_wall = Inf,
   retry_tasks = TRUE,
-  log_resources = NULL,
   tasks_max = Inf,
   tasks_timers = 0L,
   reset_globals = TRUE,
@@ -45,6 +44,7 @@ crew_controller_aws_batch <- function(
   launch_max = 5L,
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
+  options_metrics = crew::crew_options_metrics(),
   aws_batch_config = list(),
   aws_batch_credentials = list(),
   aws_batch_endpoint = NULL,
@@ -72,8 +72,7 @@ crew_controller_aws_batch <- function(
     tls_config = tls_config,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
-    retry_tasks = retry_tasks,
-    log_resources = log_resources
+    retry_tasks = retry_tasks
   )
   launcher <- crew_launcher_aws_batch(
     name = name,
@@ -92,6 +91,7 @@ crew_controller_aws_batch <- function(
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
+    options_metrics = options_metrics,
     aws_batch_config = aws_batch_config,
     aws_batch_credentials = aws_batch_credentials,
     aws_batch_endpoint = aws_batch_endpoint,
