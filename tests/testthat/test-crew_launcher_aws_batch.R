@@ -1,8 +1,20 @@
-test_that("private methods", {
-  x <- crew_launcher_aws_batch(
-    aws_batch_job_definition = "crew-aws-batch",
-    aws_batch_job_queue = "crew-aws-batch"
+test_that("AWS batch launcher", {
+  options <- crew_options_aws_batch(
+    job_definition = "crew-definition",
+    job_queue = "crew-queue",
+    cpus = 2.5,
+    gpus = 3,
+    memory = 1234,
+    memory_units = "mebibytes"
   )
+  x <- crew_launcher_aws_batch(options_aws_batch = options)
+  expect_silent(x$validate())
+  nonempty <- !vapply(options, is.null, FUN.VALUE = logical(1L))
+  expect_s3_class(x$options_aws_batch, "crew_options_aws_batch")
+  expect_s3_class(x$options_aws_batch, "crew_options")
+  for (name in names(x$options_aws_batch)) {
+    expect_equal(x$options_aws_batch[[name]], options[[name]])
+  }
   private <- crew_private(x)
   expect_true(is.list(private$.args_client()))
   expect_equal(
@@ -12,5 +24,17 @@ test_that("private methods", {
   out <- private$.args_submit(call = "run", name = "x")
   expect_true(is.list(out))
   expect_equal(out$jobName, "x")
-  expect_equal(out$jobQueue, "crew-aws-batch")
+  expect_equal(out$jobDefinition, "crew-definition")
+  expect_equal(out$jobQueue, "crew-queue")
+  expect_equal(
+    out$containerOverrides,
+    list(
+      resourceRequirements = list(
+        memory = list(value = "1234", type = "MEMORY"),
+        cpus = list(value = "2.5", type = "VCPU"),
+        gpus = list(value = "3", type = "GPU")
+      ),
+      command = list("Rscript", "-e", "run")
+    )
+  )
 })

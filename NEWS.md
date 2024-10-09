@@ -1,10 +1,11 @@
-# crew.aws.batch 0.0.6.9008 (development)
+# crew.aws.batch 0.0.6.9010 (development)
 
 * Send both cancellation and termination requests to end jobs.
 * Fix launcher bug/typo where parameters were supplied to container overrides.
 * Add a new `all` argument to `terminate()` in the AWS Batch monitor.
 * Add `r_arguments` to accept command line arguments to R.
 * Support `options_metrics`.
+* Reduce argument clutter with `crew_options_aws_batch()`. Supports direct inputs for CPUs, GPUs, and memory without having to specify a complicated `containerOverrides` list.
 
 # crew.aws.batch 0.0.6
 

@@ -28,10 +28,20 @@
 #'   The `memory` argument can be `NULL`
 #'   to go with the defaults in the job definition. Ignored if
 #'   `container_overrides` is not `NULL`.
-#' @param units_memory Character string, units of memory of the `memory`
+#' @param memory_units Character string, units of memory of the `memory`
 #'   argument. Can be `"gigabytes"` or `"mebibytes"`.
 #'   Fargate instances can only be certain discrete values of mebibytes,
 #'   so please choose `memory_units = "mebibytes"` in that case.
+#' @param config Named list, `config` argument of
+#'   `paws.compute::batch()` with optional configuration details.
+#' @param credentials Named list. `credentials` argument of
+#'   `paws.compute::batch()` with optional credentials (if not already
+#'   provided through environment variables such as `AWS_ACCESS_KEY_ID`).
+#' @param endpoint Character of length 1. `endpoint`
+#'   argument of `paws.compute::batch()` with the endpoint to send HTTP
+#'   requests.
+#' @param region Character of length 1. `region` argument of
+#'   `paws.compute::batch()` with an AWS region string such as `"us-east-2"`.
 #' @param share_identifier `NULL` or character of length 1.
 #'   For details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
@@ -77,8 +87,8 @@
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
 crew_options_aws_batch <- function(
-  job_definition,
-  job_queue,
+  job_definition = "example",
+  job_queue = "example",
   cpus = NULL,
   gpus = NULL,
   memory = NULL,

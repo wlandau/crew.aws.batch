@@ -2,7 +2,6 @@
 #' @export
 #' @family plugin_aws_batch
 #' @description Create an `R6` AWS Batch launcher object.
-#' @inheritParams crew::crew_launcher
 #' @section IAM policies:
 #'   In order for the AWS Batch `crew` plugin to function properly, your IAM
 #'   policy needs permission to perform the `SubmitJob` and `TerminateJob`
@@ -33,72 +32,43 @@
 #'   Control verbosity with the `paws.log_level` global option in R.
 #'   Set to 0 for minimum verbosity and 3 for maximum verbosity.
 #' @return An `R6` AWS Batch launcher object.
-#' @param aws_batch_config Named list, `config` argument of
-#'   `paws.compute::batch()` with optional configuration details.
-#' @param aws_batch_credentials Named list. `credentials` argument of
-#'   `paws.compute::batch()` with optional credentials (if not already
-#'   provided through environment variables such as `AWS_ACCESS_KEY_ID`).
-#' @param aws_batch_endpoint Character of length 1. `endpoint`
-#'   argument of `paws.compute::batch()` with the endpoint to send HTTP
-#'   requests.
-#' @param aws_batch_region Character of length 1. `region` argument of
-#'   `paws.compute::batch()` with an AWS region string such as `"us-east-2"`.
-#' @param aws_batch_job_definition Character of length 1, name of the AWS
-#'   Batch job definition to use. There is no default for this argument,
-#'   and a job definition must be created prior to running the controller.
-#'   Please see <https://docs.aws.amazon.com/batch/> for details.
-#'
-#'   To create a job definition, you will need to create a Docker-compatible
-#'   image which can run R and `crew`. You may which to inherit
-#'   from the images at <https://github.com/rocker-org/rocker-versioned2>.
-#' @param aws_batch_job_queue Character of length 1, name of the AWS
-#'   Batch job queue to use. There is no default for this argument,
-#'   and a job queue must be created prior to running the controller.
-#'   Please see <https://docs.aws.amazon.com/batch/> for details.
-#' @param aws_batch_share_identifier `NULL` or character of length 1.
-#'   For details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_scheduling_priority_override `NULL` or integer of length 1.
-#'   For details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_parameters `NULL` or a nonempty list.
-#'   For details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_container_overrides `NULL` or a nonempty named list of
-#'   fields to override
-#'   in the container specified in the job definition. Any overrides for the
-#'   `command` field are ignored because `crew.aws.batch` needs to override
-#'   the command to run the `crew` worker.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_node_overrides `NULL` or a nonempty named list.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_retry_strategy `NULL` or a nonempty named list.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_propagate_tags `NULL` or a logical of length 1.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_timeout `NULL` or a nonempty named list.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_tags `NULL` or a nonempty named list.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
-#' @param aws_batch_eks_properties_override `NULL` or a nonempty named list.
-#'   For more details, visit
-#'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
-#'   "AWS arguments" sections of this help file.
+#' @inheritParams crew::crew_launcher
+#' @param options_aws_batch List of options from [crew_options_aws_batch()].
+#'   The job definition and job queue must be specified in
+#'   [crew_options_aws_batch()]. [crew_options_aws_batch()] also allows
+#'   you to request vCPUs, GPUs, and memory for the jobs.
+#' @param aws_batch_config Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_credentials Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_endpoint Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_region Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_job_definition Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_job_queue Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_share_identifier Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_scheduling_priority_override Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_parameters Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_container_overrides Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_node_overrides Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_retry_strategy Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_propagate_tags Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_timeout Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_tags Deprecated.
+#'   Use `options_aws_batch` instead.
+#' @param aws_batch_eks_properties_override Deprecated.
+#'   Use `options_aws_batch` instead.
 crew_launcher_aws_batch <- function(
   name = NULL,
   seconds_interval = 0.5,
@@ -117,12 +87,13 @@ crew_launcher_aws_batch <- function(
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
   options_metrics = crew::crew_options_metrics(),
-  aws_batch_config = list(),
-  aws_batch_credentials = list(),
+  options_aws_batch = crew.aws.batch::crew_options_aws_batch(),
+  aws_batch_config = NULL,
+  aws_batch_credentials = NULL,
   aws_batch_endpoint = NULL,
   aws_batch_region = NULL,
-  aws_batch_job_definition,
-  aws_batch_job_queue,
+  aws_batch_job_definition = NULL,
+  aws_batch_job_queue = NULL,
   aws_batch_share_identifier = NULL,
   aws_batch_scheduling_priority_override = NULL,
   aws_batch_parameters = NULL,
@@ -135,6 +106,24 @@ crew_launcher_aws_batch <- function(
   aws_batch_eks_properties_override = NULL
 ) {
   name <- as.character(name %|||% crew::crew_random_name())
+  args <- match.call()
+  crew::crew_assert(
+    options_aws_batch,
+    inherits(., c("crew_options_aws_batch", "crew_options"))
+  )
+  deprecated <- grep("^aws_", names(formals()), value = TRUE)
+  for (arg in deprecated) {
+    value <- get(arg)
+    crew::crew_deprecate(
+      name = arg,
+      date = "2024-10-09",
+      version = "0.0.6.9008",
+      alternative = "options_aws_batch argument",
+      value = value
+    )
+    field <- gsub("^aws_batch_", "", arg)
+    options_aws_batch[[field]] <- value %|||% options_aws_batch[[field]]
+  }
   launcher <- crew_class_launcher_aws_batch$new(
     name = name,
     seconds_interval = seconds_interval,
@@ -153,23 +142,7 @@ crew_launcher_aws_batch <- function(
     processes = processes,
     r_arguments = r_arguments,
     options_metrics = options_metrics,
-    aws_batch_config = aws_batch_config,
-    aws_batch_credentials = aws_batch_credentials,
-    aws_batch_endpoint = aws_batch_endpoint,
-    aws_batch_region = aws_batch_region,
-    aws_batch_job_definition = aws_batch_job_definition,
-    aws_batch_job_queue = aws_batch_job_queue,
-    aws_batch_share_identifier = aws_batch_share_identifier,
-    aws_batch_scheduling_priority_override =
-      aws_batch_scheduling_priority_override,
-    aws_batch_parameters = aws_batch_parameters,
-    aws_batch_container_overrides = aws_batch_container_overrides,
-    aws_batch_node_overrides = aws_batch_node_overrides,
-    aws_batch_retry_strategy = aws_batch_retry_strategy,
-    aws_batch_propagate_tags = aws_batch_propagate_tags,
-    aws_batch_timeout = aws_batch_timeout,
-    aws_batch_tags = aws_batch_tags,
-    aws_batch_eks_properties_override = aws_batch_eks_properties_override
+    options_aws_batch = options_aws_batch
   )
   launcher$validate()
   launcher
@@ -188,118 +161,44 @@ crew_class_launcher_aws_batch <- R6::R6Class(
   inherit = crew::crew_class_launcher,
   cloneable = FALSE,
   private = list(
-    .aws_batch_config = NULL,
-    .aws_batch_credentials = NULL,
-    .aws_batch_endpoint = NULL,
-    .aws_batch_region = NULL,
-    .aws_batch_job_definition = NULL,
-    .aws_batch_job_queue = NULL,
-    .aws_batch_share_identifier = NULL,
-    .aws_batch_scheduling_priority_override = NULL,
-    .aws_batch_parameters = NULL,
-    .aws_batch_container_overrides = NULL,
-    .aws_batch_node_overrides = NULL,
-    .aws_batch_retry_strategy = NULL,
-    .aws_batch_propagate_tags = NULL,
-    .aws_batch_timeout = NULL,
-    .aws_batch_tags = NULL,
-    .aws_batch_eks_properties_override = NULL,
+    .options_aws_batch = NULL,
     .args_client = function() {
       list(
-        config = private$.aws_batch_config,
-        credentials = private$.aws_batch_credentials,
-        endpoint = private$.aws_batch_endpoint,
-        region = private$.aws_batch_region
+        config = private$.options_aws_batch$config,
+        credentials = private$.options_aws_batch$credentials,
+        endpoint = private$.options_aws_batch$endpoint,
+        region = private$.options_aws_batch$region
       )
     },
     .args_submit = function(call, name) {
-      container_overrides <- as.list(private$.aws_container_overrides)
+      container_overrides <- as.list(
+        private$.options_aws_batch$container_overrides
+      )
       container_overrides$command <- list("Rscript", "-e", call)
       out <- list(
         jobName = name,
-        jobQueue = private$.aws_batch_job_queue,
-        shareIdentifier = private$.aws_batch_share_identifier,
+        jobQueue = private$.options_aws_batch$job_queue,
+        shareIdentifier = private$.options_aws_batch$share_identifier,
         schedulingPriorityOverride =
-          private$.aws_batch_scheduling_priority_override,
-        jobDefinition = private$.aws_batch_job_definition,
-        parameters = private$.aws_batch_parameters,
+          private$.options_aws_batch$scheduling_priority_override,
+        jobDefinition = private$.options_aws_batch$job_definition,
+        parameters = private$.options_aws_batch$parameters,
         containerOverrides = container_overrides,
-        nodeOverrides = private$.aws_batch_node_overrides,
-        retryStrategy = private$.aws_batch_retry_strategy,
-        propagateTags = private$.aws_batch_propagate_tags,
-        timeout = private$.aws_batch_timeout,
-        tags = private$.aws_batch_tags,
-        eksPropertiesOverride = private$.aws_batch_eks_properties_override
+        nodeOverrides = private$.options_aws_batch$node_overrides,
+        retryStrategy = private$.options_aws_batch$retry_strategy,
+        propagateTags = private$.options_aws_batch$propagate_tags,
+        timeout = private$.options_aws_batch$timeout,
+        tags = private$.options_aws_batch$tags,
+        eksPropertiesOverride =
+          private$.options_aws_batch$eks_properties_override
       )
       non_null(out)
     }
   ),
   active = list(
-    #' @field aws_batch_config See [crew_launcher_aws_batch()].
-    aws_batch_config = function() {
-      .subset2(private, ".aws_batch_config")
-    },
-    #' @field aws_batch_credentials See [crew_launcher_aws_batch()].
-    aws_batch_credentials = function() {
-      .subset2(private, ".aws_batch_credentials")
-    },
-    #' @field aws_batch_endpoint See [crew_launcher_aws_batch()].
-    aws_batch_endpoint = function() {
-      .subset2(private, ".aws_batch_endpoint")
-    },
-    #' @field aws_batch_region See [crew_launcher_aws_batch()].
-    aws_batch_region = function() {
-      .subset2(private, ".aws_batch_region")
-    },
-    #' @field aws_batch_job_definition See [crew_launcher_aws_batch()].
-    aws_batch_job_definition = function() {
-      .subset2(private, ".aws_batch_job_definition")
-    },
-    #' @field aws_batch_job_queue See [crew_launcher_aws_batch()].
-    aws_batch_job_queue = function() {
-      .subset2(private, ".aws_batch_job_queue")
-    },
-    #' @field aws_batch_share_identifier See [crew_launcher_aws_batch()].
-    aws_batch_share_identifier = function() {
-      .subset2(private, ".aws_batch_share_identifier")
-    },
-    #' @field aws_batch_scheduling_priority_override
-    #'   See [crew_launcher_aws_batch()].
-    aws_batch_scheduling_priority_override = function() {
-      .subset2(private, ".aws_batch_scheduling_priority_override")
-    },
-    #' @field aws_batch_parameters See [crew_launcher_aws_batch()].
-    aws_batch_parameters = function() {
-      .subset2(private, ".aws_batch_parameters")
-    },
-    #' @field aws_batch_container_overrides See [crew_launcher_aws_batch()].
-    aws_batch_container_overrides = function() {
-      .subset2(private, ".aws_batch_container_overrides")
-    },
-    #' @field aws_batch_node_overrides See [crew_launcher_aws_batch()].
-    aws_batch_node_overrides = function() {
-      .subset2(private, ".aws_batch_node_overrides")
-    },
-    #' @field aws_batch_retry_strategy See [crew_launcher_aws_batch()].
-    aws_batch_retry_strategy = function() {
-      .subset2(private, ".aws_batch_retry_strategy")
-    },
-    #' @field aws_batch_propagate_tags See [crew_launcher_aws_batch()].
-    aws_batch_propagate_tags = function() {
-      .subset2(private, ".aws_batch_propagate_tags")
-    },
-    #' @field aws_batch_timeout See [crew_launcher_aws_batch()].
-    aws_batch_timeout = function() {
-      .subset2(private, ".aws_batch_timeout")
-    },
-    #' @field aws_batch_tags See [crew_launcher_aws_batch()].
-    aws_batch_tags = function() {
-      .subset2(private, ".aws_batch_tags")
-    },
-    #' @field aws_batch_eks_properties_override
-    #'   See [crew_launcher_aws_batch()].
-    aws_batch_eks_properties_override = function() {
-      .subset2(private, ".aws_batch_eks_properties_override")
+    #' @field options_aws_batch See [crew_launcher_aws_batch()].
+    options_aws_batch = function() {
+      .subset2(private, ".options_aws_batch")
     }
   ),
   public = list(
@@ -322,24 +221,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param processes See [crew_launcher_aws_batch()].
     #' @param r_arguments See [crew_launcher_aws_batch()].
     #' @param options_metrics See [crew_launcher_aws_batch()].
-    #' @param aws_batch_config See [crew_launcher_aws_batch()].
-    #' @param aws_batch_credentials See [crew_launcher_aws_batch()].
-    #' @param aws_batch_endpoint See [crew_launcher_aws_batch()].
-    #' @param aws_batch_region See [crew_launcher_aws_batch()].
-    #' @param aws_batch_job_definition See [crew_launcher_aws_batch()].
-    #' @param aws_batch_job_queue See [crew_launcher_aws_batch()].
-    #' @param aws_batch_share_identifier See [crew_launcher_aws_batch()].
-    #' @param aws_batch_scheduling_priority_override
-    #'   See [crew_launcher_aws_batch()].
-    #' @param aws_batch_parameters See [crew_launcher_aws_batch()].
-    #' @param aws_batch_container_overrides See [crew_launcher_aws_batch()].
-    #' @param aws_batch_node_overrides See [crew_launcher_aws_batch()].
-    #' @param aws_batch_retry_strategy See [crew_launcher_aws_batch()].
-    #' @param aws_batch_propagate_tags See [crew_launcher_aws_batch()].
-    #' @param aws_batch_timeout See [crew_launcher_aws_batch()].
-    #' @param aws_batch_tags See [crew_launcher_aws_batch()].
-    #' @param aws_batch_eks_properties_override
-    #'   See [crew_launcher_aws_batch()].
+    #' @param options_aws_batch See [crew_launcher_aws_batch()].
     initialize = function(
       name = NULL,
       seconds_interval = NULL,
@@ -358,22 +240,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       processes = NULL,
       r_arguments = NULL,
       options_metrics = NULL,
-      aws_batch_config = NULL,
-      aws_batch_credentials = NULL,
-      aws_batch_endpoint = NULL,
-      aws_batch_region = NULL,
-      aws_batch_job_definition = NULL,
-      aws_batch_job_queue = NULL,
-      aws_batch_share_identifier = NULL,
-      aws_batch_scheduling_priority_override = NULL,
-      aws_batch_parameters = NULL,
-      aws_batch_container_overrides = NULL,
-      aws_batch_node_overrides = NULL,
-      aws_batch_retry_strategy = NULL,
-      aws_batch_propagate_tags = NULL,
-      aws_batch_timeout = NULL,
-      aws_batch_tags = NULL,
-      aws_batch_eks_properties_override = NULL
+      options_aws_batch = NULL
     ) {
       super$initialize(
         name = name,
@@ -394,97 +261,16 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         r_arguments = r_arguments,
         options_metrics = options_metrics
       )
-      private$.aws_batch_config <- aws_batch_config
-      private$.aws_batch_credentials <- aws_batch_credentials
-      private$.aws_batch_endpoint <- aws_batch_endpoint
-      private$.aws_batch_region <- aws_batch_region
-      private$.aws_batch_job_definition <- aws_batch_job_definition
-      private$.aws_batch_job_queue <- aws_batch_job_queue
-      private$.aws_batch_share_identifier <- aws_batch_share_identifier
-      private$.aws_batch_scheduling_priority_override <-
-        aws_batch_scheduling_priority_override
-      private$.aws_batch_parameters <- aws_batch_parameters
-      private$.aws_batch_container_overrides <- aws_batch_container_overrides
-      private$.aws_batch_node_overrides <- aws_batch_node_overrides
-      private$.aws_batch_retry_strategy <- aws_batch_retry_strategy
-      private$.aws_batch_propagate_tags <- aws_batch_propagate_tags
-      private$.aws_batch_timeout <- aws_batch_timeout
-      private$.aws_batch_tags <- aws_batch_tags
-      private$.aws_batch_eks_properties_override <-
-        aws_batch_eks_properties_override
+      private$.options_aws_batch <- options_aws_batch
     },
     #' @description Validate the launcher.
     #' @return `NULL` (invisibly). Throws an error if a field is invalid.
     validate = function() {
       super$validate() # nolint
-      for (field in c("aws_batch_config", "aws_batch_credentials")) {
-        crew::crew_assert(
-          self[[field]],
-          is.list(.),
-          message = paste(field, "must be a list")
-        )
-      }
-      for (field in c("aws_batch_job_definition", "aws_batch_job_queue")) {
-        crew::crew_assert(
-          self[[field]],
-          is.character(.),
-          !anyNA(.),
-          nzchar(.),
-          length(.) == 1L,
-          message = paste(
-            field,
-            "must be a nonempty character of length 1.",
-            "AWS Batch job definitions and job queues must be created",
-            "before the {crew.aws.batch} controller can work properly."
-          )
-        )
-      }
-      fields <- c(
-        "aws_batch_endpoint",
-        "aws_batch_region",
-        "aws_batch_share_identifier"
-      )
-      for (field in fields) {
-        crew::crew_assert(
-          self[[field]] %|||% "x",
-          is.character(.),
-          !anyNA(.),
-          nzchar(.),
-          length(.) == 1L,
-          message = paste(
-            field,
-            "must be NULL or a nonempty character of length 1."
-          )
-        )
-      }
       crew::crew_assert(
-        private$.aws_batch_scheduling_priority_override %|||% 1L,
-        is.numeric(.),
-        !anyNA(.),
-        nzchar(.),
-        length(.) == 1L,
-        message = paste(
-          "aws_batch_scheduling_priority_override must be NULL",
-          "or a nonempty integer of length 1."
-        )
+        private$.options_aws_batch,
+        inherits(., c("crew_options_aws_batch", "crew_options"))
       )
-      fields <- c(
-        "aws_batch_parameters",
-        "aws_batch_container_overrides",
-        "aws_batch_node_overrides",
-        "aws_batch_retry_strategy",
-        "aws_batch_propagate_tags",
-        "aws_batch_timeout",
-        "aws_batch_tags",
-        "aws_batch_eks_properties_override"
-      )
-      for (field in fields) {
-        crew::crew_assert(
-          self[[field]] %|||% list("item"),
-          length(.) > 0L,
-          message = paste(field, "must be NULL or a nonempty list")
-        )
-      }
       invisible()
     },
     #' @description Launch a local process worker which will

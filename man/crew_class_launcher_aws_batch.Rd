@@ -59,37 +59,7 @@ Other plugin_aws_batch:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{aws_batch_config}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_credentials}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_endpoint}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_region}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_job_definition}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_job_queue}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_share_identifier}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_scheduling_priority_override}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_parameters}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_container_overrides}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_node_overrides}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_retry_strategy}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_propagate_tags}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_timeout}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_tags}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_eks_properties_override}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{options_aws_batch}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -150,22 +120,7 @@ Abstract launcher constructor.
   processes = NULL,
   r_arguments = NULL,
   options_metrics = NULL,
-  aws_batch_config = NULL,
-  aws_batch_credentials = NULL,
-  aws_batch_endpoint = NULL,
-  aws_batch_region = NULL,
-  aws_batch_job_definition = NULL,
-  aws_batch_job_queue = NULL,
-  aws_batch_share_identifier = NULL,
-  aws_batch_scheduling_priority_override = NULL,
-  aws_batch_parameters = NULL,
-  aws_batch_container_overrides = NULL,
-  aws_batch_node_overrides = NULL,
-  aws_batch_retry_strategy = NULL,
-  aws_batch_propagate_tags = NULL,
-  aws_batch_timeout = NULL,
-  aws_batch_tags = NULL,
-  aws_batch_eks_properties_override = NULL
+  options_aws_batch = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -206,37 +161,7 @@ Abstract launcher constructor.
 
 \item{\code{options_metrics}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
-\item{\code{aws_batch_config}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_credentials}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_endpoint}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_region}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_job_definition}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_job_queue}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_share_identifier}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_scheduling_priority_override}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_parameters}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_container_overrides}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_node_overrides}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_retry_strategy}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_propagate_tags}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_timeout}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_tags}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{aws_batch_eks_properties_override}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{options_aws_batch}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 }
 \if{html}{\out{</div>}}
 }

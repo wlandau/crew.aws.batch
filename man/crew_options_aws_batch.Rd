@@ -5,8 +5,8 @@
 \title{AWS Batch options}
 \usage{
 crew_options_aws_batch(
-  job_definition,
-  job_queue,
+  job_definition = "example",
+  job_queue = "example",
   cpus = NULL,
   gpus = NULL,
   memory = NULL,
@@ -57,6 +57,25 @@ so please choose \code{memory_units = "mebibytes"} in that case.
 The \code{memory} argument can be \code{NULL}
 to go with the defaults in the job definition. Ignored if
 \code{container_overrides} is not \code{NULL}.}
+
+\item{memory_units}{Character string, units of memory of the \code{memory}
+argument. Can be \code{"gigabytes"} or \code{"mebibytes"}.
+Fargate instances can only be certain discrete values of mebibytes,
+so please choose \code{memory_units = "mebibytes"} in that case.}
+
+\item{config}{Named list, \code{config} argument of
+\code{paws.compute::batch()} with optional configuration details.}
+
+\item{credentials}{Named list. \code{credentials} argument of
+\code{paws.compute::batch()} with optional credentials (if not already
+provided through environment variables such as \code{AWS_ACCESS_KEY_ID}).}
+
+\item{endpoint}{Character of length 1. \code{endpoint}
+argument of \code{paws.compute::batch()} with the endpoint to send HTTP
+requests.}
+
+\item{region}{Character of length 1. \code{region} argument of
+\code{paws.compute::batch()} with an AWS region string such as \code{"us-east-2"}.}
 
 \item{share_identifier}{\code{NULL} or character of length 1.
 For details, visit
@@ -111,11 +130,6 @@ For more details, visit
 For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
-
-\item{units_memory}{Character string, units of memory of the \code{memory}
-argument. Can be \code{"gigabytes"} or \code{"mebibytes"}.
-Fargate instances can only be certain discrete values of mebibytes,
-so please choose \code{memory_units = "mebibytes"} in that case.}
 }
 \value{
 A classed list of options for the controller.

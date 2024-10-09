@@ -23,10 +23,10 @@ packages [`mirai`](https://github.com/shikokuchuo/mirai),
 
 # Installation
 
-| Type        | Source     | Command                                                                        |
-|-------------|------------|--------------------------------------------------------------------------------|
-| Release     | CRAN       | `install.packages("crew.aws.batch")`                                           |
-| Development | GitHub     | `remotes::install_github("wlandau/crew.aws.batch")`                            |
+| Type | Source | Command |
+|----|----|----|
+| Release | CRAN | `install.packages("crew.aws.batch")` |
+| Development | GitHub | `remotes::install_github("wlandau/crew.aws.batch")` |
 | Development | R-universe | `install.packages("crew.aws.batch", repos = "https://wlandau.r-universe.dev")` |
 
 # Documentation
@@ -329,12 +329,19 @@ library(crew.aws.batch)
 controller <- crew_controller_aws_batch(
   name = "my_workflow", # for informative job names
   workers = 16,
-  tasks_max = 2, # to avoid reaching wall time limits
+  tasks_max = 2, # to avoid reaching wall time limits (if any exist)
   seconds_launch = 600, # to allow a 10-minute startup window
   seconds_idle = 60, # to release resources when they are not needed
   processes = NULL, # See the "Asynchronous worker management" section below.
-  aws_batch_job_definition = "YOUR_JOB_DEFINITION_NAME",
-  aws_batch_job_queue = "YOUR_JOB_QUEUE_NAME"
+  options_aws_batch = crew_options_aws_batch(
+    job_definition = "YOUR_JOB_DEFINITION_NAME",
+    job_queue = "YOUR_JOB_QUEUE_NAME",
+    cpus = 2,
+    gpus = 0,
+    memory = 4,
+    memory_units = "gigabytes"
+  )
+  
 )
 controller$start()
 ```
@@ -411,7 +418,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.6,
+  Batch_. R package version 0.0.6.9010,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -420,7 +427,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.6, 
+    note = {R package version 0.0.6.9010, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }
