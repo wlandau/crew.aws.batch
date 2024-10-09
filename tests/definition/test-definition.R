@@ -59,7 +59,7 @@ test_that("submit a job", {
   job <- x$submit(
     command = c("sleep", "1"),
     memory_units = "mebibytes",
-    memory = 128,
+    memory = 500,
     cpus = 1,
     seconds_timeout = 60,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),

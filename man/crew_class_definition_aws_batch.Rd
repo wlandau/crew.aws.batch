@@ -262,10 +262,10 @@ Submit an AWS Batch job with the given job definition.
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_definition_aws_batch$submit(
   command = c("sleep", "300"),
   name = paste0("crew-aws-batch-job-", crew::crew_random_name()),
-  memory_units = "gigabytes",
-  memory = NULL,
   cpus = NULL,
   gpus = NULL,
+  memory_units = "gigabytes",
+  memory = NULL,
   seconds_timeout = NULL,
   share_identifier = NULL,
   scheduling_priority_override = NULL,
@@ -284,6 +284,12 @@ with each term in its own character string.}
 
 \item{\code{name}}{Character of length 1 with the job name.}
 
+\item{\code{cpus}}{Positive numeric of length 1, number of virtual
+CPUs to request for each job.}
+
+\item{\code{gpus}}{Positive numeric of length 1, number of GPUs to
+request for each job.}
+
 \item{\code{memory_units}}{Character of length 1,
 either \code{"gigabytes"} or \code{"mebibytes"} to set the units of the
 \code{memory} argument. \code{"gigabytes"} is simpler for EC2 jobs, but
@@ -293,12 +299,6 @@ mebibytes (MiB). for details, read
 
 \item{\code{memory}}{Positive numeric of length 1, amount of memory to request
 for each job.}
-
-\item{\code{cpus}}{Positive numeric of length 1, number of virtual
-CPUs to request for each job.}
-
-\item{\code{gpus}}{Positive numeric of length 1, number of GPUs to
-request for each job.}
 
 \item{\code{seconds_timeout}}{Optional positive numeric of length 1,
 number of seconds until a job times out.}

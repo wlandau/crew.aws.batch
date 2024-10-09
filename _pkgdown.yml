@@ -8,6 +8,7 @@ reference:
 - title: AWS Batch launcher plugin
   contents:
   - 'crew_controller_aws_batch'
+  - 'crew_options_aws_batch'
   - 'crew_launcher_aws_batch'
   - 'crew_class_launcher_aws_batch'
 - title: AWS Batch monitor
