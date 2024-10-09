@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">crew.aws.batch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -346,10 +346,10 @@ Some fields may be nested lists.</p>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_definition_aws_batch</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span></span>
 <span>  command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sleep"</span>, <span class="st">"300"</span><span class="op">)</span>,</span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"crew-aws-batch-job-"</span>, <span class="fu">crew</span><span class="fu">::</span><span class="fu"><a href="https://wlandau.github.io/crew/reference/crew_random_name.html" class="external-link">crew_random_name</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  memory_units <span class="op">=</span> <span class="st">"gigabytes"</span>,</span>
-<span>  memory <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gpus <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  memory_units <span class="op">=</span> <span class="st">"gigabytes"</span>,</span>
+<span>  memory <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  seconds_timeout <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  share_identifier <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  scheduling_priority_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -371,6 +371,16 @@ with each term in its own character string.</p></dd>
 <dd><p>Character of length 1 with the job name.</p></dd>
 
 
+<dt><code>cpus</code></dt>
+<dd><p>Positive numeric of length 1, number of virtual
+CPUs to request for each job.</p></dd>
+
+
+<dt><code>gpus</code></dt>
+<dd><p>Positive numeric of length 1, number of GPUs to
+request for each job.</p></dd>
+
+
 <dt><code>memory_units</code></dt>
 <dd><p>Character of length 1,
 either <code>"gigabytes"</code> or <code>"mebibytes"</code> to set the units of the
@@ -383,16 +393,6 @@ mebibytes (MiB). for details, read
 <dt><code>memory</code></dt>
 <dd><p>Positive numeric of length 1, amount of memory to request
 for each job.</p></dd>
-
-
-<dt><code>cpus</code></dt>
-<dd><p>Positive numeric of length 1, number of virtual
-CPUs to request for each job.</p></dd>
-
-
-<dt><code>gpus</code></dt>
-<dd><p>Positive numeric of length 1, number of GPUs to
-request for each job.</p></dd>
 
 
 <dt><code>seconds_timeout</code></dt>

@@ -9,7 +9,7 @@ launch workers on AWS Batch workers."><meta property="og:image" content="/logo.p
 
     <a class="navbar-brand me-2" href="../index.html">crew.aws.batch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,12 +65,13 @@ launch workers on AWS Batch workers.</p>
 <span>  processes <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  r_arguments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--no-save"</span>, <span class="st">"--no-restore"</span><span class="op">)</span>,</span>
 <span>  options_metrics <span class="op">=</span> <span class="fu">crew</span><span class="fu">::</span><span class="fu"><a href="https://wlandau.github.io/crew/reference/crew_options_metrics.html" class="external-link">crew_options_metrics</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  aws_batch_config <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  aws_batch_credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  options_aws_batch <span class="op">=</span> <span class="fu">crew.aws.batch</span><span class="fu">::</span><span class="fu"><a href="crew_options_aws_batch.html">crew_options_aws_batch</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  aws_batch_config <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  aws_batch_credentials <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  aws_batch_endpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  aws_batch_region <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">aws_batch_job_definition</span>,</span>
-<span>  <span class="va">aws_batch_job_queue</span>,</span>
+<span>  aws_batch_job_definition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  aws_batch_job_queue <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  aws_batch_share_identifier <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  aws_batch_scheduling_priority_override <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  aws_batch_parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -242,117 +243,91 @@ for workers, or an object from <code><a href="https://wlandau.github.io/crew/ref
 and configure resource metric logging for workers.</p></dd>
 
 
+<dt id="arg-options-aws-batch">options_aws_batch<a class="anchor" aria-label="anchor" href="#arg-options-aws-batch"></a></dt>
+<dd><p>List of options from <code><a href="crew_options_aws_batch.html">crew_options_aws_batch()</a></code>.
+The job definition and job queue must be specified in
+<code><a href="crew_options_aws_batch.html">crew_options_aws_batch()</a></code>. <code><a href="crew_options_aws_batch.html">crew_options_aws_batch()</a></code> also allows
+you to request vCPUs, GPUs, and memory for the jobs.</p></dd>
+
+
 <dt id="arg-aws-batch-config">aws_batch_config<a class="anchor" aria-label="anchor" href="#arg-aws-batch-config"></a></dt>
-<dd><p>Named list, <code>config</code> argument of
-<code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code> with optional configuration details.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-credentials">aws_batch_credentials<a class="anchor" aria-label="anchor" href="#arg-aws-batch-credentials"></a></dt>
-<dd><p>Named list. <code>credentials</code> argument of
-<code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code> with optional credentials (if not already
-provided through environment variables such as <code>AWS_ACCESS_KEY_ID</code>).</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-endpoint">aws_batch_endpoint<a class="anchor" aria-label="anchor" href="#arg-aws-batch-endpoint"></a></dt>
-<dd><p>Character of length 1. <code>endpoint</code>
-argument of <code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code> with the endpoint to send HTTP
-requests.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-region">aws_batch_region<a class="anchor" aria-label="anchor" href="#arg-aws-batch-region"></a></dt>
-<dd><p>Character of length 1. <code>region</code> argument of
-<code><a href="https://rdrr.io/pkg/paws.compute/man/batch.html" class="external-link">paws.compute::batch()</a></code> with an AWS region string such as <code>"us-east-2"</code>.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-job-definition">aws_batch_job_definition<a class="anchor" aria-label="anchor" href="#arg-aws-batch-job-definition"></a></dt>
-<dd><p>Character of length 1, name of the AWS
-Batch job definition to use. There is no default for this argument,
-and a job definition must be created prior to running the controller.
-Please see <a href="https://docs.aws.amazon.com/batch/" class="external-link">https://docs.aws.amazon.com/batch/</a> for details.</p>
-<p>To create a job definition, you will need to create a Docker-compatible
-image which can run R and <code>crew</code>. You may which to inherit
-from the images at <a href="https://github.com/rocker-org/rocker-versioned2" class="external-link">https://github.com/rocker-org/rocker-versioned2</a>.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-job-queue">aws_batch_job_queue<a class="anchor" aria-label="anchor" href="#arg-aws-batch-job-queue"></a></dt>
-<dd><p>Character of length 1, name of the AWS
-Batch job queue to use. There is no default for this argument,
-and a job queue must be created prior to running the controller.
-Please see <a href="https://docs.aws.amazon.com/batch/" class="external-link">https://docs.aws.amazon.com/batch/</a> for details.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-share-identifier">aws_batch_share_identifier<a class="anchor" aria-label="anchor" href="#arg-aws-batch-share-identifier"></a></dt>
-<dd><p><code>NULL</code> or character of length 1.
-For details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-scheduling-priority-override">aws_batch_scheduling_priority_override<a class="anchor" aria-label="anchor" href="#arg-aws-batch-scheduling-priority-override"></a></dt>
-<dd><p><code>NULL</code> or integer of length 1.
-For details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-parameters">aws_batch_parameters<a class="anchor" aria-label="anchor" href="#arg-aws-batch-parameters"></a></dt>
-<dd><p><code>NULL</code> or a nonempty list.
-For details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-container-overrides">aws_batch_container_overrides<a class="anchor" aria-label="anchor" href="#arg-aws-batch-container-overrides"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list of
-fields to override
-in the container specified in the job definition. Any overrides for the
-<code>command</code> field are ignored because <code>crew.aws.batch</code> needs to override
-the command to run the <code>crew</code> worker.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-node-overrides">aws_batch_node_overrides<a class="anchor" aria-label="anchor" href="#arg-aws-batch-node-overrides"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-retry-strategy">aws_batch_retry_strategy<a class="anchor" aria-label="anchor" href="#arg-aws-batch-retry-strategy"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-propagate-tags">aws_batch_propagate_tags<a class="anchor" aria-label="anchor" href="#arg-aws-batch-propagate-tags"></a></dt>
-<dd><p><code>NULL</code> or a logical of length 1.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-timeout">aws_batch_timeout<a class="anchor" aria-label="anchor" href="#arg-aws-batch-timeout"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-tags">aws_batch_tags<a class="anchor" aria-label="anchor" href="#arg-aws-batch-tags"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 
 <dt id="arg-aws-batch-eks-properties-override">aws_batch_eks_properties_override<a class="anchor" aria-label="anchor" href="#arg-aws-batch-eks-properties-override"></a></dt>
-<dd><p><code>NULL</code> or a nonempty named list.
-For more details, visit
-<a href="https://www.paws-r-sdk.com/docs/batch_submit_job/" class="external-link">https://www.paws-r-sdk.com/docs/batch_submit_job/</a> and the
-"AWS arguments" sections of this help file.</p></dd>
+<dd><p>Deprecated.
+Use <code>options_aws_batch</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">

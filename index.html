@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">crew.aws.batch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.6.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,9 +66,9 @@
 </h1>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="11%">
-<col width="76%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th>Type</th>
@@ -278,12 +278,19 @@
 <span><span class="va">controller</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="st">"my_workflow"</span>, <span class="co"># for informative job names</span></span>
 <span>  workers <span class="op">=</span> <span class="fl">16</span>,</span>
-<span>  tasks_max <span class="op">=</span> <span class="fl">2</span>, <span class="co"># to avoid reaching wall time limits</span></span>
+<span>  tasks_max <span class="op">=</span> <span class="fl">2</span>, <span class="co"># to avoid reaching wall time limits (if any exist)</span></span>
 <span>  seconds_launch <span class="op">=</span> <span class="fl">600</span>, <span class="co"># to allow a 10-minute startup window</span></span>
 <span>  seconds_idle <span class="op">=</span> <span class="fl">60</span>, <span class="co"># to release resources when they are not needed</span></span>
 <span>  processes <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># See the "Asynchronous worker management" section below.</span></span>
-<span>  aws_batch_job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
-<span>  aws_batch_job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span></span>
+<span>  options_aws_batch <span class="op">=</span> <span class="fu"><a href="reference/crew_options_aws_batch.html">crew_options_aws_batch</a></span><span class="op">(</span></span>
+<span>    job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
+<span>    job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span>,</span>
+<span>    cpus <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    gpus <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    memory <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    memory_units <span class="op">=</span> <span class="st">"gigabytes"</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
 <span><span class="op">)</span></span>
 <span><span class="va">controller</span><span class="op">$</span><span class="fu">start</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>At this point, usage is exactly the same as basic <a href="https://wlandau.github.io/crew/" class="external-link"><code>crew</code></a>. The <code>push()</code> method submits tasks and auto-scales <a href="https://aws.amazon.com/batch/" class="external-link">AWS Batch</a> workers to meet demand.</p>
@@ -332,7 +339,7 @@
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  Landau <span class="fu">WM</span> (????). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="fl">0.6</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">6.9010</span>,</span>
 <span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch,</span>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a></span>
@@ -341,7 +348,7 @@
 <span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
 <span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
 <span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.6</span>, </span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">6.9010</span>, </span>
 <span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch},</span>
 <span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
 <span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  }</span></code></pre></div>
