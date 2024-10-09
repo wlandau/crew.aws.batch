@@ -142,12 +142,12 @@ crew_options_aws_batch <- function(
     message = "cpus must be NULL or a single positive number"
   )
   crew::crew_assert(
-    gpus %|||% 0,
+    gpus %|||% 1,
     is.numeric(.),
     length(.) == 1L,
     is.finite(.),
-    . >= 0,
-    message = "gpus must be NULL or a single non-negative number"
+    . > 0,
+    message = "gpus must be NULL or a single positive number"
   )
   crew::crew_assert(
     memory %|||% 0,
