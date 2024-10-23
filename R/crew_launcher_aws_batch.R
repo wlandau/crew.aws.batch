@@ -176,7 +176,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       )
       container_overrides$command <- list("Rscript", "-e", call)
       out <- list(
-        jobName = name,
+        jobName = crew.aws.batch::crew_aws_batch_job_name(name),
         jobQueue = private$.options_aws_batch$job_queue,
         shareIdentifier = private$.options_aws_batch$share_identifier,
         schedulingPriorityOverride =
@@ -376,4 +376,18 @@ crew_launcher_aws_batch_terminate <- function(args_client, job_id) {
     reason = "terminated by crew controller"
   )
   # nocov end
+}
+
+#' @title Terminate an AWS Batch job.
+#' @export
+#' @keywords internal
+#' @description Not a user-side function. For internal use only.
+#' @return Character string, a valid AWS Batch job name.
+#' @param name Character string, an AWS Batch job name, possibly invalid.
+crew_aws_batch_job_name <- function(name) {
+  name <- gsub(pattern = "[^a-zA-Z0-9_-]", replacement = "_", x = name)
+  if (!any(grepl("^[a-zA-Z0-9]", name))) {
+    name <- paste0("x", name)
+  }
+  substr(x = name, start = 1L, stop = 128L)
 }

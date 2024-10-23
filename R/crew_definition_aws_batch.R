@@ -272,7 +272,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
         memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
       }
       args <- list()
-      args$jobName <- name
+      args$jobName <- crew.aws.batch::crew_aws_batch_job_name(name)
       args$jobQueue <- private$.job_queue
       if (!is.null(share_identifier)) {
         args$shareIdentifier <- share_identifier

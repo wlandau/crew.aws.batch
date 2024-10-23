@@ -38,3 +38,15 @@ test_that("AWS batch launcher", {
     )
   )
 })
+
+test_that("crew_aws_batch_job_name() long string", {
+  long <- paste(c("_", rep("x", 200L)), collapse = "")
+  out <- crew_aws_batch_job_name(long)
+  expect_equal(out, paste(c("x", "_", rep("x", 126L)), collapse = ""))
+})
+
+test_that("crew_aws_batch_job_name() invalid name", {
+  invalid <- "_crew-dot.dot.dot.-1-0d00c9d722fed4e4f3be1c35"
+  out <- crew_aws_batch_job_name(invalid)
+  expect_equal(out, "x_crew-dot_dot_dot_-1-0d00c9d722fed4e4f3be1c35")
+})
