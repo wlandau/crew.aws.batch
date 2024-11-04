@@ -1,4 +1,4 @@
-# crew.aws.batch 0.0.6.9011 (development)
+# crew.aws.batch 0.0.7
 
 * Send both cancellation and termination requests to end jobs.
 * Fix launcher bug/typo where parameters were supplied to container overrides.
@@ -7,6 +7,7 @@
 * Support `options_metrics`.
 * Reduce argument clutter with `crew_options_aws_batch()`. Supports direct inputs for CPUs, GPUs, and memory without having to specify a complicated `containerOverrides` list.
 * Sanitize job names.
+* Use `crashes_error` from `crew`.
 
 # crew.aws.batch 0.0.6
 

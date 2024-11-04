@@ -82,7 +82,7 @@ crew_launcher_aws_batch <- function(
   reset_packages = FALSE,
   reset_options = FALSE,
   garbage_collection = FALSE,
-  launch_max = 5L,
+  crashes_error = 5L,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
@@ -137,7 +137,7 @@ crew_launcher_aws_batch <- function(
     reset_packages = reset_packages,
     reset_options = reset_options,
     garbage_collection = garbage_collection,
-    launch_max = launch_max,
+    crashes_error = crashes_error,
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
@@ -216,7 +216,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param reset_packages See [crew_launcher_aws_batch()].
     #' @param reset_options See [crew_launcher_aws_batch()].
     #' @param garbage_collection See [crew_launcher_aws_batch()].
-    #' @param launch_max See [crew_launcher_aws_batch()].
+    #' @param crashes_error See [crew_launcher_aws_batch()].
     #' @param tls See [crew_launcher_aws_batch()].
     #' @param processes See [crew_launcher_aws_batch()].
     #' @param r_arguments See [crew_launcher_aws_batch()].
@@ -235,7 +235,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       reset_packages = NULL,
       reset_options = NULL,
       garbage_collection = NULL,
-      launch_max = NULL,
+      crashes_error = NULL,
       tls = NULL,
       processes = NULL,
       r_arguments = NULL,
@@ -255,7 +255,7 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         reset_packages = reset_packages,
         reset_options = reset_options,
         garbage_collection = garbage_collection,
-        launch_max = launch_max,
+        crashes_error = crashes_error,
         tls = tls,
         processes = processes,
         r_arguments = r_arguments,
