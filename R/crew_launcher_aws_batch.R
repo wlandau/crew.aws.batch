@@ -170,27 +170,24 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         region = private$.options_aws_batch$region
       )
     },
-    .args_submit = function(call, name) {
-      container_overrides <- as.list(
-        private$.options_aws_batch$container_overrides
-      )
+    .args_submit = function(call, name, attempt) {
+      options <- crew_options_slice(private$.options_aws_batch, attempt)
+      container_overrides <- as.list(options$container_overrides)
       container_overrides$command <- list("Rscript", "-e", call)
       out <- list(
         jobName = crew.aws.batch::crew_aws_batch_job_name(name),
-        jobQueue = private$.options_aws_batch$job_queue,
-        shareIdentifier = private$.options_aws_batch$share_identifier,
-        schedulingPriorityOverride =
-          private$.options_aws_batch$scheduling_priority_override,
-        jobDefinition = private$.options_aws_batch$job_definition,
-        parameters = private$.options_aws_batch$parameters,
+        jobQueue = options$job_queue,
+        shareIdentifier = options$share_identifier,
+        schedulingPriorityOverride = options$scheduling_priority_override,
+        jobDefinition = options$job_definition,
+        parameters = options$parameters,
         containerOverrides = container_overrides,
-        nodeOverrides = private$.options_aws_batch$node_overrides,
-        retryStrategy = private$.options_aws_batch$retry_strategy,
-        propagateTags = private$.options_aws_batch$propagate_tags,
-        timeout = private$.options_aws_batch$timeout,
-        tags = private$.options_aws_batch$tags,
-        eksPropertiesOverride =
-          private$.options_aws_batch$eks_properties_override
+        nodeOverrides = options$node_overrides,
+        retryStrategy = options$retry_strategy,
+        propagateTags = options$propagate_tags,
+        timeout = options$timeout,
+        tags = options$tags,
+        eksPropertiesOverride = options$eks_properties_override
       )
       non_null(out)
     }
@@ -300,7 +297,11 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         ),
         data = list(
           args_client = private$.args_client(),
-          args_submit = private$.args_submit(call = call, name = name)
+          args_submit = private$.args_submit(
+            call = call,
+            name = name,
+            attempt = self$crashes(index = worker) + 1L
+          )
         )
       )
       # nocov end

@@ -262,7 +262,10 @@ controller <- crew_controller_aws_batch(
     job_queue = "YOUR_JOB_QUEUE_NAME",
     cpus = 2,
     gpus = 0,
-    memory = 4,
+    # Launch workers with 4 GB memory, then 8 GB if the worker crashes,
+    # then 16 GB on all subsequent launches. Go back to 4 GB if the worker
+    # completes all its tasks before exiting.
+    memory = c(4, 8, 16),
     memory_units = "gigabytes"
   )
   

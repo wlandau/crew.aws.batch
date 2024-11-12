@@ -338,7 +338,10 @@ controller <- crew_controller_aws_batch(
     job_queue = "YOUR_JOB_QUEUE_NAME",
     cpus = 2,
     gpus = 0,
-    memory = 4,
+    # Launch workers with 4 GB memory, then 8 GB if the worker crashes,
+    # then 16 GB on all subsequent launches. Go back to 4 GB if the worker
+    # completes all its tasks before exiting.
+    memory = c(4, 8, 16),
     memory_units = "gigabytes"
   )
   
@@ -418,7 +421,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.6.9010,
+  Batch_. R package version 0.0.7,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -427,7 +430,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.6.9010, 
+    note = {R package version 0.0.7, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }
