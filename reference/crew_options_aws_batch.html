@@ -84,19 +84,29 @@ Please see <a href="https://docs.aws.amazon.com/batch/" class="external-link">ht
 
 
 <dt id="arg-cpus">cpus<a class="anchor" aria-label="anchor" href="#arg-cpus"></a></dt>
-<dd><p>Number of virtual CPUs to request per job. Can be <code>NULL</code>
+<dd><p>Positive numeric vector, usually with a single element.
+Supply a vector to make <code>cpus</code> a retryable option
+(see the "Retryable options" section for details).</p>
+<p><code>cpus</code> is the number of virtual CPUs to request per job. Can be <code>NULL</code>
 to go with the defaults in the job definition. Ignored if
 <code>container_overrides</code> is not <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-gpus">gpus<a class="anchor" aria-label="anchor" href="#arg-gpus"></a></dt>
-<dd><p>Number of GPUs to request per job. Can be <code>NULL</code>
+<dd><p>Positive numeric vector, usually a single element.
+Supply a vector to make <code>gpus</code> a retryable option
+(see the "Retryable options" section for details).</p>
+<p><code>gpus</code> is the number of GPUs to request per job. Can be <code>NULL</code>
 to go with the defaults in the job definition. Ignored if
 <code>container_overrides</code> is not <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-memory">memory<a class="anchor" aria-label="anchor" href="#arg-memory"></a></dt>
-<dd><p>Positive number, amount of memory to request per job.
+<dd><p>Positive numeric vector number, usually with a single
+element.
+Supply a vector to make <code>memory</code> a retryable option
+(see the "Retryable options" section for details).</p>
+<p><code>memory</code> is the amount of random access memory (RAM) to request per job.
 Choose the units of memory with the <code>memory_units</code> argument.
 Fargate instances can only be certain discrete values of mebibytes,
 so please choose <code>memory_units = "mebibytes"</code> in that case.
@@ -211,6 +221,19 @@ For more details, visit
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A classed list of options for the controller.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="retryable-options">Retryable options<a class="anchor" aria-label="anchor" href="#retryable-options"></a></h2>
+
+
+<p>Arguments <code>cpus</code>, <code>gpus</code>, and <code>memory</code> are retryable options.
+Each of these arguments be a vector where each successive element is
+used during a retry if the worker previously exited without
+completing all its assigned tasks.
+The last element of the vector is used if there are more retries than
+the length of the vector.
+Control the number of allowable retries with <code>crashes_error</code>
+argument of the controller.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

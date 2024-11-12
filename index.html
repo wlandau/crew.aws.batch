@@ -287,7 +287,10 @@
 <span>    job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span>,</span>
 <span>    cpus <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    gpus <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>    memory <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>    <span class="co"># Launch workers with 4 GB memory, then 8 GB if the worker crashes,</span></span>
+<span>    <span class="co"># then 16 GB on all subsequent launches. Go back to 4 GB if the worker</span></span>
+<span>    <span class="co"># completes all its tasks before exiting.</span></span>
+<span>    memory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">16</span><span class="op">)</span>,</span>
 <span>    memory_units <span class="op">=</span> <span class="st">"gigabytes"</span></span>
 <span>  <span class="op">)</span></span>
 <span>  </span>
@@ -339,7 +342,7 @@
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  Landau <span class="fu">WM</span> (????). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">6.9010</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="fl">0.7</span>,</span>
 <span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch,</span>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a></span>
@@ -348,7 +351,7 @@
 <span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
 <span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
 <span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="dv">0</span>.<span class="fl">6.9010</span>, </span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.7</span>, </span>
 <span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch},</span>
 <span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
 <span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  }</span></code></pre></div>
