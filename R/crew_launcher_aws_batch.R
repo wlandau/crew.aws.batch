@@ -171,6 +171,16 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       )
     },
     .args_submit = function(call, name, attempt) {
+      if (private$.options_aws_batch$verbose) {
+        crew_message(
+          "Launching worker ",
+          name,
+          " attempt ",
+          attempt,
+          " of ",
+          private$.crashes_error
+        )
+      }
       options <- crew_options_slice(private$.options_aws_batch, attempt)
       container_overrides <- as.list(options$container_overrides)
       container_overrides$command <- list("Rscript", "-e", call)

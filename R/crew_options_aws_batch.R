@@ -108,6 +108,8 @@
 #'   For more details, visit
 #'   <https://www.paws-r-sdk.com/docs/batch_submit_job/> and the
 #'   "AWS arguments" sections of this help file.
+#' @param verbose `TRUE` to print informative console messages, `FALSE`
+#'   otherwise.
 crew_options_aws_batch <- function(
   job_definition = "example",
   job_queue = "example",
@@ -128,7 +130,8 @@ crew_options_aws_batch <- function(
   propagate_tags = NULL,
   timeout = NULL,
   tags = NULL,
-  eks_properties_override = NULL
+  eks_properties_override = NULL,
+  verbose = FALSE
 ) {
   crew::crew_assert(
     job_definition,
@@ -179,6 +182,11 @@ crew_options_aws_batch <- function(
     . >= 0,
     message = "memory must be NULL or a numeric vector"
   )
+  crew::crew_assert(
+    verbose,
+    isTRUE(.) || isFALSE(.),
+    message = "verbose must be TRUE or FALSE"
+  )
   container_overrides <- container_overrides %|||% make_container_overrides(
     cpus = cpus,
     gpus = gpus,
@@ -202,7 +210,8 @@ crew_options_aws_batch <- function(
       propagate_tags = propagate_tags,
       timeout = timeout,
       tags = tags,
-      eks_properties_override = eks_properties_override
+      eks_properties_override = eks_properties_override,
+      verbose = verbose
     ),
     class = c("crew_options_aws_batch", "crew_options")
   )

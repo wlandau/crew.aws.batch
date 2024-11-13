@@ -39,6 +39,24 @@ test_that("AWS batch launcher", {
   )
 })
 
+test_that("AWS batch launcher retry launch message", {
+  options <- crew_options_aws_batch(
+    job_definition = "crew-definition",
+    job_queue = "crew-queue",
+    cpus = 2.5,
+    gpus = 3,
+    memory = 1234,
+    memory_units = "mebibytes",
+    verbose = TRUE
+  )
+  x <- crew_launcher_aws_batch(options_aws_batch = options)
+  private <- crew_private(x)
+  expect_message(
+    private$.args_submit(call = "run", name = "x", attempt = 1L),
+    class = "crew_message"
+  )
+})
+
 test_that("crew_aws_batch_job_name() long string", {
   long <- paste(c("_", rep("x", 200L)), collapse = "")
   out <- crew_aws_batch_job_name(long)

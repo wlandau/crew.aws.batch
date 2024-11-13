@@ -24,7 +24,8 @@ crew_options_aws_batch(
   propagate_tags = NULL,
   timeout = NULL,
   tags = NULL,
-  eks_properties_override = NULL
+  eks_properties_override = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -143,6 +144,9 @@ For more details, visit
 For more details, visit
 \url{https://www.paws-r-sdk.com/docs/batch_submit_job/} and the
 "AWS arguments" sections of this help file.}
+
+\item{verbose}{\code{TRUE} to print informative console messages, \code{FALSE}
+otherwise.}
 }
 \value{
 A classed list of options for the controller.
