@@ -125,7 +125,10 @@ when starting a worker. Example:
 
 \item{options_metrics}{Either \code{NULL} to opt out of resource metric logging
 for workers, or an object from \code{\link[crew:crew_options_metrics]{crew_options_metrics()}} to enable
-and configure resource metric logging for workers.}
+and configure resource metric logging for workers.
+For resource logging to run,
+the \code{autometric} R package version 0.1.0 or higher
+must be installed.}
 
 \item{options_aws_batch}{List of options from \code{\link[=crew_options_aws_batch]{crew_options_aws_batch()}}.
 The job definition and job queue must be specified in
