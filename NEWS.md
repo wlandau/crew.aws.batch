@@ -9,6 +9,7 @@
 * Sanitize job names.
 * Use `crashes_error` from `crew`.
 * Make `cpus`, `gpus`, and `memory` retryable options.
+* Change default `seconds_idle` to 300.
 
 # crew.aws.batch 0.0.6
 

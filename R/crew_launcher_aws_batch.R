@@ -74,7 +74,7 @@ crew_launcher_aws_batch <- function(
   seconds_interval = 0.5,
   seconds_timeout = 60,
   seconds_launch = 1800,
-  seconds_idle = Inf,
+  seconds_idle = 300,
   seconds_wall = Inf,
   tasks_max = Inf,
   tasks_timers = 0L,
