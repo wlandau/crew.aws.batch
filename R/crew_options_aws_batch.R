@@ -5,7 +5,7 @@
 #' @return A classed list of options for the controller.
 #' @section Retryable options:
 #'   Retryable options are deprecated in `crew.aws.batch`
-#'   as of 2025-01-27 (version `0.0.7.9001`).
+#'   as of 2025-01-27 (version `0.0.8`).
 #' @param job_definition Character of length 1, name of the AWS
 #'   Batch job definition to use. There is no default for this argument,
 #'   and a job definition must be created prior to running the controller.
@@ -120,7 +120,7 @@ crew_options_aws_batch <- function(
   crew::crew_deprecate(
     name = "Retryable options in crew.aws.batch",
     date = "2025-01-27",
-    version = "0.0.7.9001",
+    version = "0.0.8",
     alternative = "none. Please supply scalars for cpus, gpus, and memory",
     value = if_any(
       length(cpus) > 1L || length(gpus) > 1L || length(memory) > 1L,
