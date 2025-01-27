@@ -112,7 +112,7 @@
 <p><img src="./reference/figures/inbound.png"></p>
 <p><img src="./reference/figures/outbound.png"></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu">paws.compute</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/paws.compute/man/ec2.html" class="external-link">ec2</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu">paws.compute</span><span class="fu">::</span><span class="fu"><a href="https://paws-r.r-universe.dev/paws.compute/reference/ec2.html" class="external-link">ec2</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="va">client</span><span class="op">$</span><span class="fu">describe_security_groups</span><span class="op">(</span>GroupIds <span class="op">=</span> <span class="st">"sg-00000"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">groups</span><span class="op">$</span><span class="va">SecurityGroups</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 8</span></span>
