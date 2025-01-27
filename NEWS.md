@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.7.9000 (development)
+# crew.aws.batch 0.0.8
 
-
+* Deprecate retryable options because `crew` 1.0.0 no longer supports them.
 
 # crew.aws.batch 0.0.7
 

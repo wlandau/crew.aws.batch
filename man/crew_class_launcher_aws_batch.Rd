@@ -96,6 +96,7 @@ Abstract launcher constructor.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$new(
   name = NULL,
+  workers = NULL,
   seconds_interval = NULL,
   seconds_timeout = NULL,
   seconds_launch = NULL,
@@ -120,6 +121,8 @@ Abstract launcher constructor.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{name}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+
+\item{\code{workers}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{seconds_interval}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
@@ -181,33 +184,21 @@ Validate the launcher.
 Launch a local process worker which will
 dial into a socket.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$launch_worker(
-  call,
-  name,
-  launcher,
-  worker,
-  instance
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$launch_worker(call, name, launcher, worker)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{call}}{Character of length 1, a namespaced call to
+\item{\code{call}}{Character string, a namespaced call to
 \code{\link[crew:crew_worker]{crew::crew_worker()}}
 which will run in the worker and accept tasks.}
 
-\item{\code{name}}{Character of length 1, an informative worker name.}
+\item{\code{name}}{Character string, an informative worker name.}
 
-\item{\code{launcher}}{Character of length 1, name of the launcher.}
+\item{\code{launcher}}{Character string, name of the launcher.}
 
-\item{\code{worker}}{Positive integer of length 1, index of the worker.
-This worker index remains the same even when the current instance
-of the worker exits and a new instance launches.
-It is always between 1 and the maximum number of concurrent workers.}
-
-\item{\code{instance}}{Character of length 1 to uniquely identify
-the current instance of the worker.}
+\item{\code{worker}}{Character string, name of the worker instance.}
 }
 \if{html}{\out{</div>}}
 }

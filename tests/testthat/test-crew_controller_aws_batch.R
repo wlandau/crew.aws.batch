@@ -21,7 +21,7 @@ test_that("AWS batch controller", {
     sort(names(private$.args_client())),
     sort(c("config", "credentials", "endpoint", "region"))
   )
-  out <- private$.args_submit(call = "run", name = "x", attempt = 2L)
+  out <- private$.args_submit(call = "run", name = "x")
   expect_true(is.list(out))
   expect_equal(out$jobName, "x")
   expect_equal(out$jobDefinition, "crew-definition")
@@ -39,7 +39,7 @@ test_that("AWS batch controller", {
   )
 })
 
-test_that("AWS batch controller retryable options", {
+test_that("AWS batch controller deprecated retryable options", {
   options <- crew_options_aws_batch(
     job_definition = "crew-definition",
     job_queue = "crew-queue",
@@ -50,7 +50,7 @@ test_that("AWS batch controller retryable options", {
   )
   x <- crew_controller_aws_batch(options_aws_batch = options)
   private <- crew_private(x$launcher)
-  out <- private$.args_submit(call = "run", name = "x", attempt = 1L)
+  out <- private$.args_submit(call = "run", name = "x")
   expect_true(is.list(out))
   expect_equal(out$jobName, "x")
   expect_equal(out$jobDefinition, "crew-definition")
@@ -66,38 +66,4 @@ test_that("AWS batch controller retryable options", {
       command = list("Rscript", "-e", "run")
     )
   )
-  out <- private$.args_submit(call = "run", name = "x", attempt = 2L)
-  expect_true(is.list(out))
-  expect_equal(out$jobName, "x")
-  expect_equal(out$jobDefinition, "crew-definition")
-  expect_equal(out$jobQueue, "crew-queue")
-  expect_equal(
-    out$containerOverrides,
-    list(
-      resourceRequirements = list(
-        memory = list(value = "1157", type = "MEMORY"),
-        cpus = list(value = "3.5", type = "VCPU"),
-        gpus = list(value = "2", type = "GPU")
-      ),
-      command = list("Rscript", "-e", "run")
-    )
-  )
-  for (index in seq(3L, 6L)) {
-    out <- private$.args_submit(call = "run", name = "x", attempt = 3L)
-    expect_true(is.list(out))
-    expect_equal(out$jobName, "x")
-    expect_equal(out$jobDefinition, "crew-definition")
-    expect_equal(out$jobQueue, "crew-queue")
-    expect_equal(
-      out$containerOverrides,
-      list(
-        resourceRequirements = list(
-          memory = list(value = "1157", type = "MEMORY"),
-          cpus = list(value = "1.7", type = "VCPU"),
-          gpus = list(value = "2", type = "GPU")
-        ),
-        command = list("Rscript", "-e", "run")
-      )
-    )
-  }
 })

@@ -43,28 +43,18 @@ Batch job queue to use. There is no default for this argument,
 and a job queue must be created prior to running the controller.
 Please see \url{https://docs.aws.amazon.com/batch/} for details.}
 
-\item{cpus}{Positive numeric vector, usually with a single element.
-Supply a vector to make \code{cpus} a retryable option
-(see the "Retryable options" section for details).
-
-\code{cpus} is the number of virtual CPUs to request per job. Can be \code{NULL}
+\item{cpus}{Positive numeric scalar,
+number of virtual CPUs to request per job. Can be \code{NULL}
 to go with the defaults in the job definition. Ignored if
 \code{container_overrides} is not \code{NULL}.}
 
-\item{gpus}{Positive numeric vector, usually a single element.
-Supply a vector to make \code{gpus} a retryable option
-(see the "Retryable options" section for details).
-
-\code{gpus} is the number of GPUs to request per job. Can be \code{NULL}
+\item{gpus}{Positive numeric scalar,
+number of GPUs to request per job. Can be \code{NULL}
 to go with the defaults in the job definition. Ignored if
 \code{container_overrides} is not \code{NULL}.}
 
-\item{memory}{Positive numeric vector number, usually with a single
-element.
-Supply a vector to make \code{memory} a retryable option
-(see the "Retryable options" section for details).
-
-\code{memory} is the amount of random access memory (RAM) to request per job.
+\item{memory}{Positive numeric scalar,
+amount of random access memory (RAM) to request per job.
 Choose the units of memory with the \code{memory_units} argument.
 Fargate instances can only be certain discrete values of mebibytes,
 so please choose \code{memory_units = "mebibytes"} in that case.
@@ -156,14 +146,8 @@ Options for the AWS Batch controller.
 }
 \section{Retryable options}{
 
-Arguments \code{cpus}, \code{gpus}, and \code{memory} are retryable options.
-Each of these arguments be a vector where each successive element is
-used during a retry if the worker previously exited without
-completing all its assigned tasks.
-The last element of the vector is used if there are more retries than
-the length of the vector.
-Control the number of allowable retries with \code{crashes_error}
-argument of the controller.
+Retryable options are deprecated in \code{crew.aws.batch}
+as of 2025-01-27 (version \verb{0.0.7.9001}).
 }
 
 \keyword{plugin_aws_batch}

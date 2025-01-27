@@ -4,14 +4,8 @@
 #' @description Options for the AWS Batch controller.
 #' @return A classed list of options for the controller.
 #' @section Retryable options:
-#'   Arguments `cpus`, `gpus`, and `memory` are retryable options.
-#'   Each of these arguments be a vector where each successive element is
-#'   used during a retry if the worker previously exited without
-#'   completing all its assigned tasks.
-#'   The last element of the vector is used if there are more retries than
-#'   the length of the vector.
-#'   Control the number of allowable retries with `crashes_error`
-#'   argument of the controller.
+#'   Retryable options are deprecated in `crew.aws.batch`
+#'   as of 2025-01-27 (version `0.0.7.9001`).
 #' @param job_definition Character of length 1, name of the AWS
 #'   Batch job definition to use. There is no default for this argument,
 #'   and a job definition must be created prior to running the controller.
@@ -24,26 +18,16 @@
 #'   Batch job queue to use. There is no default for this argument,
 #'   and a job queue must be created prior to running the controller.
 #'   Please see <https://docs.aws.amazon.com/batch/> for details.
-#' @param cpus Positive numeric vector, usually with a single element.
-#'   Supply a vector to make `cpus` a retryable option
-#'   (see the "Retryable options" section for details).
-#'
-#'   `cpus` is the number of virtual CPUs to request per job. Can be `NULL`
+#' @param cpus Positive numeric scalar,
+#'   number of virtual CPUs to request per job. Can be `NULL`
 #'   to go with the defaults in the job definition. Ignored if
 #'   `container_overrides` is not `NULL`.
-#' @param gpus Positive numeric vector, usually a single element.
-#'   Supply a vector to make `gpus` a retryable option
-#'   (see the "Retryable options" section for details).
-#'
-#'   `gpus` is the number of GPUs to request per job. Can be `NULL`
+#' @param gpus Positive numeric scalar,
+#'   number of GPUs to request per job. Can be `NULL`
 #'   to go with the defaults in the job definition. Ignored if
 #'   `container_overrides` is not `NULL`.
-#' @param memory Positive numeric vector number, usually with a single
-#'   element.
-#'   Supply a vector to make `memory` a retryable option
-#'   (see the "Retryable options" section for details).
-#'
-#'   `memory` is the amount of random access memory (RAM) to request per job.
+#' @param memory Positive numeric scalar,
+#'   amount of random access memory (RAM) to request per job.
 #'   Choose the units of memory with the `memory_units` argument.
 #'   Fargate instances can only be certain discrete values of mebibytes,
 #'   so please choose `memory_units = "mebibytes"` in that case.
@@ -133,6 +117,29 @@ crew_options_aws_batch <- function(
   eks_properties_override = NULL,
   verbose = FALSE
 ) {
+  crew::crew_deprecate(
+    name = "Retryable options in crew.aws.batch",
+    date = "2025-01-27",
+    version = "0.0.7.9001",
+    alternative = "none. Please supply scalars for cpus, gpus, and memory",
+    value = if_any(
+      length(cpus) > 1L || length(gpus) > 1L || length(memory) > 1L,
+      TRUE,
+      NULL
+    ),
+    skip_cran = TRUE,
+    condition = "message"
+  )
+  if (!is.null(cpus)) {
+    cpus <- cpus[1L]
+  }
+  if (!is.null(gpus)) {
+    gpus <- gpus[1L]
+  }
+  if (!is.null(memory)) {
+    memory <- memory[1L]
+  }
+  memory_units <- memory_units[1L]
   crew::crew_assert(
     job_definition,
     is.character(.),
@@ -161,7 +168,7 @@ crew_options_aws_batch <- function(
   crew::crew_assert(
     cpus %|||% 1,
     is.numeric(.),
-    length(.) >= 1L,
+    length(.) == 1L,
     is.finite(.),
     . > 0,
     message = "cpus must be NULL or a numeric vector"
@@ -169,7 +176,7 @@ crew_options_aws_batch <- function(
   crew::crew_assert(
     gpus %|||% 1,
     is.numeric(.),
-    length(.) >= 1L,
+    length(.) == 1L,
     is.finite(.),
     . > 0,
     message = "gpus must be NULL or a numeric vector"
@@ -177,7 +184,7 @@ crew_options_aws_batch <- function(
   crew::crew_assert(
     memory %|||% 0,
     is.numeric(.),
-    length(.) >= 1L,
+    length(.) == 1L,
     is.finite(.),
     . >= 0,
     message = "memory must be NULL or a numeric vector"

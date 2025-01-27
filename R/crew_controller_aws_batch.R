@@ -34,16 +34,18 @@ crew_controller_aws_batch <- function(
   seconds_launch = 1800,
   seconds_idle = 300,
   seconds_wall = Inf,
-  retry_tasks = TRUE,
+  retry_tasks = NULL,
   tasks_max = Inf,
   tasks_timers = 0L,
   reset_globals = TRUE,
   reset_packages = FALSE,
   reset_options = FALSE,
   garbage_collection = FALSE,
-  crashes_error = 5L,
+  crashes_error = NULL,
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
+  crashes_max = 5L,
+  backup = NULL,
   options_metrics = crew::crew_options_metrics(),
   options_aws_batch = crew.aws.batch::crew_options_aws_batch(),
   aws_batch_config = NULL,
@@ -63,20 +65,34 @@ crew_controller_aws_batch <- function(
   aws_batch_tags = NULL,
   aws_batch_eks_properties_override = NULL
 ) {
+  crew::crew_deprecate(
+    name = "retry_tasks",
+    date = "2025-01-27",
+    version = "0.0.7.9000",
+    alternative = "none",
+    condition = "message",
+    value = retry_tasks
+  )
+  crew::crew_deprecate(
+    name = "crashes_error",
+    date = "2025-01-27",
+    version = "0.0.7.9000",
+    alternative = "none",
+    condition = "message",
+    value = crashes_error
+  )
   client <- crew::crew_client(
-    name = name,
-    workers = workers,
     host = host,
     port = port,
     tls = tls,
     tls_enable = tls_enable,
     tls_config = tls_config,
     seconds_interval = seconds_interval,
-    seconds_timeout = seconds_timeout,
-    retry_tasks = retry_tasks
+    seconds_timeout = seconds_timeout
   )
   launcher <- crew_launcher_aws_batch(
     name = name,
+    workers = workers,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout,
     seconds_launch = seconds_launch,
@@ -88,7 +104,6 @@ crew_controller_aws_batch <- function(
     reset_packages = reset_packages,
     reset_options = reset_options,
     garbage_collection = garbage_collection,
-    crashes_error = crashes_error,
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
@@ -112,7 +127,12 @@ crew_controller_aws_batch <- function(
     aws_batch_tags = aws_batch_tags,
     aws_batch_eks_properties_override = aws_batch_eks_properties_override
   )
-  controller <- crew::crew_controller(client = client, launcher = launcher)
+  controller <- crew::crew_controller(
+    client = client,
+    launcher = launcher,
+    crashes_max = crashes_max,
+    backup = backup
+  )
   controller$validate()
   controller
 }
