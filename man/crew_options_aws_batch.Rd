@@ -147,7 +147,7 @@ Options for the AWS Batch controller.
 \section{Retryable options}{
 
 Retryable options are deprecated in \code{crew.aws.batch}
-as of 2025-01-27 (version \verb{0.0.7.9001}).
+as of 2025-01-27 (version \verb{0.0.8}).
 }
 
 \keyword{plugin_aws_batch}
