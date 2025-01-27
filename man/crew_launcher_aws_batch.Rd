@@ -18,7 +18,7 @@ crew_launcher_aws_batch(
   reset_packages = FALSE,
   reset_options = FALSE,
   garbage_collection = FALSE,
-  crashes_error = 5L,
+  crashes_error = NULL,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),

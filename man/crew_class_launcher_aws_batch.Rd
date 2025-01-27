@@ -108,7 +108,6 @@ Abstract launcher constructor.
   reset_packages = NULL,
   reset_options = NULL,
   garbage_collection = NULL,
-  crashes_error = NULL,
   tls = NULL,
   processes = NULL,
   r_arguments = NULL,
@@ -145,8 +144,6 @@ Abstract launcher constructor.
 \item{\code{reset_options}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{garbage_collection}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
-
-\item{\code{crashes_error}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{tls}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 

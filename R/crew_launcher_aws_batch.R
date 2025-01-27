@@ -83,7 +83,7 @@ crew_launcher_aws_batch <- function(
   reset_packages = FALSE,
   reset_options = FALSE,
   garbage_collection = FALSE,
-  crashes_error = 5L,
+  crashes_error = NULL,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
   r_arguments = c("--no-save", "--no-restore"),
@@ -107,6 +107,14 @@ crew_launcher_aws_batch <- function(
   aws_batch_eks_properties_override = NULL
 ) {
   name <- as.character(name %|||% crew::crew_random_name())
+  crew::crew_deprecate(
+    name = "crashes_error",
+    date = "2025-01-27",
+    version = "0.0.8",
+    alternative = "crashes_error",
+    condition = "message",
+    value = crashes_error
+  )
   args <- match.call()
   crew::crew_assert(
     options_aws_batch,
@@ -139,7 +147,6 @@ crew_launcher_aws_batch <- function(
     reset_packages = reset_packages,
     reset_options = reset_options,
     garbage_collection = garbage_collection,
-    crashes_error = crashes_error,
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
@@ -216,7 +223,6 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param reset_packages See [crew_launcher_aws_batch()].
     #' @param reset_options See [crew_launcher_aws_batch()].
     #' @param garbage_collection See [crew_launcher_aws_batch()].
-    #' @param crashes_error See [crew_launcher_aws_batch()].
     #' @param tls See [crew_launcher_aws_batch()].
     #' @param processes See [crew_launcher_aws_batch()].
     #' @param r_arguments See [crew_launcher_aws_batch()].
@@ -236,7 +242,6 @@ crew_class_launcher_aws_batch <- R6::R6Class(
       reset_packages = NULL,
       reset_options = NULL,
       garbage_collection = NULL,
-      crashes_error = NULL,
       tls = NULL,
       processes = NULL,
       r_arguments = NULL,
@@ -257,7 +262,6 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         reset_packages = reset_packages,
         reset_options = reset_options,
         garbage_collection = garbage_collection,
-        crashes_error = crashes_error,
         tls = tls,
         processes = processes,
         r_arguments = r_arguments,
