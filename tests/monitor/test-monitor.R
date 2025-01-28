@@ -62,7 +62,7 @@ test_that("job list", {
   expect_true(is.na(info$reason))
   expect_false(info$status %in% c("succeeded", "failed"))
   good_reason <- "I have my reasons..."
-  monitor$terminate(id = info$id, reason = good_reason)
+  monitor$terminate(ids = info$id, reason = good_reason)
   attempts <- 0
   while (!info$status %in% c("succeeded", "failed")) {
     message(
@@ -98,7 +98,7 @@ test_that("job logs", {
     image = "alpine:latest",
     platform_capabilities = "EC2",
     memory_units = "mebibytes",
-    memory = 128,
+    memory = 16,
     cpus = 1,
     seconds_timeout = 600,
     tags = c("crew_aws_batch_1", "crew_aws_batch_2"),
@@ -108,7 +108,7 @@ test_that("job logs", {
   job <- definition$submit(
     command = c("echo", "done with container\ndone with job"),
     memory_units = "mebibytes",
-    memory = 128,
+    memory = 16,
     cpus = 1
   )
   attempts <- 0L
