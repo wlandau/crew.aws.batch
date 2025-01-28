@@ -68,7 +68,7 @@ crew_controller_aws_batch <- function(
   crew::crew_deprecate(
     name = "retry_tasks",
     date = "2025-01-27",
-    version = "0.0.7.9000",
+    version = "0.0.8",
     alternative = "none",
     condition = "message",
     value = retry_tasks
@@ -76,8 +76,8 @@ crew_controller_aws_batch <- function(
   crew::crew_deprecate(
     name = "crashes_error",
     date = "2025-01-27",
-    version = "0.0.7.9000",
-    alternative = "none",
+    version = "0.0.8",
+    alternative = "crashes_max",
     condition = "message",
     value = crashes_error
   )

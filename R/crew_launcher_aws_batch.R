@@ -111,7 +111,7 @@ crew_launcher_aws_batch <- function(
     name = "crashes_error",
     date = "2025-01-27",
     version = "0.0.8",
-    alternative = "crashes_error",
+    alternative = "crashes_max",
     condition = "message",
     value = crashes_error
   )
