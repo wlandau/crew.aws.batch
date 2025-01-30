@@ -226,48 +226,47 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
-<span><span class="co">#&gt;   name  id                arn   status   reason created started stopped</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA</span></span></code></pre></div>
+<span><span class="co">#&gt;   name  id                arn   status   reason created             started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable NA     2025-01-30 16:29:00      NA      NA</span></span></code></pre></div>
 <p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 8</span></span>
-<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded Essen… 1.70e12 1.70e12 1.70e12</span></span>
-<span><span class="co">#&gt; 2 job2  c38d55ad-4a86-43… arn:… runnable  NA     1.70e12      NA      NA</span></span></code></pre></div>
+<span><span class="co">#&gt;   name  id                arn   status    reason</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded Essen…</span></span>
+<span><span class="co">#&gt; 2 job2  c38d55ad-4a86-43… arn:… runnable  NA   </span></span></code></pre></div>
 <p>The <a href="https://docs.aws.amazon.com/batch/latest/userguide/job_states.html" class="external-link">job state</a> can be <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, <code>"running"</code>, <code>"succeeded"</code>, or <code>"failed"</code>. The monitor has a method for each job state to get only the jobs with that state.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
-<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12</span></span></code></pre></div>
+<span><span class="co">#&gt;   name  id                arn   status    reason</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; </span></span>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA    </span></span></code></pre></div>
 <p>In addition, there is an <code>active()</code> method for just states <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, and <code>"running"</code>, and there is an <code>inactive()</code> method for just the <code>"succeeded"</code> and <code>"failed"</code> states.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
-<span><span class="co">#&gt;   name  id                arn   status    reason created started stopped</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12</span></span></code></pre></div>
-<p>To terminate a job, use the <code>terminate()</code> method. This has the effect of both canceling and terminating the job, although you may not see the change right away if the job is currently <code>"runnable"</code>. Manually terminated jobs are listed as failed.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>monitor<span class="sc">$</span><span class="fu">inactive</span>()[, <span class="fu">c</span>(<span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span>)]</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt;   name  id                arn   status    reason</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; </span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA    </span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="st">``</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>To terminate a job, use the <span class="st">`</span><span class="at">terminate()</span><span class="st">`</span> method. This has the effect of both canceling and terminating the job, although you may not see the change right away <span class="cf">if</span> the job is currently <span class="st">`</span><span class="at">"runnable"</span><span class="st">`</span>. Manually terminated jobs are listed as failed.</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
-<p>To get the CloudWatch logs of a job, use the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> method. This method returns a <code>tibble</code> with the log messages and numeric timestamps.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">log</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job1</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
-<span><span class="va">log</span></span>
-<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
-<span><span class="co">#&gt;   message     timestamp ingestion_time</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;          &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 hello   1702068378163  1702068378245</span></span>
-<span><span class="co">#&gt; 2 world   1702068378163  1702068378245</span></span></code></pre></div>
-<p>If the log messages are too long to conveniently view in the <code>tibble</code>, you can print them to your screen with <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code> or <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>.</p>
+<p>To get the CloudWatch logs of a job, use the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> method. This method writes the log messages with <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>monitor<span class="sc">$</span><span class="fu">log</span>(<span class="at">id =</span> job1<span class="sc">$</span>id, <span class="at">tibble =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; hello</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; world</span></span></code></pre></div>
+<p>To print the result as a <code>tibble</code> with time stamps alongside the log message text, set <code>tibble = TRUE</code> in <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">log</span><span class="op">$</span><span class="va">message</span><span class="op">)</span></span>
-<span><span class="co">#&gt; hello</span></span>
-<span><span class="co">#&gt; world</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job1</span><span class="op">$</span><span class="va">id</span>, tibble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span><span class="co">#&gt;   message           timestamp       ingestion_time</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;                &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 hello   2025-01-30 16:29:00  2025-01-30 16:29:03</span></span>
+<span><span class="co">#&gt; 2 world   2025-01-30 16:29:00  2025-01-30 16:29:03</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="using-crew-with-aws-batch-workers">Using <code>crew</code> with AWS Batch workers<a class="anchor" aria-label="anchor" href="#using-crew-with-aws-batch-workers"></a>
@@ -342,7 +341,7 @@
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  Landau <span class="fu">WM</span> (????). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="fl">0.7</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="fl">0.8</span>,</span>
 <span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch,</span>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a></span>
@@ -351,7 +350,7 @@
 <span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
 <span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
 <span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.7</span>, </span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.8</span>, </span>
 <span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>wlandau<span class="sc">/</span>crew.aws.batch},</span>
 <span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
 <span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  }</span></code></pre></div>
