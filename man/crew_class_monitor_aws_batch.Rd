@@ -198,11 +198,6 @@ Set to \code{nullfile()} to suppress output
 
 \item{\code{start_from_head}}{Logical of length 1, whether to print earlier
 log events before later ones.}
-
-\item{\code{tibble}}{\code{TRUE} to visibly return a \code{tibble},
-\code{FALSE} to print the
-lines of text using \code{writeLines()}
-and invisibly return the \code{tibble}.}
 }
 \if{html}{\out{</div>}}
 }

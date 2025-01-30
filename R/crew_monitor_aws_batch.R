@@ -295,10 +295,6 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #'   `path` argument.
     #' @param id Character of length 1, job ID. This is different
     #'   from the user-supplied job name.
-    #' @param tibble `TRUE` to visibly return a `tibble`,
-    #'   `FALSE` to print the
-    #'   lines of text using `writeLines()`
-    #'   and invisibly return the `tibble`.
     #' @param path Character string or stream (e.g. `stdout()`),
     #'   file path or connection passed to the `con` argument of
     #'   `writeLines()` to print the log messages.
