@@ -290,8 +290,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #'   [crew_monitor_aws_batch()]. This method cannot use
     #'   other log drivers such as Splunk, and it will fail if the log
     #'   group is wrong or missing.
-    #' @return A `tibble` with log information. See the `tibble`
-    #'   argument of this method for more details.
+    #' @return `log()` invisibly returns a `tibble` with log information
+    #'   and writes the messages to the stream or path given by the
+    #'   `path` argument.
     #' @param id Character of length 1, job ID. This is different
     #'   from the user-supplied job name.
     #' @param tibble `TRUE` to visibly return a `tibble`,
@@ -300,13 +301,13 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #'   and invisibly return the `tibble`.
     #' @param path Character string or stream (e.g. `stdout()`),
     #'   file path or connection passed to the `con` argument of
-    #'   `writeLines()`
-    #'   if `tibble` is `FALSE`.
+    #'   `writeLines()` to print the log messages.
+    #'   Set to `nullfile()` to suppress output
+    #'   (and use the invisibly returned `tibble` object instead).
     #' @param start_from_head Logical of length 1, whether to print earlier
     #'   log events before later ones.
     log = function(
       id,
-      tibble = FALSE,
       path = stdout(),
       start_from_head = FALSE
     ) {
@@ -359,12 +360,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         return(null_log)
       }
       out <- do.call(what = vctrs::vec_rbind, args = out)
-      if (tibble) {
-        return(out)
-      } else {
-        writeLines(text = out$message, con = path)
-        return(invisible(out))
-      }
+      writeLines(text = out$message, con = path)
+      invisible(out)
       # nocov end
     },
     #' @description List all the jobs in the given job queue
