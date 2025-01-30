@@ -260,9 +260,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
             arn = character(0L),
             status = character(0L),
             reason = character(0L),
-            created = numeric(0L),
-            started = numeric(0L),
-            stopped = numeric(0L)
+            created = as.POSIXct(numeric(0L)),
+            started = as.POSIXct(numeric(0L)),
+            stopped = as.POSIXct(numeric(0L))
           )
         )
       }
@@ -277,9 +277,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           out$statusReason,
           NA_character_
         ),
-        created = out$createdAt,
-        started = if_any(length(out$startedAt), out$startedAt, NA_real_),
-        stopped = if_any(length(out$stoppedAt), out$stoppedAt, NA_real_)
+        created = as_timestamp(out$createdAt),
+        started = as_timestamp(out$startedAt),
+        stopped = as_timestamp(out$stoppedAt)
       )
       # nocov end
     },
@@ -420,9 +420,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
               job$statusReason,
               NA_character_
             ),
-            created = job$createdAt,
-            started = if_any(length(job$startedAt), job$startedAt, NA_real_),
-            stopped = if_any(length(job$stoppedAt), job$stoppedAt, NA_real_)
+            created = as_timestamp(job$createdAt),
+            started = as_timestamp(job$startedAt),
+            stopped = as_timestamp(job$stoppedAt)
           )
         }
       }
@@ -433,9 +433,9 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           arn = character(0L),
           status = character(0L),
           reason = character(0L),
-          created = numeric(0L),
-          started = numeric(0L),
-          stopped = numeric(0L)
+          created = as.POSIXct(numeric(0L)),
+          started = as.POSIXct(numeric(0L)),
+          stopped = as.POSIXct(numeric(0L))
         )
       }
       out <- do.call(what = vctrs::vec_rbind, args = out)
