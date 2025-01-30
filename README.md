@@ -238,9 +238,9 @@ Method `status()` checks the status of an individual job.
 ``` r
 monitor$status(id = job2$id)
 #> # A tibble: 1 × 8
-#>   name  id                arn   status   reason created started stopped
-#>   <chr> <chr>             <chr> <chr>    <chr>    <dbl>   <dbl>   <dbl>
-#> 1 job2  c38d55ad-4a86-43… arn:… runnable NA     1.70e12      NA      NA
+#>   name  id                arn   status   reason created             started stopped
+#>   <chr> <chr>             <chr> <chr>    <chr>    <dbl>               <dbl>   <dbl>
+#> 1 job2  c38d55ad-4a86-43… arn:… runnable NA     2025-01-30 16:29:00      NA      NA
 ```
 
 The `jobs()` method gets the status of all the jobs within the job queue
@@ -250,12 +250,12 @@ ones you submitted during the life cycle of the current `monitor`
 object.
 
 ``` r
-monitor$jobs()
+monitor$jobs()[, c("name", "id", "arn", "status", "reason")]
 #> # A tibble: 2 × 8
-#>   name  id                arn   status    reason created started stopped
-#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
-#> 1 job1  653df636-ac74-43… arn:… succeeded Essen… 1.70e12 1.70e12 1.70e12
-#> 2 job2  c38d55ad-4a86-43… arn:… runnable  NA     1.70e12      NA      NA
+#>   name  id                arn   status    reason
+#>   <chr> <chr>             <chr> <chr>     <chr>
+#> 1 job1  653df636-ac74-43… arn:… succeeded Essen…
+#> 2 job2  c38d55ad-4a86-43… arn:… runnable  NA   
 ```
 
 The [job
@@ -265,11 +265,11 @@ can be `"submitted"`, `"pending"`, `"runnable"`, `"starting"`,
 each job state to get only the jobs with that state.
 
 ``` r
-monitor$succeeded()
+monitor$succeeded()[, c("name", "id", "arn", "status", "reason")]
 #> # A tibble: 1 × 8
-#>   name  id                arn   status    reason created started stopped
-#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
-#> 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12
+#>   name  id                arn   status    reason
+#>   <chr> <chr>             <chr> <chr>     <chr> 
+#> 1 job1  653df636-ac74-43… arn:… succeeded NA    
 ```
 
 In addition, there is an `active()` method for just states
@@ -278,42 +278,37 @@ and there is an `inactive()` method for just the `"succeeded"` and
 `"failed"` states.
 
 ``` r
-monitor$inactive()
+monitor$inactive()[, c("name", "id", "arn", "status", "reason")]
 #> # A tibble: 1 × 8
-#>   name  id                arn   status    reason created started stopped
-#>   <chr> <chr>             <chr> <chr>     <chr>    <dbl>   <dbl>   <dbl>
-#> 1 job1  653df636-ac74-43… arn:… succeeded NA     1.70e12 1.70e12 1.70e12
-```
+#>   name  id                arn   status    reason
+#>   <chr> <chr>             <chr> <chr>     <chr> 
+#> 1 job1  653df636-ac74-43… arn:… succeeded NA    
+``
 
-To terminate a job, use the `terminate()` method. This has the effect of
-both canceling and terminating the job, although you may not see the
-change right away if the job is currently `"runnable"`. Manually
-terminated jobs are listed as failed.
+To terminate a job, use the `terminate()` method. This has the effect of both canceling and terminating the job, although you may not see the change right away if the job is currently `"runnable"`. Manually terminated jobs are listed as failed.
+```
 
 ``` r
 monitor$terminate(id = job2$id)
 ```
 
 To get the CloudWatch logs of a job, use the `log()` method. This method
-returns a `tibble` with the log messages and numeric timestamps.
+writes the log messages with `writeLines()`.
+
+    monitor$log(id = job1$id, tibble = TRUE)
+    #> hello
+    #> world
+
+To print the result as a `tibble` with time stamps alongside the log
+message text, set `tibble = TRUE` in `log()`.
 
 ``` r
-log <- monitor$log(id = job1$id)
-log
+monitor$log(id = job1$id, tibble = TRUE)
 #> # A tibble: 2 × 3
-#>   message     timestamp ingestion_time
-#>   <chr>           <dbl>          <dbl>
-#> 1 hello   1702068378163  1702068378245
-#> 2 world   1702068378163  1702068378245
-```
-
-If the log messages are too long to conveniently view in the `tibble`,
-you can print them to your screen with `cat()` or `writeLines()`.
-
-``` r
-writeLines(log$message)
-#> hello
-#> world
+#>   message           timestamp       ingestion_time
+#>   <chr>                 <dbl>                <dbl>
+#> 1 hello   2025-01-30 16:29:00  2025-01-30 16:29:03
+#> 2 world   2025-01-30 16:29:00  2025-01-30 16:29:03
 ```
 
 # Using `crew` with AWS Batch workers
@@ -421,7 +416,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.7,
+  Batch_. R package version 0.0.8,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -430,7 +425,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.7, 
+    note = {R package version 0.0.8, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }

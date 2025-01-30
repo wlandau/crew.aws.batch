@@ -293,9 +293,18 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #' @return A `tibble` with log information.
     #' @param id Character of length 1, job ID. This is different
     #'   from the user-supplied job name.
+    #' @param tibble `TRUE` to return a `tibble`, `FALSE` to print the
+    #'   lines of text using `writeLines()`.
+    #' @param path Character string, file path to pass to `writeLines()`
+    #'   if `tibble` is `FALSE`.
     #' @param start_from_head Logical of length 1, whether to print earlier
     #'   log events before later ones.
-    log = function(id, start_from_head = FALSE) {
+    log = function(
+      id,
+      tibble = FALSE,
+      path = stdout(),
+      start_from_head = FALSE
+    ) {
       # Covered in tests/interactive/jobs.R
       # nocov start
       crew::crew_assert(
@@ -344,7 +353,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       if (!length(out)) {
         return(null_log)
       }
-      do.call(what = vctrs::vec_rbind, args = out)
+      out <- do.call(what = vctrs::vec_rbind, args = out)
+      if_any(tibble, out, writeLines(text = out$message, con = path))
       # nocov end
     },
     #' @description List all the jobs in the given job queue
