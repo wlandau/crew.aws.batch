@@ -223,7 +223,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       crew::crew_assert(verbose, isTRUE(.) || isFALSE(.))
       client <- private$.client()
       if (all) {
-        ids <- self$jobs()$id
+        ids <- self$active()$id
       }
       progress <- progress_init(verbose = verbose, total = length(ids))
       for (id in ids) {
