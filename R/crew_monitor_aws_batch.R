@@ -310,8 +310,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       result <- client$describe_jobs(jobs = id)
       null_log <- tibble::tibble(
         message = character(0L),
-        timestamp = character(0L),
-        ingestion_time = character(0L)
+        timestamp = as.POSIXct(numeric(0L)),
+        ingestion_time = as.POSIXct(numeric(0L))
       )
       if (!length(result$jobs)) {
         return(null_log)
@@ -336,8 +336,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         for (event in page$events) {
           out[[length(out) + 1L]] <- tibble::tibble(
             message = event$message,
-            timestamp = event$timestamp,
-            ingestion_time = event$ingestionTime
+            timestamp = as_timestamp(event$timestamp),
+            ingestion_time = as_timestamp(event$ingestionTime)
           )
         }
       }

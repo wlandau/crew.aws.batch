@@ -1,7 +1,7 @@
 # crew.aws.batch 0.0.8
 
 * Deprecate retryable options because `crew` 1.0.0 no longer supports them.
-* In the monitor, return `POSIXct` time stamps for `created`, `started`, and `stopped`.
+* In the monitor, return `POSIXct` time stamps for `created`, `started`, `stopped`, `timestamp` and `ingestion_time`.
 
 # crew.aws.batch 0.0.7
 
