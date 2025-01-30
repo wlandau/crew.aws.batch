@@ -293,14 +293,24 @@ monitor$terminate(id = job2$id)
 ```
 
 To get the CloudWatch logs of a job, use the `log()` method. This method
-writes the log messages with `writeLines()`.
+writes the log messages with `writeLines()` and invisibly return a
+`tibble` with timestamped results.
 
-    monitor$log(id = job1$id, tibble = TRUE)
-    #> hello
-    #> world
+``` r
+log <- monitor$log(id = job1$id)
+#> hello
+#> world
 
-To print the result as a `tibble` with time stamps alongside the log
-message text, set `tibble = TRUE` in `log()`.
+log
+#> # A tibble: 2 × 3
+#>   message           timestamp       ingestion_time
+#>   <chr>                 <dbl>                <dbl>
+#> 1 hello   2025-01-30 16:29:00  2025-01-30 16:29:03
+#> 2 world   2025-01-30 16:29:00  2025-01-30 16:29:03
+```
+
+Set `tibble = FALSE` to visibly return the `tibble` and omit
+`writeLines()`.
 
 ``` r
 monitor$log(id = job1$id, tibble = TRUE)

@@ -224,15 +224,22 @@ To terminate a job, use the `terminate()` method. This has the effect of both ca
 monitor$terminate(id = job2$id)
 ```
 
-To get the CloudWatch logs of a job, use the `log()` method. This method writes the log messages with `writeLines()`.
+To get the CloudWatch logs of a job, use the `log()` method. This method writes the log messages with `writeLines()` and invisibly return a `tibble` with timestamped results.
 
-```{}
-monitor$log(id = job1$id, tibble = TRUE)
+```{r}
+log <- monitor$log(id = job1$id)
 #> hello
 #> world
+
+log
+#> # A tibble: 2 × 3
+#>   message           timestamp       ingestion_time
+#>   <chr>                 <dbl>                <dbl>
+#> 1 hello   2025-01-30 16:29:00  2025-01-30 16:29:03
+#> 2 world   2025-01-30 16:29:00  2025-01-30 16:29:03
 ```
 
-To print the result as a `tibble` with time stamps alongside the log message text, set `tibble = TRUE` in `log()`.
+Set `tibble = FALSE` to visibly return the `tibble` and omit `writeLines()`.
 
 ```{r}
 monitor$log(id = job1$id, tibble = TRUE)
