@@ -255,11 +255,19 @@
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>To terminate a job, use the <span class="st">`</span><span class="at">terminate()</span><span class="st">`</span> method. This has the effect of both canceling and terminating the job, although you may not see the change right away <span class="cf">if</span> the job is currently <span class="st">`</span><span class="at">"runnable"</span><span class="st">`</span>. Manually terminated jobs are listed as failed.</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">terminate</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></code></pre></div>
-<p>To get the CloudWatch logs of a job, use the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> method. This method writes the log messages with <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>monitor<span class="sc">$</span><span class="fu">log</span>(<span class="at">id =</span> job1<span class="sc">$</span>id, <span class="at">tibble =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; hello</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; world</span></span></code></pre></div>
-<p>To print the result as a <code>tibble</code> with time stamps alongside the log message text, set <code>tibble = TRUE</code> in <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code>.</p>
+<p>To get the CloudWatch logs of a job, use the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> method. This method writes the log messages with <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code> and invisibly return a <code>tibble</code> with timestamped results.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">log</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job1</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span><span class="co">#&gt; hello</span></span>
+<span><span class="co">#&gt; world</span></span>
+<span></span>
+<span><span class="va">log</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span><span class="co">#&gt;   message           timestamp       ingestion_time</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;                &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 hello   2025-01-30 16:29:00  2025-01-30 16:29:03</span></span>
+<span><span class="co">#&gt; 2 world   2025-01-30 16:29:00  2025-01-30 16:29:03</span></span></code></pre></div>
+<p>Set <code>tibble = FALSE</code> to visibly return the <code>tibble</code> and omit <code><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines()</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">log</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job1</span><span class="op">$</span><span class="va">id</span>, tibble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
