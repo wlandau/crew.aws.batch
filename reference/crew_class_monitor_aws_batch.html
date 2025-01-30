@@ -292,9 +292,7 @@ with the given job definition.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span></span>
 <span>  status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"submitted"</span>, <span class="st">"pending"</span>, <span class="st">"runnable"</span>, <span class="st">"starting"</span>, <span class="st">"running"</span>, <span class="st">"succeeded"</span>,</span>
-<span>    <span class="st">"failed"</span><span class="op">)</span>,</span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>    <span class="st">"failed"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -302,27 +300,7 @@ with the given job definition.</p><div class="section">
 <h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>status</code></dt>
 <dd><p>Character vector of job states. Results are limited
-to these job states. The AWS API does not accept status</p></dd>
-
-
-<dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
+to these job states.</p></dd>
 
 
 </dl><p></p></div>
@@ -345,36 +323,9 @@ with job information.</p>
 <p>List active jobs: submitted, pending,
 runnable, starting, or running (not succeeded or failed).</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">active</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">active</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-5">Arguments<a class="anchor" aria-label="anchor" href="#arguments-5"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a></h4>
 <p>The output only includes jobs under the
@@ -394,36 +345,9 @@ with job information.</p>
 is succeeded or failed (not submitted, pending,
 runnable, starting, or running).</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">inactive</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-6">Arguments<a class="anchor" aria-label="anchor" href="#arguments-6"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-4">Details<a class="anchor" aria-label="anchor" href="#details-4"></a></h4>
 <p>The output only includes jobs under the
@@ -441,36 +365,9 @@ with job information.</p>
 <h3 id="method-submitted-">Method <code>submitted()</code><a class="anchor" aria-label="anchor" href="#method-submitted-"></a></h3>
 <p>List jobs whose status is <code>"submitted"</code>.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">submitted</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">submitted</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-7">Arguments<a class="anchor" aria-label="anchor" href="#arguments-7"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-5">Details<a class="anchor" aria-label="anchor" href="#details-5"></a></h4>
 <p>The output only includes jobs under the
@@ -488,36 +385,9 @@ with job information.</p>
 <h3 id="method-pending-">Method <code>pending()</code><a class="anchor" aria-label="anchor" href="#method-pending-"></a></h3>
 <p>List jobs whose status is <code>"pending"</code>.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">pending</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">pending</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-8">Arguments<a class="anchor" aria-label="anchor" href="#arguments-8"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-6">Details<a class="anchor" aria-label="anchor" href="#details-6"></a></h4>
 <p>The output only includes jobs under the
@@ -535,36 +405,9 @@ with job information.</p>
 <h3 id="method-runnable-">Method <code>runnable()</code><a class="anchor" aria-label="anchor" href="#method-runnable-"></a></h3>
 <p>List jobs whose status is <code>"runnable"</code>.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">runnable</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">runnable</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-9">Arguments<a class="anchor" aria-label="anchor" href="#arguments-9"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-7">Details<a class="anchor" aria-label="anchor" href="#details-7"></a></h4>
 <p>The output only includes jobs under the
@@ -582,36 +425,9 @@ with job information.</p>
 <h3 id="method-starting-">Method <code>starting()</code><a class="anchor" aria-label="anchor" href="#method-starting-"></a></h3>
 <p>List jobs whose status is <code>"starting"</code>.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">starting</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">starting</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-10">Arguments<a class="anchor" aria-label="anchor" href="#arguments-10"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-8">Details<a class="anchor" aria-label="anchor" href="#details-8"></a></h4>
 <p>The output only includes jobs under the
@@ -629,36 +445,9 @@ with job information.</p>
 <h3 id="method-running-">Method <code>running()</code><a class="anchor" aria-label="anchor" href="#method-running-"></a></h3>
 <p>List jobs whose status is <code>"running"</code>.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">running</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">running</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-11">Arguments<a class="anchor" aria-label="anchor" href="#arguments-11"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-9">Details<a class="anchor" aria-label="anchor" href="#details-9"></a></h4>
 <p>The output only includes jobs under the
@@ -676,36 +465,9 @@ with job information.</p>
 <h3 id="method-succeeded-">Method <code>succeeded()</code><a class="anchor" aria-label="anchor" href="#method-succeeded-"></a></h3>
 <p>List jobs whose status is <code>"succeeded"</code>.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-12">Arguments<a class="anchor" aria-label="anchor" href="#arguments-12"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-10">Details<a class="anchor" aria-label="anchor" href="#details-10"></a></h4>
 <p>The output only includes jobs under the
@@ -723,36 +485,9 @@ with job information.</p>
 <h3 id="method-failed-">Method <code>failed()</code><a class="anchor" aria-label="anchor" href="#method-failed-"></a></h3>
 <p>List jobs whose status is <code>"failed"</code>.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">failed</span><span class="op">(</span></span>
-<span>  created_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  created_before <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crew_class_monitor_aws_batch</span><span class="op">$</span><span class="fu">failed</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
-<h4 id="arguments-13">Arguments<a class="anchor" aria-label="anchor" href="#arguments-13"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>created_after</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>. Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created after this time, which could
-speed up execution time.</p></dd>
-
-
-<dt><code>created_before</code></dt>
-<dd><p>Either <code>NULL</code>, A <code>POSIXct</code> object such as
-<code>Sys.time() - as.difftime(2, units = "hours")</code> (2 hours ago)
-or an object that can be converted to <code>POSIXct</code> such as
-<code>"2025-02-02"</code>.  Must have length 1.
-It not <code>NULL</code>, the direct AWS API call filters
-on jobs created before this time, which could
-speed up execution time.</p></dd>
-
-
-</dl><p></p></div>
-</div>
 <div class="section">
 <h4 id="details-11">Details<a class="anchor" aria-label="anchor" href="#details-11"></a></h4>
 <p>The output only includes jobs under the
