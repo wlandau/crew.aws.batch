@@ -182,9 +182,9 @@ Method `status()` checks the status of an individual job.
 ```{r}
 monitor$status(id = job2$id)
 #> # A tibble: 1 × 8
-#>   name  id                arn   status   reason created             started stopped
-#>   <chr> <chr>             <chr> <chr>    <chr>    <dbl>               <dbl>   <dbl>
-#> 1 job2  c38d55ad-4a86-43… arn:… runnable NA     2025-01-30 16:29:00      NA      NA
+#>   name  id                arn   status   reason   created             started stopped
+#>   <chr> <chr>             <chr> <chr>    <chr>    <dttm>                <dbl>   <dbl>
+#> 1 job2  c38d55ad-4a86-43… arn:… runnable EMPTY... 2025-01-30 16:29:00      NA      NA
 ```
 
 The `jobs()` method gets the status of all the jobs within the job queue and job definition you originally supplied to `crew_monitor_aws_batch()`. This may include many more jobs than the ones you submitted during the life cycle of the current `monitor` object.
@@ -195,7 +195,7 @@ monitor$jobs()[, c("name", "id", "arn", "status", "reason")]
 #>   name  id                arn   status    reason
 #>   <chr> <chr>             <chr> <chr>     <chr>
 #> 1 job1  653df636-ac74-43… arn:… succeeded Essen…
-#> 2 job2  c38d55ad-4a86-43… arn:… runnable  NA   
+#> 2 job2  c38d55ad-4a86-43… arn:… runnable  EMPTY. Either...   
 ```
 
 The [job state](https://docs.aws.amazon.com/batch/latest/userguide/job_states.html) can be `"submitted"`, `"pending"`, `"runnable"`, `"starting"`, `"running"`, `"succeeded"`, or `"failed"`. The monitor has a method for each job state to get only the jobs with that state.
@@ -205,7 +205,7 @@ monitor$succeeded()[, c("name", "id", "arn", "status", "reason")]
 #> # A tibble: 1 × 8
 #>   name  id                arn   status    reason
 #>   <chr> <chr>             <chr> <chr>     <chr> 
-#> 1 job1  653df636-ac74-43… arn:… succeeded NA    
+#> 1 job1  653df636-ac74-43… arn:… succeeded EMPTY. Either...    
 ```
 
 In addition, there is an `active()` method for just states `"submitted"`, `"pending"`, `"runnable"`, `"starting"`, and `"running"`, and there is an `inactive()` method for just the `"succeeded"` and `"failed"` states.
@@ -215,7 +215,7 @@ monitor$inactive()[, c("name", "id", "arn", "status", "reason")]
 #> # A tibble: 1 × 8
 #>   name  id                arn   status    reason
 #>   <chr> <chr>             <chr> <chr>     <chr> 
-#> 1 job1  653df636-ac74-43… arn:… succeeded NA    
+#> 1 job1  653df636-ac74-43… arn:… succeeded EMPTY. Either... 
 ``
 
 To terminate a job, use the `terminate()` method. This has the effect of both canceling and terminating the job, although you may not see the change right away if the job is currently `"runnable"`. Manually terminated jobs are listed as failed.

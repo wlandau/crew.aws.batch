@@ -275,7 +275,11 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         reason = if_any(
           length(out$statusReason),
           out$statusReason,
-          NA_character_
+          paste(
+            "EMPTY. Either the job has not completed yet or the DescribeJobs",
+            "API call is missing a status reason. In the latter case,",
+            "you may need a different type of query to get the status reason."
+          )
         ),
         created = as_timestamp(out$createdAt),
         started = as_timestamp(out$startedAt),
@@ -431,7 +435,13 @@ crew_class_monitor_aws_batch <- R6::R6Class(
             reason = if_any(
               length(job$statusReason),
               job$statusReason,
-              NA_character_
+              paste(
+                "EMPTY. Either the job has not concluded or the",
+                "ListJobs API call cannot show the status reason.",
+                "In the latter case, status() is more reliable",
+                "because it uses DescribeJobs instead of ListJobs",
+                "(c.f. https://github.com/aws/aws-sdk-js/issues/4587)."
+              )
             ),
             created = as_timestamp(job$createdAt),
             started = as_timestamp(job$startedAt),
