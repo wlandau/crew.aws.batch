@@ -226,9 +226,9 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
-<span><span class="co">#&gt;   name  id                arn   status   reason created             started stopped</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt;               &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable NA     2025-01-30 16:29:00      NA      NA</span></span></code></pre></div>
+<span><span class="co">#&gt;   name  id                arn   status   reason   created             started stopped</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable EMPTY... 2025-01-30 16:29:00      NA      NA</span></span></code></pre></div>
 <p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span><span class="op">)</span><span class="op">]</span></span>
@@ -236,20 +236,20 @@
 <span><span class="co">#&gt;   name  id                arn   status    reason</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded Essen…</span></span>
-<span><span class="co">#&gt; 2 job2  c38d55ad-4a86-43… arn:… runnable  NA   </span></span></code></pre></div>
+<span><span class="co">#&gt; 2 job2  c38d55ad-4a86-43… arn:… runnable  EMPTY. Either...   </span></span></code></pre></div>
 <p>The <a href="https://docs.aws.amazon.com/batch/latest/userguide/job_states.html" class="external-link">job state</a> can be <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, <code>"running"</code>, <code>"succeeded"</code>, or <code>"failed"</code>. The monitor has a method for each job state to get only the jobs with that state.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">succeeded</span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
 <span><span class="co">#&gt;   name  id                arn   status    reason</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA    </span></span></code></pre></div>
+<span><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded EMPTY. Either...    </span></span></code></pre></div>
 <p>In addition, there is an <code>active()</code> method for just states <code>"submitted"</code>, <code>"pending"</code>, <code>"runnable"</code>, <code>"starting"</code>, and <code>"running"</code>, and there is an <code>inactive()</code> method for just the <code>"succeeded"</code> and <code>"failed"</code> states.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>monitor<span class="sc">$</span><span class="fu">inactive</span>()[, <span class="fu">c</span>(<span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span>)]</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 8</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt;   name  id                arn   status    reason</span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; </span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded NA    </span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; 1 job1  653df636-ac74-43… arn:… succeeded EMPTY. Either... </span></span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="st">``</span></span>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>To terminate a job, use the <span class="st">`</span><span class="at">terminate()</span><span class="st">`</span> method. This has the effect of both canceling and terminating the job, although you may not see the change right away <span class="cf">if</span> the job is currently <span class="st">`</span><span class="at">"runnable"</span><span class="st">`</span>. Manually terminated jobs are listed as failed.</span></code></pre></div>
