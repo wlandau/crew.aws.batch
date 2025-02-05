@@ -260,7 +260,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         !anyNA(.),
         nzchar(.),
         length(.) == 1L,
-        message = "'id' must be a valid character of length 1"
+        message = "'id' must be a single valid character string"
       )
       client <- private$.client()
       result <- client$describe_jobs(jobs = id)
@@ -436,7 +436,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       for (job_queue in private$.job_queue) {
         pages <- paws.common::paginate(
           Operation = client$list_jobs(
-            jobQueue = private$.job_queue,
+            jobQueue = job_queue,
             filters = filters
           )
         )
