@@ -57,8 +57,10 @@ Batch jobs.</p>
 
 
 <dl><dt id="arg-job-queue">job_queue<a class="anchor" aria-label="anchor" href="#arg-job-queue"></a></dt>
-<dd><p>Character of length 1, name of the AWS Batch
-job queue.</p></dd>
+<dd><p>Character vector of names of AWS Batch job queues.
+As of <code>crew.aws.batch</code> version 0.0.8 and above, you can supply
+more than one job queue. Methods like <code>jobs()</code> and <code>active()</code>
+will query all the job queues given.</p></dd>
 
 
 <dt id="arg-job-definition">job_definition<a class="anchor" aria-label="anchor" href="#arg-job-definition"></a></dt>
