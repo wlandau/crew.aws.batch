@@ -15,10 +15,12 @@ crew_monitor_aws_batch(
 )
 }
 \arguments{
-\item{job_queue}{Character of length 1, name of the AWS Batch
-job queue.}
+\item{job_queue}{Character vector of names of AWS Batch job queues.
+As of \code{crew.aws.batch} version 0.0.8 and above, you can supply
+more than one job queue. Methods like \code{jobs()} and \code{active()}
+will query all the job queues given.}
 
-\item{job_definition}{Character of length 1, name of the AWS Batch
+\item{job_definition}{Character string, name of the AWS Batch
 job definition.}
 
 \item{log_group}{Character of length 1,

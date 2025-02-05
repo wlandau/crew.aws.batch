@@ -12,9 +12,11 @@
 #'   CloudWatch logs API call.
 #'   For more information on AWS policies and permissions, please visit
 #'   <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html>.
-#' @param job_queue Character of length 1, name of the AWS Batch
-#'   job queue.
-#' @param job_definition Character of length 1, name of the AWS Batch
+#' @param job_queue Character vector of names of AWS Batch job queues.
+#'   As of `crew.aws.batch` version 0.0.8 and above, you can supply
+#'   more than one job queue. Methods like `jobs()` and `active()`
+#'   will query all the job queues given.
+#' @param job_definition Character string, name of the AWS Batch
 #'   job definition.
 #' @param log_group Character of length 1,
 #'   AWS Batch CloudWatch log group to get job logs.
@@ -49,7 +51,7 @@ crew_monitor_aws_batch <- function(
   region <- region %|||chr% Sys.getenv("AWS_REGION", unset = "")
   region <- region %|||chr% Sys.getenv("AWS_DEFAULT_REGION", unset = "")
   out <- crew_class_monitor_aws_batch$new(
-    job_queue = job_queue,
+    job_queue = unique(job_queue),
     job_definition = job_definition,
     log_group = log_group,
     config = config,
@@ -148,7 +150,6 @@ crew_class_monitor_aws_batch <- R6::R6Class(
     #' @return `NULL` (invisibly). Throws an error if a field is invalid.
     validate = function() {
       fields <- c(
-        ".job_queue",
         ".job_definition",
         ".log_group",
         ".region"
@@ -160,9 +161,20 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           !anyNA(.),
           length(.) == 1L,
           nzchar(.),
-          message = paste(field, "must be a nonempty character of length 1")
+          message = paste(field, "must be a nonempty character string")
         )
       }
+      crew::crew_assert(
+        private[[".job_queue"]],
+        is.character(.),
+        !anyNA(.),
+        length(.) > 0L,
+        nzchar(.),
+        message = paste(
+          "job_queue must be a valid nonempty character vector of",
+          "AWS Batch job queue names."
+        )
+      )
       crew::crew_assert(
         private$.endpoint %|||% "x",
         is.character(.),
@@ -258,6 +270,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
             name = character(0L),
             id = character(0L),
             arn = character(0L),
+            queue = character(0L),
             status = character(0L),
             reason = character(0L),
             created = as.POSIXct(numeric(0L)),
@@ -266,11 +279,12 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           )
         )
       }
-      out <- client$describe_jobs(jobs = id)$jobs[[1L]]
+      out <- result$jobs[[1L]]
       tibble::tibble(
         name = out$jobName,
         id = out$jobId,
         arn = out$jobArn,
+        queue = basename(out$jobQueue),
         status = tolower(out$status),
         reason = if_any(
           length(out$statusReason),
@@ -418,35 +432,38 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         )
       )
       client <- private$.client()
-      pages <- paws.common::paginate(
-        Operation = client$list_jobs(
-          jobQueue = private$.job_queue,
-          filters = filters
-        )
-      )
       out <- list()
-      for (page in pages) {
-        for (job in page$jobSummaryList) {
-          out[[length(out) + 1L]] <- tibble::tibble(
-            name = job$jobName,
-            id = job$jobId,
-            arn = job$jobArn,
-            status = job$status,
-            reason = if_any(
-              length(job$statusReason),
-              job$statusReason,
-              paste(
-                "EMPTY. Either the job has not concluded or the",
-                "ListJobs API call cannot show the status reason.",
-                "In the latter case, status() is more reliable",
-                "because it uses DescribeJobs instead of ListJobs",
-                "(c.f. https://github.com/aws/aws-sdk-js/issues/4587)."
-              )
-            ),
-            created = as_timestamp(job$createdAt),
-            started = as_timestamp(job$startedAt),
-            stopped = as_timestamp(job$stoppedAt)
+      for (job_queue in private$.job_queue) {
+        pages <- paws.common::paginate(
+          Operation = client$list_jobs(
+            jobQueue = private$.job_queue,
+            filters = filters
           )
+        )
+        for (page in pages) {
+          for (job in page$jobSummaryList) {
+            out[[length(out) + 1L]] <- tibble::tibble(
+              name = job$jobName,
+              id = job$jobId,
+              arn = job$jobArn,
+              queue = job_queue,
+              status = job$status,
+              reason = if_any(
+                length(job$statusReason),
+                job$statusReason,
+                paste(
+                  "EMPTY. Either the job has not concluded or the",
+                  "ListJobs API call cannot show the status reason.",
+                  "In the latter case, status() is more reliable",
+                  "because it uses DescribeJobs instead of ListJobs",
+                  "(c.f. https://github.com/aws/aws-sdk-js/issues/4587)."
+                )
+              ),
+              created = as_timestamp(job$createdAt),
+              started = as_timestamp(job$startedAt),
+              stopped = as_timestamp(job$stoppedAt)
+            )
+          }
         }
       }
       if (!length(out)) {
@@ -454,6 +471,7 @@ crew_class_monitor_aws_batch <- R6::R6Class(
           name = character(0L),
           id = character(0L),
           arn = character(0L),
+          queue = character(0L),
           status = character(0L),
           reason = character(0L),
           created = as.POSIXct(numeric(0L)),
