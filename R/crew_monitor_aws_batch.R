@@ -352,13 +352,26 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         endpoint = private$.endpoint,
         region = private$.region
       )
-      pages <- paws.common::paginate(
-        client$get_log_events(
-          logGroupName = private$.log_group,
-          logStreamName = log_stream_name,
-          startFromHead = start_from_head
+      pages <- tryCatch(
+        paws.common::paginate(
+          client$get_log_events(
+            logGroupName = private$.log_group,
+            logStreamName = log_stream_name,
+            startFromHead = start_from_head
+          ),
+          StopOnSameToken = TRUE
         ),
-        StopOnSameToken = TRUE
+        error = function(condition) {
+          crew::crew_assert(
+            FALSE,
+            message = paste(
+              "Error getting log data. If the job has not started yet,",
+              "please wait for it to start. Otherwise, the original error",
+              "message could be misleading. Original error:",
+              conditionMessage(condition)
+            )
+          )
+        }
       )
       out <- list()
       for (page in pages) {
