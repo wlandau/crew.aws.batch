@@ -6,9 +6,9 @@
 #' @inheritSection crew_launcher_aws_batch IAM policies
 #' @inheritSection crew_launcher_aws_batch AWS arguments
 #' @inheritSection crew_launcher_aws_batch Verbosity
-#' @inheritParams crew::crew_client
 #' @inheritParams crew_launcher_aws_batch
 #' @inheritParams crew::crew_controller
+#' @inheritParams crew::crew_client
 #' @examples
 #' if (identical(Sys.getenv("CREW_EXAMPLES"), "true")) {
 #' controller <- crew_controller_aws_batch(
