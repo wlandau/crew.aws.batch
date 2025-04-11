@@ -1,4 +1,4 @@
-# crew.aws.batch 0.0.8.9000 (development)
+# crew.aws.batch 0.0.9
 
 * * Add a new `serialization` argument to the controller.
 
