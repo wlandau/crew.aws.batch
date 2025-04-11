@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![lint](https://github.com/wlandau/crew.aws.batch/actions/workflows/lint.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Alint)
 [![pkgdown](https://github.com/wlandau/crew.aws.batch/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Apkgdown)
 
-In computationally demanding analysis projects, statisticians and data scientists asynchronously deploy long-running tasks to distributed systems, ranging from traditional clusters to cloud services. The `crew.aws.batch` package extends the [`mirai`](https://github.com/shikokuchuo/mirai)-powered 'crew' package with a worker launcher plugin for [AWS Batch](https://aws.amazon.com/batch/). Inspiration also comes from packages [`mirai`](https://github.com/shikokuchuo/mirai), [`future`](https://future.futureverse.org/), [`rrq`](https://mrc-ide.github.io/rrq/), [`clustermq`](https://mschubert.github.io/clustermq/), and [`batchtools`](https://mllg.github.io/batchtools/).
+In computationally demanding analysis projects, statisticians and data scientists asynchronously deploy long-running tasks to distributed systems, ranging from traditional clusters to cloud services. The `crew.aws.batch` package extends the [`mirai`](https://github.com/r-lib/mirai)-powered 'crew' package with a worker launcher plugin for [AWS Batch](https://aws.amazon.com/batch/). Inspiration also comes from packages [`mirai`](https://github.com/r-lib/mirai), [`future`](https://future.futureverse.org/), [`rrq`](https://mrc-ide.github.io/rrq/), [`clustermq`](https://mschubert.github.io/clustermq/), and [`batchtools`](https://mllg.github.io/batchtools/).
 
 # Installation
 
@@ -301,7 +301,7 @@ HTTP requests to submit and terminate jobs may take up to 1 or 2 seconds, and th
 
 # Thanks
 
-* [Charlie Gao](https://github.com/shikokuchuo) created [`mirai`](https://github.com/shikokuchuo/mirai) and [`nanonext`](https://github.com/shikokuchuo/nanonext) and graciously accommodated the complicated and demanding feature requests that made `crew` and its ecosystem possible.
+* [Charlie Gao](https://github.com/shikokuchuo) created [`mirai`](https://github.com/r-lib/mirai) and [`nanonext`](https://github.com/r-lib/nanonext) and graciously accommodated the complicated and demanding feature requests that made `crew` and its ecosystem possible.
 * Thanks to [Henrik Bengtsson](https://github.com/HenrikBengtsson), [David Kretch](https://github.com/davidkretch), [Adam Banker](https://github.com/adambanker), and [Michael Schubert](https://github.com/mschubert) for edifying conversations about cloud computing in R.
 
 # Code of Conduct

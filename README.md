@@ -12,10 +12,10 @@ In computationally demanding analysis projects, statisticians and data
 scientists asynchronously deploy long-running tasks to distributed
 systems, ranging from traditional clusters to cloud services. The
 `crew.aws.batch` package extends the
-[`mirai`](https://github.com/shikokuchuo/mirai)-powered ‘crew’ package
-with a worker launcher plugin for [AWS
-Batch](https://aws.amazon.com/batch/). Inspiration also comes from
-packages [`mirai`](https://github.com/shikokuchuo/mirai),
+[`mirai`](https://github.com/r-lib/mirai)-powered ‘crew’ package with a
+worker launcher plugin for [AWS Batch](https://aws.amazon.com/batch/).
+Inspiration also comes from packages
+[`mirai`](https://github.com/r-lib/mirai),
 [`future`](https://future.futureverse.org/),
 [`rrq`](https://mrc-ide.github.io/rrq/),
 [`clustermq`](https://mschubert.github.io/clustermq/), and
@@ -392,8 +392,8 @@ messages.
 # Thanks
 
 - [Charlie Gao](https://github.com/shikokuchuo) created
-  [`mirai`](https://github.com/shikokuchuo/mirai) and
-  [`nanonext`](https://github.com/shikokuchuo/nanonext) and graciously
+  [`mirai`](https://github.com/r-lib/mirai) and
+  [`nanonext`](https://github.com/r-lib/nanonext) and graciously
   accommodated the complicated and demanding feature requests that made
   `crew` and its ecosystem possible.
 - Thanks to [Henrik Bengtsson](https://github.com/HenrikBengtsson),
@@ -416,7 +416,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.8,
+  Batch_. R package version 0.0.8.9000,
   https://github.com/wlandau/crew.aws.batch,
   <https://wlandau.github.io/crew.aws.batch/>.
 
@@ -425,7 +425,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.8, 
+    note = {R package version 0.0.8.9000, 
 https://github.com/wlandau/crew.aws.batch},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }

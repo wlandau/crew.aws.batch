@@ -1,3 +1,7 @@
+# crew.aws.batch 0.0.10
+
+* Fix links.
+
 # crew.aws.batch 0.0.9
 
 * * Add a new `serialization` argument to the controller.
