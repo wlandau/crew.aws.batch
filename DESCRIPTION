@@ -34,7 +34,7 @@ Depends:
   R (>= 4.0.0)
 Imports:
   cli (>= 3.1.0),
-  crew (>= 1.1.2.9004),
+  crew (>= 1.2.0),
   paws.common (>= 0.7.0),
   paws.compute,
   paws.management,
