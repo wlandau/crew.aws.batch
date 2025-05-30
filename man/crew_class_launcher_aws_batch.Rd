@@ -139,13 +139,13 @@ Abstract launcher constructor.
 
 \item{\code{tasks_timers}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
-\item{\code{reset_globals}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{reset_globals}}{Deprecated. See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
-\item{\code{reset_packages}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{reset_packages}}{Deprecated. See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
-\item{\code{reset_options}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{reset_options}}{Deprecated. See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
-\item{\code{garbage_collection}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
+\item{\code{garbage_collection}}{Deprecated. See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 
 \item{\code{tls}}{See \code{\link[=crew_launcher_aws_batch]{crew_launcher_aws_batch()}}.}
 

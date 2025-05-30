@@ -6,8 +6,8 @@
 #' @inheritSection crew_launcher_aws_batch IAM policies
 #' @inheritSection crew_launcher_aws_batch AWS arguments
 #' @inheritSection crew_launcher_aws_batch Verbosity
-#' @inheritParams crew_launcher_aws_batch
 #' @inheritParams crew::crew_controller
+#' @inheritParams crew_launcher_aws_batch
 #' @inheritParams crew::crew_client
 #' @examples
 #' if (identical(Sys.getenv("CREW_EXAMPLES"), "true")) {
@@ -102,10 +102,6 @@ crew_controller_aws_batch <- function(
     seconds_wall = seconds_wall,
     tasks_max = tasks_max,
     tasks_timers = tasks_timers,
-    reset_globals = reset_globals,
-    reset_packages = reset_packages,
-    reset_options = reset_options,
-    garbage_collection = garbage_collection,
     tls = tls,
     processes = processes,
     r_arguments = r_arguments,
@@ -132,6 +128,10 @@ crew_controller_aws_batch <- function(
   controller <- crew::crew_controller(
     client = client,
     launcher = launcher,
+    reset_globals = reset_globals,
+    reset_packages = reset_packages,
+    reset_options = reset_options,
+    garbage_collection = garbage_collection,
     crashes_max = crashes_max,
     backup = backup
   )

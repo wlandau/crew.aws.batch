@@ -79,10 +79,10 @@ crew_launcher_aws_batch <- function(
   seconds_wall = Inf,
   tasks_max = Inf,
   tasks_timers = 0L,
-  reset_globals = TRUE,
-  reset_packages = FALSE,
-  reset_options = FALSE,
-  garbage_collection = FALSE,
+  reset_globals = NULL,
+  reset_packages = NULL,
+  reset_options = NULL,
+  garbage_collection = NULL,
   crashes_error = NULL,
   tls = crew::crew_tls(mode = "automatic"),
   processes = NULL,
@@ -219,10 +219,10 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #' @param seconds_wall See [crew_launcher_aws_batch()].
     #' @param tasks_max See [crew_launcher_aws_batch()].
     #' @param tasks_timers See [crew_launcher_aws_batch()].
-    #' @param reset_globals See [crew_launcher_aws_batch()].
-    #' @param reset_packages See [crew_launcher_aws_batch()].
-    #' @param reset_options See [crew_launcher_aws_batch()].
-    #' @param garbage_collection See [crew_launcher_aws_batch()].
+    #' @param reset_globals Deprecated. See [crew_launcher_aws_batch()].
+    #' @param reset_packages Deprecated. See [crew_launcher_aws_batch()].
+    #' @param reset_options Deprecated. See [crew_launcher_aws_batch()].
+    #' @param garbage_collection Deprecated. See [crew_launcher_aws_batch()].
     #' @param tls See [crew_launcher_aws_batch()].
     #' @param processes See [crew_launcher_aws_batch()].
     #' @param r_arguments See [crew_launcher_aws_batch()].

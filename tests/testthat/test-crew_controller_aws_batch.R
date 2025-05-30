@@ -40,13 +40,16 @@ test_that("AWS batch controller", {
 })
 
 test_that("AWS batch controller deprecated retryable options", {
-  options <- crew_options_aws_batch(
-    job_definition = "crew-definition",
-    job_queue = "crew-queue",
-    cpus = c(2.5, 3.5, 1.7),
-    gpus = c(3, 2),
-    memory = c(1234, 1157),
-    memory_units = "mebibytes"
+  expect_message(
+    options <- crew_options_aws_batch(
+      job_definition = "crew-definition",
+      job_queue = "crew-queue",
+      cpus = c(2.5, 3.5, 1.7),
+      gpus = c(3, 2),
+      memory = c(1234, 1157),
+      memory_units = "mebibytes"
+    ),
+    class = "crew_deprecate"
   )
   x <- crew_controller_aws_batch(options_aws_batch = options)
   private <- crew_private(x$launcher)
@@ -66,4 +69,23 @@ test_that("AWS batch controller deprecated retryable options", {
       command = list("Rscript", "-e", "run")
     )
   )
+})
+
+# https://github.com/wlandau/crew/issues/217
+test_that("crew_controller_aws_batch() cleanup deprecations", {
+  options <- crew_options_aws_batch(
+    job_definition = "crew-definition",
+    job_queue = "crew-queue"
+  )
+  x <- crew_controller_aws_batch(options_aws_batch = options)
+  fields <- c(
+    "reset_globals",
+    "reset_packages",
+    "reset_globals",
+    "garbage_collection"
+  )
+  for (field in fields) {
+    expect_true(is.logical(x[[field]]))
+    expect_null(x$launcher[[field]])
+  }
 })
