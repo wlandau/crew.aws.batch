@@ -40,6 +40,7 @@ test_that("AWS batch controller", {
 })
 
 test_that("AWS batch controller deprecated retryable options", {
+  skip_on_cran()
   expect_message(
     options <- crew_options_aws_batch(
       job_definition = "crew-definition",
