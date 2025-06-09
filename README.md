@@ -19,7 +19,7 @@ Inspiration also comes from packages
 [`future`](https://future.futureverse.org/),
 [`rrq`](https://mrc-ide.github.io/rrq/),
 [`clustermq`](https://mschubert.github.io/clustermq/), and
-[`batchtools`](https://mllg.github.io/batchtools/).
+[`batchtools`](https://batchtools.mlr-org.com).
 
 # Installation
 
@@ -416,8 +416,7 @@ citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
   Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.8.9000,
-  https://github.com/wlandau/crew.aws.batch,
+  Batch_. R package version 0.0.11,
   <https://wlandau.github.io/crew.aws.batch/>.
 
 A BibTeX entry for LaTeX users is
@@ -425,8 +424,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.8.9000, 
-https://github.com/wlandau/crew.aws.batch},
+    note = {R package version 0.0.11},
     url = {https://wlandau.github.io/crew.aws.batch/},
   }
 ```

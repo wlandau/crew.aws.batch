@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.10.9000 (development)
+# crew.aws.batch 0.0.11
 
-
+* Compatibility with https://github.com/wlandau/crew/issues/217.
 
 # crew.aws.batch 0.0.10
 
