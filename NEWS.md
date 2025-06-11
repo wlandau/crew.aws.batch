@@ -1,6 +1,6 @@
-# crew.aws.batch 0.0.11.9000 (development)
+# crew.aws.batch 0.0.12
 
-
+* Add details to job status output in monitor.
 
 # crew.aws.batch 0.0.11
 

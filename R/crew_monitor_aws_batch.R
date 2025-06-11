@@ -275,7 +275,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
             reason = character(0L),
             created = as.POSIXct(numeric(0L)),
             started = as.POSIXct(numeric(0L)),
-            stopped = as.POSIXct(numeric(0L))
+            stopped = as.POSIXct(numeric(0L)),
+            details = list()
           )
         )
       }
@@ -297,7 +298,8 @@ crew_class_monitor_aws_batch <- R6::R6Class(
         ),
         created = as_timestamp(out$createdAt),
         started = as_timestamp(out$startedAt),
-        stopped = as_timestamp(out$stoppedAt)
+        stopped = as_timestamp(out$stoppedAt),
+        details = list(out)
       )
       # nocov end
     },
