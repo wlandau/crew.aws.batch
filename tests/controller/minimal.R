@@ -28,7 +28,7 @@ test_that("minimal workload", {
     id <- controller$launcher$workers$handle[[1L]]$data$jobId
     message("Waiting for active jobs to be listed as started.")
     crew::crew_retry(
-      ~id %in% monitor$active()$id,
+      ~ id %in% monitor$active()$id,
       seconds_interval = 1,
       seconds_timeout = 180
     )
@@ -37,7 +37,7 @@ test_that("minimal workload", {
     controller$launcher$terminate()
     message("Waiting for active jobs to terminate.")
     crew::crew_retry(
-      ~!(id %in% monitor$active()$id),
+      ~ !(id %in% monitor$active()$id),
       seconds_interval = 1,
       seconds_timeout = 180
     )

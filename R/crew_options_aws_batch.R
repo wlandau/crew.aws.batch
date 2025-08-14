@@ -194,12 +194,13 @@ crew_options_aws_batch <- function(
     isTRUE(.) || isFALSE(.),
     message = "verbose must be TRUE or FALSE"
   )
-  container_overrides <- container_overrides %|||% make_container_overrides(
-    cpus = cpus,
-    gpus = gpus,
-    memory = memory,
-    memory_units = memory_units
-  )
+  container_overrides <- container_overrides %|||%
+    make_container_overrides(
+      cpus = cpus,
+      gpus = gpus,
+      memory = memory,
+      memory_units = memory_units
+    )
   structure(
     list(
       job_definition = job_definition,
@@ -231,7 +232,7 @@ make_container_overrides <- function(
   memory_units = memory_units
 ) {
   if (!is.null(memory) && identical(memory_units, "gigabytes")) {
-    memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
+    memory <- memory * ((5L^9L) / (2L^11L))
   }
   resources <- list()
   if (!is.null(memory)) {

@@ -424,15 +424,16 @@ crew_class_monitor_aws_batch <- R6::R6Class(
       )
       crew::crew_assert(
         status,
-        . %in% c(
-          "submitted",
-          "pending",
-          "runnable",
-          "starting",
-          "running",
-          "succeeded",
-          "failed"
-        ),
+        . %in%
+          c(
+            "submitted",
+            "pending",
+            "runnable",
+            "starting",
+            "running",
+            "succeeded",
+            "failed"
+          ),
         message = paste(
           "elements of 'status' must be \"submitted\", \"pending\",",
           "\"runnable\", \"starting\", \"running\", \"succeeded\", or",

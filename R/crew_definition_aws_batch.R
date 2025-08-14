@@ -154,7 +154,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
         )
       }
       if (!is.null(memory) && identical(memory_units, "gigabytes")) {
-        memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
+        memory <- memory * ((5L^9L) / (2L^11L))
       }
       args <- list()
       args$jobDefinitionName <- private$.job_definition
@@ -269,7 +269,7 @@ crew_class_definition_aws_batch <- R6::R6Class(
         message = "propagate_tags must be NULL or TRUE or FALSE"
       )
       if (!is.null(memory) && identical(memory_units, "gigabytes")) {
-        memory <- memory * ((5L ^ 9L) / (2L ^ 11L))
+        memory <- memory * ((5L^9L) / (2L^11L))
       }
       args <- list()
       args$jobName <- crew.aws.batch::crew_aws_batch_job_name(name)
@@ -579,8 +579,8 @@ crew_class_definition_aws_batch <- R6::R6Class(
             propagate_tags = as.logical(definition$propagateTags) %||% NA,
             platform_capabilities = definition$platformCapabilities %||% NA,
             eks_properties = list(definition$eksProperties),
-            container_orchestration_type =
-              definition$containerOrchestrationType %||% NA
+            container_orchestration_type = definition$containerOrchestrationType %||%
+              NA
           )
         }
       }

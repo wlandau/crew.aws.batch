@@ -114,8 +114,7 @@ crew_controller_aws_batch <- function(
     aws_batch_job_definition = aws_batch_job_definition,
     aws_batch_job_queue = aws_batch_job_queue,
     aws_batch_share_identifier = aws_batch_share_identifier,
-    aws_batch_scheduling_priority_override =
-      aws_batch_scheduling_priority_override,
+    aws_batch_scheduling_priority_override = aws_batch_scheduling_priority_override,
     aws_batch_parameters = aws_batch_parameters,
     aws_batch_container_overrides = aws_batch_container_overrides,
     aws_batch_node_overrides = aws_batch_node_overrides,
