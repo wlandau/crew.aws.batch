@@ -1,3 +1,7 @@
+# crew.cluster 0.0.12.9001 (development)
+
+* Remove `termiante_worker()` (https://github.com/wlandau/crew/pull/236).
+
 # crew.aws.batch 0.0.12
 
 * Add details to job status output in monitor.

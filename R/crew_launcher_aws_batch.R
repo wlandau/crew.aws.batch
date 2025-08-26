@@ -305,25 +305,6 @@ crew_class_launcher_aws_batch <- R6::R6Class(
         )
       )
       # nocov end
-    },
-    #' @description Terminate a local process worker.
-    #' @return `NULL` (invisibly).
-    #' @param handle A process handle object previously
-    #'   returned by `launch_worker()`.
-    terminate_worker = function(handle) {
-      # Tested in tests/controller/minimal.R
-      # nocov start
-      self$async$eval(
-        crew.aws.batch::crew_launcher_aws_batch_terminate(
-          args_client = args_client,
-          job_id = job_id
-        ),
-        data = list(
-          args_client = private$.args_client(),
-          job_id = handle$data$jobId
-        )
-      )
-      # nocov end
     }
   )
 )
@@ -347,35 +328,6 @@ crew_launcher_aws_batch_launch <- function(args_client, args_submit) {
   # nocov start
   client <- do.call(what = paws.compute::batch, args = args_client)
   do.call(what = client$submit_job, args = args_submit)
-  # nocov end
-}
-
-#' @title Terminate an AWS Batch job.
-#' @export
-#' @keywords internal
-#' @description Not a user-side function. For internal use only.
-#' @details This utility is its own separate exported function specific to
-#'   the launcher and not shared with the job definition or monitor classes.
-#'   It generates the `paws.compute::batch()` client within itself
-#'   instead of a method inside the class.
-#'   This is all because it needs to run on a separate local worker process
-#'   and it needs to accept exportable arguments.
-#' @return HTTP response from submitting the job.
-#' @param args_client Named list of arguments to `paws.compute::batch()`.
-#' @param job_id Character of length 1, ID of the AWS Batch job to
-#'   terminate.
-crew_launcher_aws_batch_terminate <- function(args_client, job_id) {
-  # nocov start
-  # Tested in tests/controller/minimal.R
-  client <- do.call(what = paws.compute::batch, args = args_client)
-  client$cancel_job(
-    jobId = job_id,
-    reason = "cancelled by crew controller"
-  )
-  client$terminate_job(
-    jobId = job_id,
-    reason = "terminated by crew controller"
-  )
   # nocov end
 }
 
