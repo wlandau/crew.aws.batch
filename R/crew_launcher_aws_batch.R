@@ -289,9 +289,9 @@ crew_class_launcher_aws_batch <- R6::R6Class(
     #'   [crew::crew_worker()]
     #'   which will run in the worker and accept tasks.
     #' @param name Character string, an informative worker name.
-    #' @param launcher Character string, name of the launcher.
-    #' @param worker Character string, name of the worker instance.
-    launch_worker = function(call, name, launcher, worker) {
+    #' @param launcher Deprecated in `crew.aws.batch`.
+    #' @param worker Deprecated in `crew.aws.batch`.
+    launch_worker = function(call, name, launcher = NULL, worker = NULL) {
       # Tested in tests/controller/persistent.R
       # nocov start
       self$async$eval(

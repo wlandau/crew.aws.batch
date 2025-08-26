@@ -182,7 +182,12 @@ Validate the launcher.
 Launch a local process worker which will
 dial into a socket.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$launch_worker(call, name, launcher, worker)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crew_class_launcher_aws_batch$launch_worker(
+  call,
+  name,
+  launcher = NULL,
+  worker = NULL
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -194,9 +199,9 @@ which will run in the worker and accept tasks.}
 
 \item{\code{name}}{Character string, an informative worker name.}
 
-\item{\code{launcher}}{Character string, name of the launcher.}
+\item{\code{launcher}}{Deprecated in \code{crew.aws.batch}.}
 
-\item{\code{worker}}{Character string, name of the worker instance.}
+\item{\code{worker}}{Deprecated in \code{crew.aws.batch}.}
 }
 \if{html}{\out{</div>}}
 }
