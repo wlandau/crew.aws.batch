@@ -21,7 +21,7 @@ test_that("AWS batch launcher", {
     sort(names(private$.args_client())),
     sort(c("config", "credentials", "endpoint", "region"))
   )
-  out <- private$.args_submit(call = "run", name = "x")
+  out <- private$.args_submit(call = "run", name = "x", n = 2L)
   expect_true(is.list(out))
   expect_equal(out$jobName, "x")
   expect_equal(out$jobDefinition, "crew-definition")
@@ -37,6 +37,9 @@ test_that("AWS batch launcher", {
       command = list("Rscript", "-e", "run")
     )
   )
+  expect_equal(out$arrayProperties, list(size = 2L))
+  out <- private$.args_submit(call = "run", name = "x", n = 1L)
+  expect_null(out$arrayProperties)
 })
 
 test_that("crew_aws_batch_job_name() long string", {
