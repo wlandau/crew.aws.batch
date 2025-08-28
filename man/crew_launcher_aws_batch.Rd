@@ -7,7 +7,7 @@
 crew_launcher_aws_batch(
   name = NULL,
   workers = 1L,
-  seconds_interval = 0.25,
+  seconds_interval = 0.5,
   seconds_timeout = 60,
   seconds_launch = 1800,
   seconds_idle = 300,

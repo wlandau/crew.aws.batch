@@ -13,7 +13,7 @@ crew_controller_aws_batch(
   tls_enable = NULL,
   tls_config = NULL,
   serialization = NULL,
-  seconds_interval = 0.25,
+  seconds_interval = 0.5,
   seconds_timeout = 60,
   seconds_launch = 1800,
   seconds_idle = 300,
