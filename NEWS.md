@@ -1,7 +1,7 @@
-# crew.cluster 0.0.12.9001 (development)
+# crew.cluster 0.0.12.9002 (development)
 
 * Remove `termiante_worker()` (https://github.com/wlandau/crew/pull/236).
-* Deprecate `launcher` and `worker` in `launch_worker()`.
+* Support array jobs with the new `launch_workers()` (plural) method in launchers.
 
 # crew.aws.batch 0.0.12
 
