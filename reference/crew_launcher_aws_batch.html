@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">crew.aws.batch</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.12.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.12.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,11 +138,8 @@ See the <code>walltime</code> argument of <code><a href="https://mirai.r-lib.org
 
 <dt id="arg-tasks-max">tasks_max<a class="anchor" aria-label="anchor" href="#arg-tasks-max"></a></dt>
 <dd><p>Maximum number of tasks that a worker will do before
-exiting. See the <code>maxtasks</code> argument of <code><a href="https://mirai.r-lib.org/reference/daemon.html" class="external-link">mirai::daemon()</a></code>.
-<code>crew</code> does not
-excel with perfectly transient workers because it does not micromanage
-the assignment of tasks to workers, it is recommended to set
-<code>tasks_max</code> to a value greater than 1.</p></dd>
+exiting. Also determines how often the controller auto-scales.
+See the Auto-scaling section for details.</p></dd>
 
 
 <dt id="arg-tasks-timers">tasks_timers<a class="anchor" aria-label="anchor" href="#arg-tasks-timers"></a></dt>
@@ -185,14 +182,7 @@ Please use the <code>garbage_collection</code> option of
 
 
 <dt id="arg-processes">processes<a class="anchor" aria-label="anchor" href="#arg-processes"></a></dt>
-<dd><p><code>NULL</code> or positive integer of length 1,
-number of local processes to
-launch to allow worker launches to happen asynchronously. If <code>NULL</code>,
-then no local processes are launched. If 1 or greater, then the launcher
-starts the processes on <code><a href="https://rdrr.io/r/stats/start.html" class="external-link">start()</a></code> and ends them on <code>terminate()</code>.
-Plugins that may use these processes should run asynchronous calls
-using <code>launcher$async$eval()</code> and expect a <code>mirai</code> task object
-as the return value.</p></dd>
+<dd><p>Deprecated on 2025-08-27 (<code>crew</code> version 1.2.1.9009).</p></dd>
 
 
 <dt id="arg-r-arguments">r_arguments<a class="anchor" aria-label="anchor" href="#arg-r-arguments"></a></dt>
