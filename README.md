@@ -5,7 +5,6 @@
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#Active)
 [![check](https://github.com/wlandau/crew.aws.batch/actions/workflows/check.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Acheck)
 [![codecov](https://codecov.io/gh/wlandau/crew.aws.batch/branch/main/graph/badge.svg?token=3T5DlLwUVl)](https://app.codecov.io/gh/wlandau/crew.aws.batch)
-[![lint](https://github.com/wlandau/crew.aws.batch/actions/workflows/lint.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Alint)
 [![pkgdown](https://github.com/wlandau/crew.aws.batch/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/wlandau/crew.aws.batch/actions?query=workflow%3Apkgdown)
 
 In computationally demanding analysis projects, statisticians and data
