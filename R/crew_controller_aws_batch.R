@@ -30,6 +30,7 @@ crew_controller_aws_batch <- function(
   tls_enable = NULL,
   tls_config = NULL,
   serialization = NULL,
+  profile = crew::crew_random_name(),
   seconds_interval = 0.5,
   seconds_timeout = 60,
   seconds_launch = 1800,
@@ -89,6 +90,7 @@ crew_controller_aws_batch <- function(
     tls_enable = tls_enable,
     tls_config = tls_config,
     serialization = serialization,
+    profile = profile,
     seconds_interval = seconds_interval,
     seconds_timeout = seconds_timeout
   )
