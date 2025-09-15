@@ -1,4 +1,4 @@
-# crew.cluster 0.0.12.9003 (development)
+# crew.cluster 0.1.0
 
 * Remove `termiante_worker()` (https://github.com/wlandau/crew/pull/236).
 * Support array jobs with the new `launch_workers()` (plural) method in launchers.
