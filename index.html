@@ -163,7 +163,8 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_definition_aws_batch.html">crew_definition_aws_batch</a></span><span class="op">(</span></span>
 <span>  job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
-<span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span></span>
+<span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span>,</span>
+<span>  region <span class="op">=</span> <span class="st">"us-east-1"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The job definition may or may not exist at this point. If it does not exist, you can register with <code>register()</code>, an oversimplified limited-scope method which creates container-based job definitions with the <code>"awslogs"</code> log driver (for CloudWatch).<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The log group supplied to &lt;code&gt;&lt;a href="reference/crew_monitor_aws_batch.html"&gt;crew_monitor_aws_batch()&lt;/a&gt;&lt;/code&gt; must be valid. The default is &lt;code&gt;"/aws/batch/log"&lt;/code&gt;, which may not exist if your system administrator has a custom logging policy.&lt;/p&gt;'><sup>3</sup></a> Below, your container image can be as simple as a Docker Hub identifier (like <code>"alpine:latest:</code>) or a full URI of an ECR image.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;For the &lt;code&gt;crew&lt;/code&gt; controller, you will definitely want an image with R and &lt;code&gt;crew&lt;/code&gt; installed. For the purposes of testing the monitor, &lt;code&gt;"alpine:latest"&lt;/code&gt; will work.&lt;/p&gt;'><sup>4</sup></a></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -190,8 +191,17 @@
 <span><span class="co">#&gt; #   timeout &lt;list&gt;, node_properties &lt;list&gt;, tags &lt;list&gt;,</span></span>
 <span><span class="co">#&gt; #   propagate_tags &lt;lgl&gt;, platform_capabilities &lt;chr&gt;,</span></span>
 <span><span class="co">#&gt; #   eks_properties &lt;list&gt;, container_orchestration_type &lt;chr&gt;</span></span></code></pre></div>
-<p>Use <code>deregister()</code> to deregister a revision of a job definition. If a revision number is not supplied, then it defaults to the greatest active revision number.</p>
+<p>The job definition object can submit individual AWS Batch jobs to test your computing environment.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">job1</span> <span class="op">&lt;-</span> <span class="va">definition</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job1"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"hello"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">job2</span> <span class="op">&lt;-</span> <span class="va">definition</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job2"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"submitted"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">job2</span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
+<span><span class="co">#&gt;   name  id                                   arn</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…</span></span></code></pre></div>
+<p>Use <code>deregister()</code> to deregister a revision of a job definition. If a revision number is not supplied, then it defaults to the greatest active revision number.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">definition</span><span class="op">$</span><span class="fu">deregister</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 16</span></span>
 <span><span class="co">#&gt;   name            arn   revision status type  scheduling_priority parameters</span></span>
@@ -207,27 +217,20 @@
 </h1>
 <p>With <code>crew.aws.batch</code>, your <code>crew</code> controller automatically submits jobs to AWS Batch. These jobs may fail or linger for any number of reasons, which could impede work and increase costs. So before you use <code><a href="reference/crew_controller_aws_batch.html">crew_controller_aws_batch()</a></code>, please learn how to monitor and terminate AWS Batch jobs manually.</p>
 <p><code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code> defines a “monitor” to help you manually list, inspect, and terminate jobs. You will need to supply a job definition name and a job queue name.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch</a></span><span class="op">(</span></span>
 <span>  job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
-<span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span></span>
+<span>  job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span>,</span>
+<span>  region <span class="op">=</span> <span class="st">"us-east-1"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>You can submit individual AWS Batch jobs to test your computing environment.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">job1</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job1"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"hello\nworld"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">job2</span> <span class="op">&lt;-</span> <span class="va">monitor</span><span class="op">$</span><span class="fu">submit</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"job2"</span>, command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"echo"</span>, <span class="st">"job\nsubmitted"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">job2</span></span>
-<span><span class="co">#&gt; # A tibble: 1 × 3</span></span>
-<span><span class="co">#&gt;   name  id                                   arn                       </span></span>
-<span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                                &lt;chr&gt;                     </span></span>
-<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…</span></span></code></pre></div>
 <p>Method <code>status()</code> checks the status of an individual job.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">status</span><span class="op">(</span>id <span class="op">=</span> <span class="va">job2</span><span class="op">$</span><span class="va">id</span><span class="op">)</span> <span class="co"># job2 is from definition$submit() in the previous section.</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 8</span></span>
 <span><span class="co">#&gt;   name  id                arn   status   reason   created             started stopped</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable EMPTY... 2025-01-30 16:29:00      NA      NA</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 job2  c38d55ad-4a86-43… arn:… runnable EMPTY... 2025-01-30 16:29:00      NA      NA</span></span>
+<span><span class="co">#&gt; ℹ 1 more variable: details &lt;list&gt;</span></span></code></pre></div>
 <p>The <code>jobs()</code> method gets the status of all the jobs within the job queue and job definition you originally supplied to <code><a href="reference/crew_monitor_aws_batch.html">crew_monitor_aws_batch()</a></code>. This may include many more jobs than the ones you submitted during the life cycle of the current <code>monitor</code> object.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">monitor</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"id"</span>, <span class="st">"arn"</span>, <span class="st">"status"</span>, <span class="st">"reason"</span><span class="op">)</span><span class="op">]</span></span>
@@ -283,6 +286,7 @@
 <span>  options_aws_batch <span class="op">=</span> <span class="fu"><a href="reference/crew_options_aws_batch.html">crew_options_aws_batch</a></span><span class="op">(</span></span>
 <span>    job_definition <span class="op">=</span> <span class="st">"YOUR_JOB_DEFINITION_NAME"</span>,</span>
 <span>    job_queue <span class="op">=</span> <span class="st">"YOUR_JOB_QUEUE_NAME"</span>,</span>
+<span>    region <span class="op">=</span> <span class="st">"us-east-1"</span>,</span>
 <span>    cpus <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>    gpus <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>    <span class="co"># Launch workers with 4 GB memory, then 8 GB if the worker crashes,</span></span>
@@ -339,18 +343,21 @@
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"crew.aws.batch"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>To cite package <span class="st">'crew.aws.batch'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  Landau <span class="fu">WM</span> (????). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  Batch_. R package version <span class="dv">0</span>.<span class="fl">0.11</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span><span class="er">&gt;</span>.</span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">0.11</span>},</span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>wlandau.github.io<span class="sc">/</span>crew.aws.batch<span class="sc">/</span>},</span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>  }</span></code></pre></div>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  Landau <span class="fu">WM</span> (<span class="dv">2025</span>). _crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  Batch_. doi<span class="sc">:</span><span class="fl">10.32614</span><span class="sc">/</span>CRAN.package.crew.aws.batch</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.32614</span><span class="sc">/</span>CRAN.package.crew.aws.batch<span class="sc">&gt;</span>, R package</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  version <span class="dv">0</span>.<span class="fl">1.0</span>, <span class="sc">&lt;</span>https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>crew.aws.batch<span class="sc">&gt;</span>.</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    title <span class="ot">=</span> {crew.aws.batch<span class="sc">:</span> A Crew Launcher Plugin <span class="cf">for</span> AWS Batch},</span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>    author <span class="ot">=</span> {William Michael Landau},</span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2025</span>},</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">1.0</span>},</span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>crew.aws.batch},</span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>    doi <span class="ot">=</span> {<span class="fl">10.32614</span><span class="sc">/</span>CRAN.package.crew.aws.batch},</span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 
 
@@ -405,7 +412,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
