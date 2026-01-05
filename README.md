@@ -142,7 +142,8 @@ definition object.
 ``` r
 definition <- crew_definition_aws_batch(
   job_definition = "YOUR_JOB_DEFINITION_NAME",
-  job_queue = "YOUR_JOB_QUEUE_NAME"
+  job_queue = "YOUR_JOB_QUEUE_NAME",
+  region = "us-east-1"
 )
 ```
 
@@ -184,6 +185,19 @@ definition$describe(active = TRUE)
 #> #   eks_properties <list>, container_orchestration_type <chr>
 ```
 
+The job definition object can submit individual AWS Batch jobs to test
+your computing environment.
+
+``` r
+job1 <- definition$submit(name = "job1", command = c("echo", "hello"))
+job2 <- definition$submit(name = "job2", command = c("echo", "submitted"))
+job2
+#> # A tibble: 1 × 3
+#>   name  id                                   arn
+#>   <chr> <chr>                                <chr>
+#> 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…
+```
+
 Use `deregister()` to deregister a revision of a job definition. If a
 revision number is not supplied, then it defaults to the greatest active
 revision number.
@@ -215,31 +229,20 @@ definition name and a job queue name.
 ``` r
 monitor <- crew_monitor_aws_batch(
   job_definition = "YOUR_JOB_DEFINITION_NAME",
-  job_queue = "YOUR_JOB_QUEUE_NAME"
+  job_queue = "YOUR_JOB_QUEUE_NAME",
+  region = "us-east-1"
 )
-```
-
-You can submit individual AWS Batch jobs to test your computing
-environment.
-
-``` r
-job1 <- monitor$submit(name = "job1", command = c("echo", "hello\nworld"))
-job2 <- monitor$submit(name = "job2", command = c("echo", "job\nsubmitted"))
-job2
-#> # A tibble: 1 × 3
-#>   name  id                                   arn                       
-#>   <chr> <chr>                                <chr>                     
-#> 1 job2  c38d55ad-4a86-4371-9994-6ea8882f5726 arn:aws:batch:us-east-2:0…
 ```
 
 Method `status()` checks the status of an individual job.
 
 ``` r
-monitor$status(id = job2$id)
+monitor$status(id = job2$id) # job2 is from definition$submit() in the previous section.
 #> # A tibble: 1 × 8
 #>   name  id                arn   status   reason   created             started stopped
 #>   <chr> <chr>             <chr> <chr>    <chr>    <dttm>                <dbl>   <dbl>
 #> 1 job2  c38d55ad-4a86-43… arn:… runnable EMPTY... 2025-01-30 16:29:00      NA      NA
+#> ℹ 1 more variable: details <list>
 ```
 
 The `jobs()` method gets the status of all the jobs within the job queue
@@ -330,6 +333,7 @@ controller <- crew_controller_aws_batch(
   options_aws_batch = crew_options_aws_batch(
     job_definition = "YOUR_JOB_DEFINITION_NAME",
     job_queue = "YOUR_JOB_QUEUE_NAME",
+    region = "us-east-1",
     cpus = 2,
     gpus = 0,
     # Launch workers with 4 GB memory, then 8 GB if the worker crashes,
@@ -414,17 +418,20 @@ By contributing to this project, you agree to abide by its terms.
 citation("crew.aws.batch")
 To cite package 'crew.aws.batch' in publications use:
 
-  Landau WM (????). _crew.aws.batch: A Crew Launcher Plugin for AWS
-  Batch_. R package version 0.0.11,
-  <https://wlandau.github.io/crew.aws.batch/>.
+  Landau WM (2025). _crew.aws.batch: A Crew Launcher Plugin for AWS
+  Batch_. doi:10.32614/CRAN.package.crew.aws.batch
+  <https://doi.org/10.32614/CRAN.package.crew.aws.batch>, R package
+  version 0.1.0, <https://CRAN.R-project.org/package=crew.aws.batch>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {crew.aws.batch: A Crew Launcher Plugin for AWS Batch},
     author = {William Michael Landau},
-    note = {R package version 0.0.11},
-    url = {https://wlandau.github.io/crew.aws.batch/},
+    year = {2025},
+    note = {R package version 0.1.0},
+    url = {https://CRAN.R-project.org/package=crew.aws.batch},
+    doi = {10.32614/CRAN.package.crew.aws.batch},
   }
 ```
 
